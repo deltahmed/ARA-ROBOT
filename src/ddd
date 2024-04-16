@@ -1,0 +1,37 @@
+setlocale(LC_ALL, "");
+
+    WINDOW *haut, *bas, *droite, *casee, *inv;
+    
+    initscr();
+    
+
+    while(1) {
+        clear();    // Efface la fenêtre (donc l'ancien message)
+        haut = subwin(stdscr, (LINES / 3)*2, (COLS/3)*2, 0, 0);        // Créé une fenêtre de 'LINES / 2' lignes et de COLS colonnes en 0, 0
+        bas = subwin(stdscr, LINES / 3, (COLS/3)*2, (LINES / 3)*2, 0); // Créé la même fenêtre que ci-dessus sauf que les coordonnées changent
+        droite = subwin(stdscr, 0, COLS/3, 0, (COLS/3)*2);
+        casee = subwin(stdscr, LINES / 4 - 1, COLS/3, 0, (COLS/3)*2);
+        box(haut, ACS_VLINE, ACS_HLINE);
+        box(bas, ACS_VLINE, ACS_HLINE);
+        box(droite, ACS_VLINE, ACS_HLINE);
+        box(casee, ACS_VLINE, ACS_HLINE);
+        
+        mvwprintw(haut, 1, 1, "Ceci est la fenetre du haut");
+        mvwprintw(bas, 1, 1, "Ceci est la fenetre du bas");
+        
+        wrefresh(haut);
+        wrefresh(bas);
+        wrefresh(droite);
+        wrefresh(casee);
+        
+        getch();
+        refresh();
+        if(getch() != 410)
+            break;
+    }
+
+    
+    endwin();
+    
+    free(haut);
+    free(bas);

@@ -1,0 +1,83 @@
+#define _XOPEN_SOURCE_EXTENDED 1 // Définition de _XOPEN_SOURCE_EXTENDED avant les inclusions pour activer les fonctionnalités étendues X/Open
+
+#include <ncursesw/curses.h>
+#include <locale.h>
+#include <wchar.h>
+
+// Taille de la salle
+#define HAUTEUR 10
+#define LARGEUR 20
+
+// Caractères pour les éléments de la salle
+#define MUR L'#'
+#define PORTE L'+'
+#define PERSONNAGE L'@'
+#define SOL L' '
+
+// Position du personnage
+int x = 1;
+int y = 1;
+
+// Fonction pour afficher la salle
+void afficherSalle() {
+    clear(); // Efface l'écran
+    wchar_t mur[] = {MUR, L'\0'};
+    // Affichage des murs et du sol
+    for (int i = 0; i < HAUTEUR; i++) {
+        for (int j = 0; j < LARGEUR; j++) {
+            if (i == 0 || i == HAUTEUR - 1 || j == 0 || j == LARGEUR - 1) {
+                mvaddwstr(i, j, mur); // Utilisation de mvaddch pour afficher un caractère large
+            } else {
+                mvaddch(i, j, SOL);
+            }
+        }
+    }
+
+    // Affichage du personnage
+    attron(A_BOLD); // Active l'attribut en gras
+    wchar_t personnage[] = {PERSONNAGE, L'\0'}; // Création d'un tableau de caractères larges avec le personnage
+    mvaddwstr(y, x, personnage); // Affichage du personnage en tant que chaîne de caractères larges
+    attroff(A_BOLD); // Désactive l'attribut en gras
+
+    refresh(); // Rafraîchit l'écran
+}
+
+int main() {
+    // Utilisation de la configuration de localisation actuelle
+    setlocale(LC_ALL, "");  // Utilisation de LC_ALL pour définir toutes les catégories de localisation
+
+    // Initialisation de ncurses
+    initscr();
+    cbreak(); // Lecture des touches sans attendre un retour à la ligne
+    keypad(stdscr, TRUE); // Active la prise en charge des touches spéciales
+    noecho(); // Désactive l'affichage des touches pressées
+
+    // Boucle principale
+    while (1) {
+        afficherSalle();
+
+        // Lecture de la touche pressée par l'utilisateur
+        int touche = getch();
+
+        // Déplacement du personnage
+        switch (touche) {
+            case KEY_UP:
+                y--;
+                break;
+            case KEY_DOWN:
+                y++;
+                break;
+            case KEY_LEFT:
+                x--;
+                break;
+            case KEY_RIGHT:
+                x++;
+                break;
+            case 'q':
+                endwin(); // Fin du mode ncurses
+                return 0;
+        }
+    }
+
+    return 0;
+}
