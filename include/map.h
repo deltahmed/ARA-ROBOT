@@ -6,6 +6,7 @@ typedef struct __map_struct{
     int** __map;
     Size __sizex;
     Size __sizey;
+    
     Size (*sizex)(struct __map_struct* self);
     Size (*sizey)(struct __map_struct* self);
     int (*get)(struct __map_struct* self, int x, int y);
