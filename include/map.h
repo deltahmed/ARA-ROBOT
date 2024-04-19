@@ -16,4 +16,5 @@ typedef struct __map_struct{
 
 void Map_init(Map* self, Size sizex, Size sizey);
 
+
 #endif

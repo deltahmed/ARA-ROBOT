@@ -1,41 +1,41 @@
 
 #include "map.h"
 
-void __set_size(Map* self, Size x, Size y){
+static void __set_size(Map* self, Size x, Size y){
     self->__sizex = x;
     self->__sizey = y;
 }
 
 
-Size __get_size_x(Map* self){
+static Size __get_size_x(Map* self){
     if (self->__map == NULL){
         ARA_error(DESTROYED);
     }
     return self->__sizex;
 }
 
-Size __get_size_y(Map* self){
+static Size __get_size_y(Map* self){
     if (self->__map == NULL){
         ARA_error(DESTROYED);
     }
     return self->__sizey;
 }
 
-int __get_map(Map* self, int x, int y){
+static int __get_map(Map* self, int x, int y){
     if (self->__map == NULL){
         ARA_error(DESTROYED);
     }
     return self->__map[mod(y, self->sizey(self))][mod(x, self->sizex(self))];
 }
 
-void __set_map(Map* self, int x, int y, int value){
+static void __set_map(Map* self, int x, int y, int value){
     if (self->__map == NULL){
         ARA_error(DESTROYED);
     }
     self->__map[mod(y, self->sizey(self))][mod(x, self->sizex(self))] = value;
 }
 
-void __destroy_map(Map* self){
+static void __destroy_map(Map* self){
     if (self->__map == NULL){
         ARA_error(ALREADY_DESTROYED);
     }

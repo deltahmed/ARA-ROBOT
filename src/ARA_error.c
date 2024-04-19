@@ -19,6 +19,12 @@ void ARA_error(Error type){
     case DESTROYED:
         show_error("You tried to call an empty object.", DESTROYED);
         break;
+    case TIME_TRAVEL:
+        show_error("Are you a time traveler ? The claculated time is a negative value, do not change the time settings when using the program.", TIME_TRAVEL);
+        break;
+    case WINDOWS_DO_NOT_EXIST:
+        show_error("You tried to call a callable on an non existing window/subwindow.", WINDOWS_DO_NOT_EXIST);
+        break;
     
     default:
         show_error("An undefined error occured.", UNDEFINED);
