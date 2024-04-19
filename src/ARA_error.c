@@ -3,7 +3,7 @@
 
 void show_error(char * message, Error type){
     
-    fprintf(stderr,"\n%s%s%s ARA error no : %s%d%s \n\n", COLOR_BRIGHT_MAGENTA, message, COLOR_RESET, COLOR_BRIGHT_RED, type, COLOR_RESET); 
+    fprintf(stderr,"\n%s%s%s ARA error no : %s%d%s \n\n", ARA_COLOR_BRIGHT_MAGENTA, message, ARA_COLOR_RESET, ARA_COLOR_BRIGHT_RED, type, ARA_COLOR_RESET); 
     exit(type);
 }
 
