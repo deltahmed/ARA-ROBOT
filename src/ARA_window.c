@@ -129,6 +129,7 @@ static void __clear(ARA_Window* self, ARA_Window_choice choice_window){
 }
 
 static void __end_curses(){
+    curs_set(1);
     endwin();
 }
 
