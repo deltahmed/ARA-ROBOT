@@ -1,6 +1,10 @@
 #ifndef MAP
 #define MAP
 #include "ARA_def.h"
+#include "ARA_window.h"
+
+#define MAP_SIZE_X 1000
+#define MAP_SIZE_Y 1000
 
 typedef struct __map_struct{
     int** __map;

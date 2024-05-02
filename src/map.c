@@ -37,7 +37,7 @@ static void __set_map(Map* self, int x, int y, int value){
 
 static void __destroy_map(Map* self){
     if (self->__map == NULL){
-        ARA_error(WINDOWS_DO_NOT_EXIST_ERROR);
+        ARA_error(ALREADY_DESTROYED_ERROR);
     }
     for (Size i = 0; i < self->sizey(self); i++)
     {
@@ -47,6 +47,7 @@ static void __destroy_map(Map* self){
     __set_size(self, 0, 0);
     self->__map = NULL;
 }
+
 
 void Map_init(Map* self, Size sizex, Size sizey){
     __set_size(self, sizex, sizey);

@@ -4,9 +4,11 @@
 #include "ARA_window.h"
 
 
-//88 33
-int main(){
 
+//88 33
+
+//22 58
+int main(){
 
 
     ARA_Window window;
@@ -16,14 +18,11 @@ int main(){
         window.clear_all(&window);
         window.create(&window);
 
-        cprint(window.top, 1, 1, COLOR_MUR, "Ceci est la fenetre du haut %d %d", COLS, LINES);
+        cprintf(window.top, 1, 1, COLOR_MUR, "Ceci est la fenetre du haut %d %d %d", COLS, LINES, 2000);
 
-        wattron(window.bottom, COLOR_PAIR(COLOR_MUR2));
-        mvwprintw(window.bottom, 1, 1, "Ceci est la fenetre du bas");
-        wattroff(window.bottom, COLOR_PAIR(COLOR_MUR2));
+        cprint(window.bottom, 1, 1, COLOR_MUR2, "Ceci est la fenetre du bas");
 
-
-        mvwprintw(window.bottom, 2, 1, "Ceci est la fenetre du bas");
+        
             
         window.update(&window);
     }
