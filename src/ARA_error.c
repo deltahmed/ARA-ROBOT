@@ -36,6 +36,9 @@ void ARA_error_function(Error type, const char * file, const char * function, in
     case NOCOLOR_ERROR:
         show_error("Your terminal does not support color.", NOCOLOR_ERROR);
         break;
+    case PLAYER_DIRECTION_ERROR:
+        show_error_line("Invalid direction.", PLAYER_DIRECTION_ERROR, file, function, line);
+        break;
     
     default:
         show_error_line("An UNDEFINED_ERROR error occured.", UNDEFINED_ERROR, file, function, line);

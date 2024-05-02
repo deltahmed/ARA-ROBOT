@@ -15,6 +15,7 @@ typedef enum __error_enum {
     TIME_TRAVEL_ERROR,
     WINDOWS_DO_NOT_EXIST_ERROR,
     NOCOLOR_ERROR,
+    PLAYER_DIRECTION_ERROR,
 }Error;
 
 void show_error(char * message, Error type);
