@@ -1,9 +1,12 @@
+#ifndef GAME_H
+#define GAME_H
 
+#include "player.h"
 #include "ARA_def.h"
 #include "map.h"
 #include "ARA_window.h"
 #include "ARA_time.h"
-#include "player.h"
+
 
 
 
@@ -20,6 +23,9 @@ void generatemap(Map* map);
 
 void printmap(Game* game);
 
+void __movement(Game* self);
+
 
 Game Game_init();
 
+#endif

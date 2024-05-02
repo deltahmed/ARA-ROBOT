@@ -25,6 +25,8 @@ int main(){
 
         
         printmap(&game);
+        game.window.get_key(&game.window);
+        __movement(&game);
 
         
             

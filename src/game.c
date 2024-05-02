@@ -27,7 +27,37 @@ void printmap(Game* game){
         }
         
     }
+    int playerx = game->player.get_x(&game->player);
+    int playery = game->player.get_y(&game->player);
+    cprint(game->window.top, playerx, playery, COLOR_MUR2, "@");
     
+}
+void __movement(Game* self){
+    int x = self->player.get_x(&self->player);
+    int y = self->player.get_y(&self->player);
+    int sizex = self->map.sizex(&self->map);
+    int sizey = self->map.sizey(&self->map);
+    switch(self->window.get_key(&self->window)){
+        case KEY_UP :
+            if(x>=1){
+                self->player.set_x(&self->player,x-1);
+            }
+            break;
+        case KEY_DOWN :
+            if(x<=sizex-2){
+                self->player.set_x(&self->player,x+1);
+            }
+            break;
+        case KEY_LEFT :
+            if(y>=1){
+                self->player.set_y(&self->player,y-1);
+            }
+            break;
+        case KEY_RIGHT :
+            if(y<=sizey-2){
+                self->player.set_y(&self->player,y+1);
+            }
+    }
 }
 
 
@@ -37,5 +67,6 @@ Game Game_init(){
     ARA_Window_init(&self.window, W_MODE_MULTIPLE);
     Map_init(&self.map, MAP_SIZE_X, MAP_SIZE_Y);
     Timer_init(&self.timer);
+    Init_Player(&self.player);
     return self;
 }
