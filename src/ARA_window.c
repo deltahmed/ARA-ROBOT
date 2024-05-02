@@ -9,7 +9,7 @@ static void __show_cursor(ARA_Window* self){
 
 static void __ARA_box(ARA_Window* self){
     if (self->__one_win_mode){
-        ARA_error(WINDOWS_DO_NOT_EXIST);
+        ARA_error(WINDOWS_DO_NOT_EXIST_ERROR);
     }
     box(self->top, ACS_VLINE, ACS_HLINE);
     box(self->bottom , ACS_VLINE, ACS_HLINE);
@@ -55,19 +55,19 @@ static void __refresh(ARA_Window* self, ARA_Window_choice choice_window){
     {
     case W_TOP:
         if (self->__one_win_mode){
-            ARA_error(WINDOWS_DO_NOT_EXIST);
+            ARA_error(WINDOWS_DO_NOT_EXIST_ERROR);
         }
         wrefresh(self->top);  
         break;
     case W_BOTTOM:
         if (self->__one_win_mode){
-            ARA_error(WINDOWS_DO_NOT_EXIST);
+            ARA_error(WINDOWS_DO_NOT_EXIST_ERROR);
         }
         wrefresh(self->bottom);  
         break;
     case W_RIGHT:
         if (self->__one_win_mode){
-            ARA_error(WINDOWS_DO_NOT_EXIST);
+            ARA_error(WINDOWS_DO_NOT_EXIST_ERROR);
         }
         wrefresh(self->right);  
         break; 
@@ -91,7 +91,7 @@ static void __update_all(ARA_Window* self){
     __update_key(self);
 
 }
-
+ 
 static void __clear_all(ARA_Window* self){
     if (!self->__one_win_mode){
         wclear(self->top);  
@@ -105,19 +105,19 @@ static void __clear(ARA_Window* self, ARA_Window_choice choice_window){
     {
     case W_TOP:
         if (self->__one_win_mode){
-            ARA_error(WINDOWS_DO_NOT_EXIST);
+            ARA_error(WINDOWS_DO_NOT_EXIST_ERROR);
         }
         wclear(self->top);  
         break;
     case W_BOTTOM:
         if (self->__one_win_mode){
-            ARA_error(WINDOWS_DO_NOT_EXIST);
+            ARA_error(WINDOWS_DO_NOT_EXIST_ERROR);
         }
         wclear(self->bottom);  
         break;
     case W_RIGHT:
         if (self->__one_win_mode){
-            ARA_error(WINDOWS_DO_NOT_EXIST);
+            ARA_error(WINDOWS_DO_NOT_EXIST_ERROR);
         }
         wclear(self->right);  
         break; 
@@ -133,6 +133,16 @@ static void __end_curses(){
     endwin();
 }
 
+static void __color_init(){
+    if (!has_colors()) {
+        ARA_error(NOCOLOR_ERROR);
+    }
+    start_color();
+    init_color(CRS_COLOR_BRIGHT_RED, 900, 257, 257);
+    init_pair(COLOR_MUR, CRS_COLOR_RED, CRS_COLOR_BLACK);
+    init_pair(COLOR_MUR2, CRS_COLOR_BRIGHT_RED, CRS_COLOR_BLACK);
+}
+
 void ARA_Window_init(ARA_Window* self, ARA_Window_mode mode){
     setlocale(LC_ALL, "");
     initscr();
@@ -144,6 +154,7 @@ void ARA_Window_init(ARA_Window* self, ARA_Window_mode mode){
     } else {
         __create_windows(self);
     }
+    __color_init(self);
     __refresh_all(self);
     self->__key = 0;
     self->__cursor = 1;

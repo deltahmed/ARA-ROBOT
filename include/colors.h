@@ -1,6 +1,9 @@
 #ifndef ARA_COLOR_H
 #define ARA_COLOR_H
 
+#include "ARA_def.h"
+#include "ARA_window.h"
+
 #define ARA_COLOR_RESET "\033[0m"
 
 #define ARA_STYLE_BOLD "\033[1m"
@@ -43,5 +46,25 @@
 #define ARA_BG_BRIGHT_MAGENTA "\033[105m"
 #define ARA_BG_BRIGHT_CYAN "\033[106m"
 #define ARA_BG_BRIGHT_WHITE "\033[107m"
+
+#define CRS_COLOR_BLACK 0
+#define CRS_COLOR_RED 1
+#define CRS_COLOR_GREEN 2
+#define CRS_COLOR_YELLOW 3
+#define CRS_COLOR_BLUE 4
+#define CRS_COLOR_MAGENTA 5
+#define CRS_COLOR_CYAN 6
+#define CRS_COLOR_WHITE 7
+#define CRS_COLOR_BRIGHT_BLACK 8
+#define CRS_COLOR_BRIGHT_RED 9
+#define CRS_COLOR_BRIGHT_GREEN 10
+#define CRS_COLOR_BRIGHT_YELLOW 11
+#define CRS_COLOR_BRIGHT_BLUE 12
+#define CRS_COLOR_BRIGHT_MAGENTA 13
+#define CRS_COLOR_BRIGHT_CYAN 14
+#define CRS_COLOR_BRIGHT_WHITE 15
+
+#define COLOR_MUR 1 
+#define COLOR_MUR2 2
 
 #endif /* ARA_COLOR_H */

@@ -1,4 +1,5 @@
 #define _XOPEN_SOURCE_EXTENDED 1
+
 #include <ncursesw/ncurses.h>
 
 #ifndef ARA_WINDOW_H
@@ -6,10 +7,13 @@
 
 #include "ARA_def.h"
 
+#define cprint(win,x,y,attribute,format_str,...) (wattron(win, COLOR_PAIR(attribute)), mvwprintw(win, x, y, format_str, __VA_ARGS__), wattroff(win, COLOR_PAIR(attribute)))
+
 #define NB_LINES 33
 #define NB_COLS 88
 
 typedef int Key;
+typedef char boolean;
 
 typedef enum  __ARA_Window_Mode_enum {
     W_MODE_MULTIPLE,

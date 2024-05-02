@@ -9,35 +9,35 @@ static void __set_size(Map* self, Size x, Size y){
 
 static Size __get_size_x(Map* self){
     if (self->__map == NULL){
-        ARA_error(DESTROYED);
+        ARA_error(EMPTY_OBJ_ERROR);
     }
     return self->__sizex;
 }
 
 static Size __get_size_y(Map* self){
     if (self->__map == NULL){
-        ARA_error(DESTROYED);
+        ARA_error(EMPTY_OBJ_ERROR);
     }
     return self->__sizey;
 }
 
 static int __get_map(Map* self, int x, int y){
     if (self->__map == NULL){
-        ARA_error(DESTROYED);
+        ARA_error(EMPTY_OBJ_ERROR);
     }
     return self->__map[mod(y, self->sizey(self))][mod(x, self->sizex(self))];
 }
 
 static void __set_map(Map* self, int x, int y, int value){
     if (self->__map == NULL){
-        ARA_error(DESTROYED);
+        ARA_error(EMPTY_OBJ_ERROR);
     }
     self->__map[mod(y, self->sizey(self))][mod(x, self->sizex(self))] = value;
 }
 
 static void __destroy_map(Map* self){
     if (self->__map == NULL){
-        ARA_error(ALREADY_DESTROYED);
+        ARA_error(WINDOWS_DO_NOT_EXIST_ERROR);
     }
     for (Size i = 0; i < self->sizey(self); i++)
     {

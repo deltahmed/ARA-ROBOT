@@ -5,7 +5,7 @@
 static void __update_timer(Timer* self){
     Time time_var = time(NULL);
     if(time_var < self->__actual_time){
-        ARA_error(TIME_TRAVEL);
+        ARA_error(TIME_TRAVEL_ERROR);
     }
     self->__timer += (Time)difftime(time_var, self->__actual_time);
     self->__actual_time = time_var;
