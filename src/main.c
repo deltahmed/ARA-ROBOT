@@ -15,18 +15,17 @@ int main(){
     Game_init(&game);
     generatemap(&game.map);
     while(TRUE) {
-
         game.window.clear_all(&game.window);
 
         game.window.create(&game.window);
 
-        cprintf(game.window.top, 1, 1, COLOR_MUR, "Ceci est la fenetre du haut %d %d %d", COLS, LINES, 2000);
+        cprintf(game.window.top, 1, 1, COLOR_MUR, "Ceci est la fenetre du haut %d %d %d", COLS, LINES, game.window.get_key(&game.window));
 
         cprint(game.window.bottom, 1, 1, COLOR_MUR2, "Ceci est la fenetre du bas");
 
         
         printmap(&game);
-        game.window.get_key(&game.window);
+        game.window.update_key(&game.window);
         __movement(&game);
 
         

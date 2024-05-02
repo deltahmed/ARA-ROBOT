@@ -88,7 +88,6 @@ static Key __get_key(ARA_Window* self){
 
 static void __update_all(ARA_Window* self){
     __refresh_all(self);
-    __update_key(self);
 
 }
  
@@ -129,7 +128,6 @@ static void __clear(ARA_Window* self, ARA_Window_choice choice_window){
 }
 
 static void __end_curses(){
-    curs_set(1);
     endwin();
 }
 
@@ -147,8 +145,11 @@ void ARA_Window_init(ARA_Window* self, ARA_Window_mode mode){
     setlocale(LC_ALL, "");
     initscr();
     cbreak();
-    keypad(stdscr, TRUE);
+    keypad(self->main_window, TRUE);
     noecho();
+    self->__key = 0;
+    self->__cursor = 0;
+    curs_set(self->__cursor);
     if (mode){
         __one_window_mode(self);
     } else {
@@ -156,10 +157,6 @@ void ARA_Window_init(ARA_Window* self, ARA_Window_mode mode){
     }
     __color_init(self);
     __refresh_all(self);
-    self->__key = 0;
-    self->__cursor = 1;
-    __show_cursor(self);
-
     self->box_all = __ARA_box;
     self->create = __create_windows;
     self->get_key = __get_key;

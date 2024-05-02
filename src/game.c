@@ -27,7 +27,9 @@ void printmap(Game* game){
         }
         
     }
-    
+    int playerx = game->player.get_x(&game->player);
+    int playery = game->player.get_y(&game->player);
+    cprint(game->window.top, playerx, playery, COLOR_MUR2, "@");
     
 }
 void __movement(Game* self){
@@ -36,26 +38,27 @@ void __movement(Game* self){
     int sizex = self->map.sizex(&self->map);
     int sizey = self->map.sizey(&self->map);
     switch(self->window.get_key(&self->window)){
-        case KEY_UP :
+        case 'q':
             if(x>=1){
                 self->player.set_x(&self->player,x-1);
             }
             break;
-        case KEY_DOWN :
+        case 'd':
             if(x<=sizex-2){
                 self->player.set_x(&self->player,x+1);
             }
             break;
-        case KEY_LEFT :
+        case 'z' :
             if(y>=1){
                 self->player.set_y(&self->player,y-1);
             }
             break;
-        case KEY_RIGHT :
+        case  's' :
             if(y<=sizey-2){
                 self->player.set_y(&self->player,y+1);
             }
     }
+    self->window.__key = 0;
 }
 
 
@@ -65,5 +68,4 @@ void Game_init(Game* self){
     Map_init(&self->map, MAP_SIZE_X, MAP_SIZE_Y);
     Timer_init(&self->timer);
     Init_Player(&self->player);
-    return self;
 }
