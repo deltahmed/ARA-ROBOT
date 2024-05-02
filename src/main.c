@@ -2,6 +2,7 @@
 #include "ARA_def.h"
 #include "map.h"
 #include "ARA_window.h"
+#include "game.h"
 
 
 
@@ -10,7 +11,7 @@
 //22 58
 int main(){
 
-
+    Ga
     ARA_Window window;
     ARA_Window_init(&window, W_MODE_MULTIPLE);
 
