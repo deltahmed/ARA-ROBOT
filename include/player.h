@@ -16,7 +16,7 @@ typedef struct __player_struct
     void (*set_y)(struct __player_struct* self, int y);
 }Player;
 
-Player Init_Player();
+void Init_Player(Player* self);
 
 
 #endif

@@ -11,7 +11,8 @@
 //22 58
 int main(){
 
-    Game game = Game_init();
+    Game game;
+    Game_init(&game);
     generatemap(&game.map);
     while(TRUE) {
 

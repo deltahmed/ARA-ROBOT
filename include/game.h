@@ -26,6 +26,6 @@ void printmap(Game* game);
 void __movement(Game* self);
 
 
-Game Game_init();
+void Game_init(Game* self);
 
 #endif
