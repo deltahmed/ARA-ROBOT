@@ -49,7 +49,9 @@ void printmap(Game* game){
             if ( playerx == actual_x && playery == actual_y)
             {   
                 cprintf(game->window.bottom, 0, 2, COLOR_MUR, "%d %d %d %d", playerx, playery, actual_x, actual_y);
-                mvwprintw(game->window.top, j, i, "@");
+                mvwprintw(game->window.top, j, i, "😀");
+                //mvwprintw(game->window.top, j, i, "Ƣ@");
+
                 
             }
             
@@ -62,29 +64,39 @@ void printmap(Game* game){
     
     
 }
+
+boolean __check_move(Game* self, int x, int y){
+    int sizex = self->map.sizex(&self->map);
+    int sizey = self->map.sizey(&self->map);
+    if (x>=0 && x<sizex-1 && y>=0 && y<sizey && self->map.get(&self->map, x, y)!=1 && self->map.get(&self->map, x+1, y)!=1) {
+        return 1;
+    }
+    return 0;
+}
+
+
 void __movement(Game* self){
     int x = self->player.get_x(&self->player);
     int y = self->player.get_y(&self->player);
-    int sizex = self->map.sizex(&self->map);
-    int sizey = self->map.sizey(&self->map);
+    
     switch(self->window.get_key(&self->window)){
         case 'q':
-            if(x>=1){
+            if(__check_move(self, x-1, y)){
                 self->player.set_x(&self->player,x-1);
             }
             break;
         case 'd':
-            if(x<=sizex-2){
+            if(__check_move(self, x+1, y)){
                 self->player.set_x(&self->player,x+1);
             }
             break;
         case 'z' :
-            if(y>=1){
+            if(__check_move(self, x, y-1)){
                 self->player.set_y(&self->player,y-1);
             }
             break;
         case  's' :
-            if(y<=sizey-2){
+            if(__check_move(self, x, y+1)){
                 self->player.set_y(&self->player,y+1);
             }
     }
