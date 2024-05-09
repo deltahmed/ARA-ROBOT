@@ -14,22 +14,52 @@ void generatemap(Map* map){
 }
 
 void printmap(Game* game){
-
-    for (Size i = 1; i < GAME_SCREEN_X; i++)
-    {
-        for (Size j = 1; j < GAME_SCREEN_Y; j++)
-        {   
-            if (game->map.get(&game->map, i, j) == 1)
-            {
-                cprint(game->window.top, i, j, COLOR_MUR2, "#");
-            }
-            
-        }
-        
-    }
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
-    cprint(game->window.top, playerx, playery, COLOR_MUR2, "@");
+    int offset_x = GAME_SCREEN_X/2;
+    int offset_y = GAME_SCREEN_Y/2;
+
+    int start_x = playerx - offset_x + 1;
+    start_x = (start_x > 0) ? start_x : 0;
+
+    int start_y = playery - offset_y + 1;
+    start_y = (start_y > 0) ? start_y : 0;
+
+    int end_x = playerx + offset_x;
+    start_x = (end_x < MAP_SIZE_X) ? start_x : MAP_SIZE_X-GAME_SCREEN_X;
+
+    int end_y = playery + offset_y ;
+    start_y = (end_y < MAP_SIZE_Y) ? start_y : MAP_SIZE_Y-GAME_SCREEN_Y;
+
+    int actual_x = start_x;
+    int actual_y = start_y;
+    int get_value;
+
+    for (Size i = 1; i < GAME_SCREEN_X+1; i++)
+    {   
+        actual_y = start_y;
+        for (Size j = 1; j < GAME_SCREEN_Y+1; j++)
+        {   
+            get_value = game->map.get(&game->map, actual_x, actual_y);
+            if ( get_value == 1)
+            {
+                get_value = 0;
+                cprint(game->window.top, i, j, COLOR_MUR2, "#");  
+            }
+            if ( playerx == actual_x && playery == actual_y)
+            {   
+                cprintf(game->window.bottom, 0, 2, COLOR_MUR, "%d %d %d %d", playerx, playery, actual_x, actual_y);
+                mvwprintw(game->window.top, j, i, "@");
+                
+            }
+            
+            actual_y++;
+            
+        }
+        actual_x++;
+        
+    }
+    
     
 }
 void __movement(Game* self){
