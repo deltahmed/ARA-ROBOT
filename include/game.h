@@ -19,7 +19,7 @@ typedef struct __game_struct
     
 }Game;
 
-void generatemap(Map* map);
+void generatemap(Game* game);
 
 void printmap(Game* game);
 

@@ -1,6 +1,7 @@
 
 #include "game.h"
 
+
 typedef enum door_dir_enum{
     D_TOP,
     D_RIGHT,
@@ -24,7 +25,7 @@ void fill_zone(Game* game, int x1, int y1, int x2, int y2){
     y2 = max_y;
     for (int x = x1; x < x2+1 ; x++)
     {
-        game->map.set(&game->map, x, y1, MAP_DOOR);
+        game->map.set(&game->map, x, y1, MAP_WALL);
         game->map.set(&game->map, x, y2, MAP_WALL);
     }
     for (int y = y1; y < y2+1 ; y++)
@@ -38,16 +39,25 @@ void fill_zone(Game* game, int x1, int y1, int x2, int y2){
 void generate_first_room(Game* game){
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
-    Size size_x = __random(6, 20);
-    Size size_y = __random(6, 10);
+    Size size_x = __random(3, 10);
+    Size size_y = __random(3, 10);
     fill_zone(game, playerx-size_x/2, playery-size_y/2,  playerx+size_x/2, playery+size_y/2);
 
 
 }
-void generatemap(Game* game){
-    generate_first_room(game);
+
+void generatemap(Map* map){
+    for (Size i = 0; i < map->sizex(map); i++)
+    {
+        for (Size j = 0; j < map->sizey(map); j++)
+        {
+            map->set(map, i, j, rand()%20);
+        }
+        
+    }
     
 }
+
 
 void printmap(Game* game){
     int playerx = game->player.get_x(&game->player);
@@ -69,7 +79,7 @@ void printmap(Game* game){
 
     int actual_x = start_x;
     int actual_y = start_y;
-    int get_value, get_prev_value;
+    int get_value;
 
     for (Size i = 1; i < GAME_SCREEN_X+1; i++)
     {   
@@ -77,40 +87,19 @@ void printmap(Game* game){
         for (Size j = 1; j < GAME_SCREEN_Y+1; j++)
         {   
             get_value = game->map.get(&game->map, actual_x, actual_y);
-            if (actual_x != 0)
+            if ( get_value == 1)
             {
-                get_prev_value = game->map.get(&game->map, actual_x-1, actual_y);
-            }else {
-                get_prev_value = MAP_NONE;
+                get_value = 0;
+                cprint(game->window.top, i, j, COLOR_MUR2, "#");  
             }
-            
             if ( playerx == actual_x && playery == actual_y)
             {   
                 cprintf(game->window.bottom, 0, 2, COLOR_MUR, "%d %d %d %d", playerx, playery, actual_x, actual_y);
                 mvwprintw(game->window.top, j, i, "😀");
-                //mvwprintw(game->window.top, j, i, "Ƣ@");   
-            }else if (playerx != actual_x-1 || playery != actual_y)
-            {
-                switch (get_value)
-                {
-                case MAP_WALL:
-                    cprint(game->window.top, i, j, COLOR_MUR2, "#");  
-                    break;
-                case MAP_DOOR:
-                    if (get_prev_value != MAP_DOOR)
-                    {
-                        cprint(game->window.top, i, j, COLOR_MUR2, "🚪"); 
-                    }
-                    
-                    
-                    break;
-                
-                default:
-                    break;
-                }
+                //mvwprintw(game->window.top, j, i, "Ƣ@");j'aime pas les noirs
+
                 
             }
-            
             
             actual_y++;
             
@@ -163,8 +152,11 @@ void __movement(Game* self){
 
 void Game_init(Game* self){
     srand(time(NULL));
+    printf("1");
     ARA_Window_init(&self->window, W_MODE_MULTIPLE);
+    printf("1");
     Map_init(&self->map, MAP_SIZE_X, MAP_SIZE_Y);
+    printf("1");
     Timer_init(&self->timer);
     Init_Player(&self->player);
 }

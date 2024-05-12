@@ -13,7 +13,7 @@ int main(){
 
     Game game;
     Game_init(&game);
-    generatemap(&game.map);
+    generatemap(&game);
     while(TRUE) {
         game.window.clear_all(&game.window);
 

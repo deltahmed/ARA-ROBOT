@@ -6,6 +6,12 @@
 #define MAP_SIZE_X 300
 #define MAP_SIZE_Y 300
 
+typedef enum map_def_enum{
+    MAP_NONE,
+    MAP_WALL,
+    MAP_DOOR,
+}Map_def;
+
 typedef struct __map_struct{
     int** __map;
     Size __sizex;

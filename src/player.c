@@ -19,8 +19,8 @@ static int __get_life(Player* self){
 }
 
 void Init_Player(Player* self){
-    self->__x = 1;
-    self->__y = 1;
+    self->__x = MAP_SIZE_X/2;
+    self->__y = MAP_SIZE_Y/2;
     self->__life = 100;
 
     self->get_x = __get_x;

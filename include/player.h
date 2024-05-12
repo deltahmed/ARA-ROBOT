@@ -1,6 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
+#include "map.h"
 
 typedef struct __player_struct
 {
