@@ -14,5 +14,5 @@ int min(int a, int b){
 }
 
 int randint(int a, int b){
-    return a + rand()%b;
+    return a + rand()%(b-a);
 }

@@ -44,7 +44,7 @@ void generate_first_room(Game* game){
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
     int size_x = randint(6, 20);
-    int size_y = randint(6, 10);
+    int size_y = randint(6, 20);
     fill_zone(game, playerx-size_x/2, playery-size_y/2,  playerx+size_x/2, playery+size_y/2);
 
 
@@ -52,6 +52,30 @@ void generate_first_room(Game* game){
 void generatemap(Game* game){
     generate_first_room(game);
     
+}
+
+void generateroom(Game* game, Map_def direction){
+    int playerx = game->player.get_x(&game->player);
+    int playery = game->player.get_y(&game->player);
+    int size_x = randint(6, 30);
+    int size_y = randint(6, 30);
+
+    int offset = 
+    fill_zone(game, playerx-size_x/2, playery-size_y/2,  playerx+size_x/2, playery+size_y/2);
+    switch (direction)
+    {
+    case MAP_DOOR_NORTH:
+
+        break;
+    case MAP_DOOR_EAST:
+        break;
+    case MAP_DOOR_WEST:
+        break;
+    case MAP_DOOR_SOUTH:
+        break;
+    default:
+        break;
+    }
 }
 
 void printmap(Game* game){
@@ -86,20 +110,20 @@ void printmap(Game* game){
             if ( (playerx == actual_x && playery == actual_y))
             {   
                 
-                mvwprintw(game->window.top, j, i, "😀");
+                mvwprintw(game->window.top, j, i, "🤖");
                 //mvwprintw(game->window.top, j, i, "Ƣ@");   
             }else
             {
                 switch (get_value)
                 {
                 case MAP_WALL:
-                    cprint(game->window.top, i, j, COLOR_MUR2, "🟥");  
+                    cprint(game->window.top, i, j, COLOR_MUR2, "🔳"); 
                     break;
                 case MAP_DOOR_NORTH:
                 case MAP_DOOR_EAST:
                 case MAP_DOOR_WEST:
                 case MAP_DOOR_SOUTH:
-                    cprint(game->window.top, i, j, COLOR_MUR2, "🚪"); 
+                    cprint(game->window.top, i, j, COLOR_MUR2, "🌀"); 
                     
                     break;
                 
