@@ -14,7 +14,7 @@ void generate_doors(Game* game, int x1, int y1, int x2, int y2){
     game->map.set(&game->map, x1, randint(y1+1, y2-1), MAP_DOOR_EAST);
     game->map.set(&game->map, x2, randint(y1+1, y2-1), MAP_DOOR_WEST);
 }
-
+sdfsdf
 
 void fill_zone(Game* game, int x1, int y1, int x2, int y2){
     int max_x = max(x1,x2);
