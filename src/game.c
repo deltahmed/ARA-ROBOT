@@ -53,6 +53,7 @@ void generatemap(Game* game){
     generate_first_room(game);
     
 }
+sdfsdff
 
 void generateroom(Game* game, Map_def direction){
     int playerx = game->player.get_x(&game->player);
