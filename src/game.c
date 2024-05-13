@@ -60,8 +60,6 @@ void generateroom(Game* game, Map_def direction){
     int playery = game->player.get_y(&game->player);
     int size_x = randint(6, 30);
     int size_y = randint(6, 30);
-
-    int offset = 
     fill_zone(game, playerx-size_x/2, playery-size_y/2,  playerx+size_x/2, playery+size_y/2);
     switch (direction)
     {
