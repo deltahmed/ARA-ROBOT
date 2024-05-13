@@ -52,7 +52,7 @@ void generatemap(Game* game){
 void printmap(Game* game){
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
-    int offset_x = GAME_SCREEN_X/2;
+    int offset_x = GAME_SCREEN_X/4;
     int offset_y = GAME_SCREEN_Y/2;
 
     int start_x = playerx - offset_x + 1;
@@ -62,7 +62,7 @@ void printmap(Game* game){
     start_y = (start_y > 0) ? start_y : 0;
 
     int end_x = playerx + offset_x;
-    start_x = (end_x < MAP_SIZE_X) ? start_x : MAP_SIZE_X-GAME_SCREEN_X;
+    start_x = (end_x < MAP_SIZE_X) ? start_x : MAP_SIZE_X-GAME_SCREEN_X/2;
 
     int end_y = playery + offset_y ;
     start_y = (end_y < MAP_SIZE_Y) ? start_y : MAP_SIZE_Y-GAME_SCREEN_Y;
@@ -71,7 +71,7 @@ void printmap(Game* game){
     int actual_y = start_y;
     int get_value, get_prev_value;
 
-    for (Size i = 1; i < GAME_SCREEN_X+1; i++)
+    for (Size i = 1; i < GAME_SCREEN_X+1; i+=2)
     {   
         actual_y = start_y;
         for (Size j = 1; j < GAME_SCREEN_Y+1; j++)
@@ -84,7 +84,7 @@ void printmap(Game* game){
                 get_prev_value = MAP_NONE;
             }
             
-            if ( playerx == actual_x && playery == actual_y)
+            if ( (playerx == actual_x && playery == actual_y))
             {   
                 cprintf(game->window.bottom, 0, 2, COLOR_MUR, "%d %d %d %d", playerx, playery, actual_x, actual_y);
                 mvwprintw(game->window.top, j, i, "😀");
@@ -94,7 +94,7 @@ void printmap(Game* game){
                 switch (get_value)
                 {
                 case MAP_WALL:
-                    cprint(game->window.top, i, j, COLOR_MUR2, "#");  
+                    cprint(game->window.top, i, j, COLOR_MUR2, "🟥");  
                     break;
                 case MAP_DOOR:
                     if (get_prev_value != MAP_DOOR)
@@ -125,7 +125,7 @@ void printmap(Game* game){
 boolean __check_move(Game* self, int x, int y){
     int sizex = self->map.sizex(&self->map);
     int sizey = self->map.sizey(&self->map);
-    if (x>=0 && x<sizex-1 && y>=0 && y<sizey && self->map.get(&self->map, x, y)!=1 && self->map.get(&self->map, x+1, y)!=1) {
+    if (x>=0 && x<sizex-1 && y>=0 && y<sizey && self->map.get(&self->map, x, y)!=1) {
         return 1;
     }
     return 0;
