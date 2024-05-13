@@ -8,11 +8,16 @@
 
 typedef enum map_def_enum{
     MAP_NONE,
+    MAP_ALL,
     MAP_WALL,
     MAP_DOOR_NORTH,
     MAP_DOOR_EAST,
     MAP_DOOR_WEST,
     MAP_DOOR_SOUTH,
+    MAP_UNDISCOVERED_DOOR_NORTH,
+    MAP_UNDISCOVERED_DOOR_EAST,
+    MAP_UNDISCOVERED_DOOR_WEST,
+    MAP_UNDISCOVERED_DOOR_SOUTH,
 }Map_def;
 
 typedef struct __map_struct{
