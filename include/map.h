@@ -9,7 +9,10 @@
 typedef enum map_def_enum{
     MAP_NONE,
     MAP_WALL,
-    MAP_DOOR,
+    MAP_DOOR_NORTH,
+    MAP_DOOR_EAST,
+    MAP_DOOR_WEST,
+    MAP_DOOR_SOUTH,
 }Map_def;
 
 typedef struct __map_struct{
