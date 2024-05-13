@@ -1,6 +1,10 @@
 
 #include "game.h"
 
+#define ROOM_MAX_SIZE 30
+#define ROOM_MIN_SIZE 3
+
+
 typedef enum door_dir_enum{
     D_TOP,
     D_RIGHT,
@@ -43,8 +47,8 @@ void fill_zone(Game* game, int x1, int y1, int x2, int y2){
 void generate_first_room(Game* game){
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
-    int size_x = randint(6, 20);
-    int size_y = randint(6, 20);
+    int size_x = 30;
+    int size_y = 30;
     fill_zone(game, playerx-size_x/2, playery-size_y/2,  playerx+size_x/2, playery+size_y/2);
 
 
@@ -60,6 +64,7 @@ void generateroom(Game* game, Map_def direction){
     int playery = game->player.get_y(&game->player);
     int size_x = randint(6, 30);
     int size_y = randint(6, 30);
+    int offset = randint(1, 5);
     fill_zone(game, playerx-size_x/2, playery-size_y/2,  playerx+size_x/2, playery+size_y/2);
     switch (direction)
     {
