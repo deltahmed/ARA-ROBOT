@@ -174,7 +174,10 @@ void generateroom(Game* game){
     int playery = game->player.get_y(&game->player);
 
     int x1, x2, y1, y2, get_x1, get_x2, get_y1, get_y2;
-    int new_x1, new_x2, new_y1, new_y2;
+    int new_x1 = 0; 
+    int new_x2;
+    int new_y1; 
+    int new_y2;
      
     int get_door = game->map.get(&game->map, playerx, playery);
       
@@ -215,10 +218,20 @@ void generateroom(Game* game){
     default:
         break;
     }
+    int max_x = max(x1,x2);
+    int max_y = max(y1,y2);
+    int min_x = min(x1,x2);
+    int min_y = min(y1,y2);
+     
+    x1 = min_x;
+    x2 = max_x;
+    y1 = min_y;
+    y2 = max_y;
 
-    for (int x = x1; x < x1+size_x; x++)
+    for (int x = x1+3; x < x2; x++)
     {   
-        get_x1 = game->map.get(&game->map, x1, y1);
+        get_x1 = game->map.get(&game->map, x, y1);
+        intlog(x);
         if (is_block(get_x1))
         {
             intlog(x);
