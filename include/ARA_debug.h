@@ -7,8 +7,10 @@
 
 
 #define log() (ARA_debug_message(__FILE__,  __FUNCTION__, __LINE__))
+#define intlog(value) (ARA_debug_message_value(value, __FILE__,  __FUNCTION__, __LINE__))
 
 void ARA_debug_message(const char * file, const char * function, int line);
+void ARA_debug_message_value(int value, const char * file, const char * function, int line);
 void log_reset();
 
 

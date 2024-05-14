@@ -18,6 +18,7 @@ typedef enum map_def_enum{
     MAP_UNDISCOVERED_DOOR_EAST,
     MAP_UNDISCOVERED_DOOR_WEST,
     MAP_UNDISCOVERED_DOOR_SOUTH,
+    MAP_END_OF_BLOCK,
 }Map_def;
 
 typedef struct __map_struct{

@@ -76,6 +76,7 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
 void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door){
      
     int probable_direction[3];
+      
     int doors = randint(1,4);
     if (banned_door == MAP_NONE)
     {
@@ -99,10 +100,12 @@ void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_d
             }
         }
         for (int i = 0; i < doors; i++){
-             
+              
             int rand_var = randint(0,3);
-            generate_doors_on_wall(game, x1, y1, x2, y2, (Map_def)probable_direction[rand_var]);
+            generate_doors_on_wall(game, x1, y1, x2, y2, (Map_def)probable_direction[rand_var]);// regler pb
+            
         }
+          
         
     }
     
@@ -110,7 +113,7 @@ void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_d
 
 
 void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door){
-     
+
     int max_x = max(x1,x2);
     int max_y = max(y1,y2);
     int min_x = min(x1,x2);
@@ -120,15 +123,22 @@ void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def ban
     x2 = max_x;
     y1 = min_y;
     y2 = max_y;
+
+     
+    for (int y = y1; y < y2+1 ; y++)
+    {
+        game->map.get(&game->map, x1, y);
+        game->map.get(&game->map, x2, y);
+    }
      
     for (int x = x1; x < x2+1 ; x++)
-    {
+    {   
         game->map.set(&game->map, x, y1, MAP_WALL);
         game->map.set(&game->map, x, y2, MAP_WALL);
     }
      
     for (int y = y1; y < y2+1 ; y++)
-    {
+    {   
         game->map.set(&game->map, x1, y, MAP_WALL);
         game->map.set(&game->map, x2, y, MAP_WALL);
     }
@@ -154,39 +164,73 @@ void generatemap(Game* game){
     
 }
 
+int is_block(Map_def value){
+    return value < MAP_END_OF_BLOCK && value > MAP_ALL;
+}
 
 void generateroom(Game* game){
      
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
+
+    int x1, x2, y1, y2, get_x1, get_x2, get_y1, get_y2;
+    int new_x1, new_x2, new_y1, new_y2;
      
     int get_door = game->map.get(&game->map, playerx, playery);
-     
+      
     int size_x = randint(ROOM_MIN_SIZE, ROOM_MAX_SIZE);
-     
+
     int size_y = randint(ROOM_MIN_SIZE, ROOM_MAX_SIZE);
-     
+
     int offset_x = randint(2, size_x-1);
-     
+
     int offset_y = randint(2, size_y-1);
-     
+
     switch (get_door)
     {
     case MAP_UNDISCOVERED_DOOR_NORTH:
-        fill_zone_and_doors(game, playerx-offset_x, playery,  playerx+(size_x-offset_x), playery-size_y, get_inverse_door(get_door));
+        x1 = playerx-offset_x;
+        x2 = playerx+(size_x-offset_x);
+        y1 = playery;
+        y2 = playery-size_y;
         break;
     case MAP_UNDISCOVERED_DOOR_EAST:
-        fill_zone_and_doors(game, playerx, playery-offset_y,  playerx+size_x, playery+(size_y-offset_y), get_inverse_door(get_door));
+        x1 = playerx;
+        x2 = playerx+size_x;
+        y1 = playery-offset_y;
+        y2 = playery+(size_y-offset_y);
         break;
     case MAP_UNDISCOVERED_DOOR_WEST:
-        fill_zone_and_doors(game, playerx, playery-offset_y,  playerx-size_x, playery+(size_y-offset_y), get_inverse_door(get_door));
+        x1 = playerx;
+        x2 = playerx-size_x;
+        y1 = playery-offset_y;
+        y2 = playery+(size_y-offset_y);
         break;
     case MAP_UNDISCOVERED_DOOR_SOUTH:
-        fill_zone_and_doors(game, playerx-offset_x, playery,  playerx+(size_x-offset_x), playery+size_y, get_inverse_door(get_door));
+        x1 = playerx-offset_x;
+        x2 = playerx+(size_x-offset_x);
+        y1 = playery;
+        y2 = playery+size_y;
         break;
     default:
         break;
     }
+
+    for (int x = x1; x < x1+size_x; x++)
+    {   
+        get_x1 = game->map.get(&game->map, x1, y1);
+        if (is_block(get_x1))
+        {
+            intlog(x);
+            new_x1 = x + 1;
+        }
+        
+    }
+
+    x1 = new_x1;
+    
+
+    fill_zone_and_doors(game,x1, y1, x2, y2, get_inverse_door(get_door));
      
     game->map.set(&game->map, playerx, playery, discover_door(get_door));
     
