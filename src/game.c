@@ -4,7 +4,6 @@
 #define ROOM_MAX_SIZE 22
 #define ROOM_MIN_SIZE 3
 
-
 typedef enum door_dir_enum{
     D_TOP,
     D_RIGHT,
@@ -24,7 +23,7 @@ Map_def get_inverse_door(Map_def direction){
     case MAP_UNDISCOVERED_DOOR_SOUTH:
         return MAP_UNDISCOVERED_DOOR_NORTH;
     default:
-        ARA_error(UNDEFINED_ERROR);
+        ARA_error(VALUE_ERROR);
         return -1;
     }
 }
@@ -58,16 +57,16 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
     switch (direction)
     {
     case MAP_UNDISCOVERED_DOOR_NORTH:
-        game->map.set(&game->map, randint(x1+1, x2-1), y2, MAP_UNDISCOVERED_DOOR_NORTH);
+        game->map.set(&game->map, randint(x1+1, x2-1), y1, MAP_UNDISCOVERED_DOOR_NORTH);
         break;
     case MAP_UNDISCOVERED_DOOR_EAST:
-        game->map.set(&game->map, x1, randint(y1+1, y2-1), MAP_UNDISCOVERED_DOOR_EAST);
+        game->map.set(&game->map, x2, randint(y1+1, y2-1), MAP_UNDISCOVERED_DOOR_EAST);
         break;
     case MAP_UNDISCOVERED_DOOR_WEST:
-        game->map.set(&game->map, x2, randint(y1+1, y2-1), MAP_UNDISCOVERED_DOOR_WEST);
+        game->map.set(&game->map, x1, randint(y1+1, y2-1), MAP_UNDISCOVERED_DOOR_WEST);
         break;
     case MAP_UNDISCOVERED_DOOR_SOUTH:
-        game->map.set(&game->map, randint(x1+1, x2-1), y1, MAP_UNDISCOVERED_DOOR_SOUTH);
+        game->map.set(&game->map, randint(x1+1, x2-1), y2, MAP_UNDISCOVERED_DOOR_SOUTH);
         break;
     default:
         break;
@@ -75,6 +74,7 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
 }
 
 void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door){
+    log();
     int doors = randint(0,4);
     if (banned_door == MAP_ALL || doors == 3){
         for (int direction = MAP_UNDISCOVERED_DOOR_NORTH; direction <= MAP_UNDISCOVERED_DOOR_SOUTH; direction++){   
@@ -85,13 +85,17 @@ void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_d
             
         }
     } else {
+        log();
         int probable_direction[3];
+        log();
         for (int direction = MAP_UNDISCOVERED_DOOR_NORTH; direction <= MAP_UNDISCOVERED_DOOR_SOUTH; direction++){   
             if (direction != (int)banned_door){
+                ARA_debug_message(__FILE__, __FUNCTION__, direction);
                 probable_direction[direction - MAP_UNDISCOVERED_DOOR_NORTH] = direction;
             }
         }
         for (int i = 0; i < doors; i++){
+            log();
             generate_doors_on_wall(game, x1, y1, x2, y2, probable_direction[randint(0,3)]);
         }
         
@@ -101,30 +105,36 @@ void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_d
 
 
 void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door){
+    log();
     int max_x = max(x1,x2);
     int max_y = max(y1,y2);
     int min_x = min(x1,x2);
     int min_y = min(y1,y2);
+    log();
     x1 = min_x;
     x2 = max_x;
     y1 = min_y;
     y2 = max_y;
+    log();
     for (int x = x1; x < x2+1 ; x++)
     {
         game->map.set(&game->map, x, y1, MAP_WALL);
         game->map.set(&game->map, x, y2, MAP_WALL);
     }
+    log();
     for (int y = y1; y < y2+1 ; y++)
     {
         game->map.set(&game->map, x1, y, MAP_WALL);
         game->map.set(&game->map, x2, y, MAP_WALL);
     }
-    generate_doors(game, x1, y1, x2, y2, MAP_ALL);
+    log();
+    generate_doors(game, x1, y1, x2, y2, banned_door);
     
     
 }
 
 void generate_first_room(Game* game){
+    log();
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
     int size_x = randint(ROOM_MIN_SIZE*2, ROOM_MAX_SIZE-4);
@@ -134,35 +144,45 @@ void generate_first_room(Game* game){
 
 }
 void generatemap(Game* game){
+    log();
     generate_first_room(game);
     
 }
 
 
 void generateroom(Game* game){
+    log();
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
+    log();
     int get_door = game->map.get(&game->map, playerx, playery);
+    log();
     int size_x = randint(ROOM_MIN_SIZE, ROOM_MAX_SIZE);
+    log();
     int size_y = randint(ROOM_MIN_SIZE, ROOM_MAX_SIZE);
-    int offset = randint(2, size_x-2);
+    log();
+    int offset_x = randint(2, size_x-1);
+    log();
+    int offset_y = randint(2, size_y-1);
+    log();
     switch (get_door)
     {
     case MAP_UNDISCOVERED_DOOR_NORTH:
-        fill_zone_and_doors(game, playerx-offset, playery,  playerx+(size_x-offset), playery+size_y, get_inverse_door(get_door));
+        fill_zone_and_doors(game, playerx-offset_x, playery,  playerx+(size_x-offset_x), playery-size_y, get_inverse_door(get_door));
         break;
     case MAP_UNDISCOVERED_DOOR_EAST:
-        fill_zone_and_doors(game, playerx-offset, playery,  playerx+(size_x-offset), playery+size_y, get_inverse_door(get_door));
+        fill_zone_and_doors(game, playerx, playery-offset_y,  playerx+size_x, playery+(size_y-offset_y), get_inverse_door(get_door));
         break;
     case MAP_UNDISCOVERED_DOOR_WEST:
-        fill_zone_and_doors(game, playerx-offset, playery,  playerx+(size_x-offset), playery+size_y, get_inverse_door(get_door));
+        fill_zone_and_doors(game, playerx, playery-offset_y,  playerx-size_x, playery+(size_y-offset_y), get_inverse_door(get_door));
         break;
     case MAP_UNDISCOVERED_DOOR_SOUTH:
-        fill_zone_and_doors(game, playerx-offset, playery,  playerx+(size_x-offset), playery+size_y, get_inverse_door(get_door));
+        fill_zone_and_doors(game, playerx-offset_x, playery,  playerx+(size_x-offset_x), playery+size_y, get_inverse_door(get_door));
         break;
     default:
         break;
     }
+    log();
     game->map.set(&game->map, playerx, playery, discover_door(get_door));
     
 }
@@ -251,7 +271,7 @@ void check_generation(Game* game){
 boolean __check_move(Game* self, int x, int y){
     int sizex = self->map.sizex(&self->map);
     int sizey = self->map.sizey(&self->map);
-    if (x>=0 && x<sizex && y>=0 && y<sizey && self->map.get(&self->map, x, y)!=1) {
+    if (x>=0 && x<sizex && y>=0 && y<sizey && self->map.get(&self->map, x, y)!=MAP_WALL) {
         return 1;
     }
     return 0;
@@ -291,6 +311,7 @@ void __movement(Game* self){
 
 void Game_init(Game* self){
     srand(time(NULL));
+    log_reset();
     ARA_Window_init(&self->window, W_MODE_MULTIPLE);
     Map_init(&self->map, MAP_SIZE_X, MAP_SIZE_Y);
     Timer_init(&self->timer);

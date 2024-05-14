@@ -39,6 +39,10 @@ void ARA_error_function(Error type, const char * file, const char * function, in
     case PLAYER_DIRECTION_ERROR:
         show_error_line("Invalid direction.", PLAYER_DIRECTION_ERROR, file, function, line);
         break;
+
+    case VALUE_ERROR:
+        show_error_line("An Value error occured.", VALUE_ERROR, file, function, line);
+        break;
     
     default:
         show_error_line("An UNDEFINED_ERROR error occured.", UNDEFINED_ERROR, file, function, line);

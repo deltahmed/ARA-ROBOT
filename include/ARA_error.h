@@ -4,8 +4,9 @@
 #include <stdio.h> 
 #include <stdlib.h>
 
-#define ARA_error(type) (ARA_error_function(type, __FILE__,  __FUNCTION__, __LINE__))
 
+
+#define ARA_error(type) (ARA_error_function(type, __FILE__,  __FUNCTION__, __LINE__))
 
 typedef enum __error_enum {
     UNDEFINED_ERROR = 1000,
@@ -16,6 +17,8 @@ typedef enum __error_enum {
     WINDOWS_DO_NOT_EXIST_ERROR,
     NOCOLOR_ERROR,
     PLAYER_DIRECTION_ERROR,
+    VALUE_ERROR,
+    
 }Error;
 
 void show_error(char * message, Error type);

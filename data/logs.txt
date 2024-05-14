@@ -1,0 +1,27 @@
+
+file : src/game.c func : generatemap line :147
+file : src/game.c func : generate_first_room line :137
+file : src/game.c func : fill_zone_and_doors line :108
+file : src/game.c func : fill_zone_and_doors line :113
+file : src/game.c func : fill_zone_and_doors line :118
+file : src/game.c func : fill_zone_and_doors line :124
+file : src/game.c func : fill_zone_and_doors line :130
+file : src/game.c func : generate_doors line :77
+file : src/game.c func : generateroom line :154
+file : src/game.c func : generateroom line :157
+file : src/game.c func : generateroom line :159
+file : src/game.c func : generateroom line :161
+file : src/game.c func : generateroom line :163
+file : src/game.c func : generateroom line :165
+file : src/game.c func : generateroom line :167
+file : src/game.c func : fill_zone_and_doors line :108
+file : src/game.c func : fill_zone_and_doors line :113
+file : src/game.c func : fill_zone_and_doors line :118
+file : src/game.c func : fill_zone_and_doors line :124
+file : src/game.c func : fill_zone_and_doors line :130
+file : src/game.c func : generate_doors line :77
+file : src/game.c func : generate_doors line :88
+file : src/game.c func : generate_doors line :90
+file : src/game.c func : generate_doors line :7
+file : src/game.c func : generate_doors line :8
+file : src/game.c func : generate_doors line :10

@@ -14,5 +14,13 @@ int min(int a, int b){
 }
 
 int randint(int a, int b){
+    if (a > b)
+    {
+        ARA_error(VALUE_ERROR);
+    }
+    if (a == b)
+    {
+        return a;
+    }
     return a + rand()%(b-a);
 }

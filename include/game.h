@@ -6,6 +6,7 @@
 #include "map.h"
 #include "ARA_window.h"
 #include "ARA_time.h"
+#include "ARA_debug.h"
 
 
 
