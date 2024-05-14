@@ -19,6 +19,7 @@ static void __ARA_box(ARA_Window* self){
 static void __one_window_mode(ARA_Window* self){
     self->__one_win_mode = 1;
     self->main_window = newwin(NB_LINES,NB_COLS,0,0);
+    box(self->main_window, ACS_VLINE, ACS_HLINE);
     self->top = NULL;  
     self->bottom = NULL;  
     self->right = NULL;  
