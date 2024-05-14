@@ -74,8 +74,13 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
 }
 
 void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door){
-    log();
-    int doors = randint(0,4);
+     
+    int probable_direction[3];
+    int doors = randint(1,4);
+    if (banned_door == MAP_NONE)
+    {
+        return;
+    }
     if (banned_door == MAP_ALL || doors == 3){
         for (int direction = MAP_UNDISCOVERED_DOOR_NORTH; direction <= MAP_UNDISCOVERED_DOOR_SOUTH; direction++){   
             if (direction != (int)banned_door){
@@ -85,18 +90,18 @@ void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_d
             
         }
     } else {
-        log();
-        int probable_direction[3];
-        log();
+         
+        int index = 0;
         for (int direction = MAP_UNDISCOVERED_DOOR_NORTH; direction <= MAP_UNDISCOVERED_DOOR_SOUTH; direction++){   
             if (direction != (int)banned_door){
-                ARA_debug_message(__FILE__, __FUNCTION__, direction);
-                probable_direction[direction - MAP_UNDISCOVERED_DOOR_NORTH] = direction;
+                probable_direction[index] = direction;
+                index++;
             }
         }
         for (int i = 0; i < doors; i++){
-            log();
-            generate_doors_on_wall(game, x1, y1, x2, y2, probable_direction[randint(0,3)]);
+             
+            int rand_var = randint(0,3);
+            generate_doors_on_wall(game, x1, y1, x2, y2, (Map_def)probable_direction[rand_var]);
         }
         
     }
@@ -105,36 +110,36 @@ void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_d
 
 
 void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door){
-    log();
+     
     int max_x = max(x1,x2);
     int max_y = max(y1,y2);
     int min_x = min(x1,x2);
     int min_y = min(y1,y2);
-    log();
+     
     x1 = min_x;
     x2 = max_x;
     y1 = min_y;
     y2 = max_y;
-    log();
+     
     for (int x = x1; x < x2+1 ; x++)
     {
         game->map.set(&game->map, x, y1, MAP_WALL);
         game->map.set(&game->map, x, y2, MAP_WALL);
     }
-    log();
+     
     for (int y = y1; y < y2+1 ; y++)
     {
         game->map.set(&game->map, x1, y, MAP_WALL);
         game->map.set(&game->map, x2, y, MAP_WALL);
     }
-    log();
+     
     generate_doors(game, x1, y1, x2, y2, banned_door);
     
     
 }
 
 void generate_first_room(Game* game){
-    log();
+     
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
     int size_x = randint(ROOM_MIN_SIZE*2, ROOM_MAX_SIZE-4);
@@ -144,27 +149,27 @@ void generate_first_room(Game* game){
 
 }
 void generatemap(Game* game){
-    log();
+     
     generate_first_room(game);
     
 }
 
 
 void generateroom(Game* game){
-    log();
+     
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
-    log();
+     
     int get_door = game->map.get(&game->map, playerx, playery);
-    log();
+     
     int size_x = randint(ROOM_MIN_SIZE, ROOM_MAX_SIZE);
-    log();
+     
     int size_y = randint(ROOM_MIN_SIZE, ROOM_MAX_SIZE);
-    log();
+     
     int offset_x = randint(2, size_x-1);
-    log();
+     
     int offset_y = randint(2, size_y-1);
-    log();
+     
     switch (get_door)
     {
     case MAP_UNDISCOVERED_DOOR_NORTH:
@@ -182,7 +187,7 @@ void generateroom(Game* game){
     default:
         break;
     }
-    log();
+     
     game->map.set(&game->map, playerx, playery, discover_door(get_door));
     
 }
