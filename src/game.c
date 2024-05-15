@@ -60,7 +60,7 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
     switch (direction)
     {
     case MAP_UNDISCOVERED_DOOR_NORTH:
-        rand_var = randint(x1+1, x2-1);
+        rand_var = randint(x1+1, x2);
         if (check_possible_gen(game, rand_var, y1, direction))
         {
             game->map.set(&game->map, rand_var, y1, MAP_UNDISCOVERED_DOOR_NORTH);
@@ -68,21 +68,21 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
         
         break;
     case MAP_UNDISCOVERED_DOOR_EAST:
-        rand_var = randint(y1+1, y2-1);
+        rand_var = randint(y1+1, y2);
         if (check_possible_gen(game, x2, rand_var, direction))
         {
         game->map.set(&game->map, x2, rand_var, MAP_UNDISCOVERED_DOOR_EAST);
         }
         break;
     case MAP_UNDISCOVERED_DOOR_WEST:
-        rand_var = randint(y1+1, y2-1);
+        rand_var = randint(y1+1, y2);
         if (check_possible_gen(game, x1, rand_var, direction))
         {
         game->map.set(&game->map, x1, rand_var, MAP_UNDISCOVERED_DOOR_WEST);
         }
         break;
     case MAP_UNDISCOVERED_DOOR_SOUTH:
-        rand_var = randint(x1+1, x2-1);
+        rand_var = randint(x1+1, x2);
         if (check_possible_gen(game, rand_var, y2, direction))
         {
         game->map.set(&game->map, rand_var, y2, MAP_UNDISCOVERED_DOOR_SOUTH);
@@ -255,12 +255,12 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
     {
     case MAP_UNDISCOVERED_DOOR_NORTH:
         offsets[D_SOUTH] = 0;
-        for (int x = x1; x < x2; x++){   
+        for (int x = x1+1; x < x2; x++){   
             get_x1 = game->map.get(&game->map, x, y1);
             if (is_block(get_x1))
             {
                 offset = 0;
-                for (int y = y1; y < y2; y++)
+                for (int y = y1+1; y < y2; y++)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
@@ -279,13 +279,13 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
         offsets[D_NORTH] = max_offset;
         max_offset = 0;
         max_offset2 = 0;
-        for (int y = y1; y < y2; y++){   
+        for (int y = y1+1; y < y2; y++){   
             get_y1 = game->map.get(&game->map, x1, y);
             get_y2 = game->map.get(&game->map, x2, y);
             if (is_block(get_y1))
             {
                 offset = 0;
-                for (int x = x1; x < x2; x++)
+                for (int x = x1+1; x < x2; x++)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
@@ -304,7 +304,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
             if (is_block(get_y2))
             {
                 offset = 0;
-                for (int x = x2; x > x1; x--)
+                for (int x = x2-1; x > x1; x--)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
@@ -327,13 +327,13 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
         max_offset = 0;
         max_offset2 = 0;
         offsets[D_WEST] = 0;
-        for (int x = x1; x < x2; x++){   
+        for (int x = x1+1; x < x2; x++){   
             get_x1 = game->map.get(&game->map, x, y2);
             get_x2 = game->map.get(&game->map, x, y1);
             if (is_block(get_x1))
             {
                 offset = 0;
-                for (int y = y2; y > y1; y--)
+                for (int y = y2-1; y > y1; y--)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
@@ -351,7 +351,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
             if (is_block(get_x2))
             {
                 offset = 0;
-                for (int y = y1; y < y2; y++)
+                for (int y = y1+1; y < y2; y++)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
@@ -376,7 +376,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
             if (is_block(get_y1))
             {
                 offset = 0;
-                for (int x = x1; x < x2; x++)
+                for (int x = x1+1; x < x2; x++)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
@@ -398,13 +398,13 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
         max_offset = 0;
         max_offset2 = 0;
         offsets[D_EAST] = 0;
-        for (int x = x1; x < x2; x++){   
+        for (int x = x1+1; x < x2; x++){   
             get_x1 = game->map.get(&game->map, x, y2);
             get_x2 = game->map.get(&game->map, x, y1);
             if (is_block(get_x1))
             {
                 offset = 0;
-                for (int y = y2; y > y1; y--)
+                for (int y = y2-1; y > y1; y--)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
@@ -422,7 +422,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
             if (is_block(get_x2))
             {
                 offset = 0;
-                for (int y = y1; y < y2; y++)
+                for (int y = y1+1; y < y2; y++)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
@@ -469,12 +469,12 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
         max_offset = 0;
         max_offset2 = 0;
         offsets[D_NORTH] = 0;
-        for (int x = x1; x < x2; x++){   
+        for (int x = x1+1; x < x2; x++){   
             get_x1 = game->map.get(&game->map, x, y2);
             if (is_block(get_x1))
             {
                 offset = 0;
-                for (int y = y2; y > y1; y--)
+                for (int y = y2-1; y > y1; y--)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
@@ -493,13 +493,13 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
         offsets[D_SOUTH] = max_offset;
         max_offset = 0;
         max_offset2 = 0;
-        for (int y = y1; y < y2; y++){   
+        for (int y = y1+1; y < y2; y++){   
             get_y1 = game->map.get(&game->map, x1, y);
             get_y2 = game->map.get(&game->map, x2, y);
             if (is_block(get_y1))
             {
                 offset = 0;
-                for (int x = x1; x < x2; x++)
+                for (int x = x1+1; x < x2; x++)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
@@ -518,11 +518,12 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
             if (is_block(get_y2))
             {
                 offset = 0;
-                for (int x = x2; x > x1; x--)
+                for (int x = x2-1; x > x1; x--)
                 {
                     if (is_block(game->map.get(&game->map, x, y)))
                     {   
                         offset++;
+                    
                     } else {
                         break;
                     }
@@ -556,7 +557,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
     intlog(y1);
     intlog(y2);
 
-    if (x1 > x2)
+    if (x1+1 > x2)
     {
         switch (get_door)
         {
@@ -577,7 +578,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
             break;
         }
     }
-    if (y1 > y2)
+    if (y1+1 > y2)
     {
         switch (get_door)
         {
@@ -777,7 +778,7 @@ void __movement(Game* self){
 
 
 void Game_init(Game* self){
-    srand(time(NULL));
+    srand(20);
     log_reset();
     ARA_Window_init(&self->window, W_MODE_MULTIPLE);
     Map_init(&self->map, MAP_SIZE_X, MAP_SIZE_Y);
