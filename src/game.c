@@ -233,10 +233,7 @@ int check_possible_gen(Game* game, int x, int y, Map_def door){
 }
 
 int intersect(Game* game, int x1, int y1, int x2, int y2){
-    if (y2-y1 < 3 || x2-x1 < 3)
-    {
-        return 0;
-    }
+    
     
     int get_value;
     for (int y = y1+1; y < y2; y++){  
@@ -290,6 +287,10 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
 
             break;
         case MAP_UNDISCOVERED_DOOR_WEST:
+                intlog(x1);
+                intlog(x2);
+                intlog(y1);
+                intlog(y2);
                 x1++;
                 if (y1 < playery-1)
                 {
@@ -330,7 +331,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
         }
     }
 
-    if (y2-y1 < 3)
+    if (x2-x1 < ROOM_MIN_SIZE+1)
     {
         switch (get_door)
         {
@@ -351,7 +352,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
             break;
         }
     }
-    if (y2-y1 < 3)
+    if (y2-y1 < ROOM_MIN_SIZE+1)
     {
         switch (get_door)
         {
@@ -462,7 +463,7 @@ void printmap(Game* game){
             
             if ( (playerx == actual_x && playery == actual_y))
             {   
-                print(game->window.top, j, i, "🤖");
+                cprint(game->window.top, i, j, COLOR_MUR2, "🤖"); 
                 //mvwprintw(game->window.top, j, i, "Ƣ@");   
             }else
             {
@@ -559,8 +560,7 @@ void __movement(Game* self){
 
 
 void Game_init(Game* self){
-    srand(time(NULL));
-    intlog(time(NULL));
+    srand(50);
     log_reset();
     ARA_Window_init(&self->window, W_MODE_MULTIPLE);
     Map_init(&self->map, MAP_SIZE_X, MAP_SIZE_Y);
