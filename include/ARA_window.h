@@ -8,7 +8,7 @@
 #include "ARA_def.h"
 
 #define cprint(win,x,y,attribute,str) (wattron(win, COLOR_PAIR(attribute)), mvwprintw(win, y, x, str), wattroff(win, COLOR_PAIR(attribute)))
-
+#define print(win,x,y,str) (mvwprintw(win, y, x, str))
 #define cprintf(win,x,y,attribute,format_str,...) (wattron(win, COLOR_PAIR(attribute)), mvwprintw(win, y, x, format_str, __VA_ARGS__), wattroff(win, COLOR_PAIR(attribute)))
 
 

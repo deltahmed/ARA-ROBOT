@@ -128,7 +128,7 @@ void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_d
             generate_doors_on_wall(game, x1, y1, x2, y2, (Map_def)probable_direction[rand_var]);
         
             probable_direction_reroll[0] = randint(0,rand_var);
-            probable_direction_reroll[1] = randint(rand_var,3);
+            probable_direction_reroll[1] = randint(rand_var+1,3);
             probable_direction[rand_var] = probable_direction[probable_direction_reroll[randint(0,2)]];
             
         }
@@ -150,13 +150,6 @@ void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def ban
     x2 = max_x;
     y1 = min_y;
     y2 = max_y;
-
-     
-    for (int y = y1; y < y2+1 ; y++)
-    {
-        game->map.get(&game->map, x1, y);
-        game->map.get(&game->map, x2, y);
-    }
      
     for (int x = x1; x < x2+1 ; x++)
     {   
@@ -169,6 +162,15 @@ void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def ban
         game->map.set(&game->map, x1, y, MAP_WALL);
         game->map.set(&game->map, x2, y, MAP_WALL);
     }
+
+    for (int x = x1+1; x < x2 ; x++)
+    {   
+        for (int y = y1+1; y < y2 ; y++)
+        {   
+        game->map.set(&game->map, x, y, MAP_ROOM);
+        }
+    }
+    
      
     generate_doors(game, x1, y1, x2, y2, banned_door);
     
@@ -230,6 +232,29 @@ int check_possible_gen(Game* game, int x, int y, Map_def door){
     }
 }
 
+int intersect(Game* game, int x1, int y1, int x2, int y2){
+    if (y2-y1 < 3 || x2-x1 < 3)
+    {
+        return 0;
+    }
+    
+    int get_value;
+    for (int y = y1+1; y < y2; y++){  
+            for (int x = x1+1; x < x2; x++)
+            {
+                get_value = game->map.get(&game->map, x, y);
+                if (is_block(get_value))
+                {
+                    return 1;
+                }
+                
+            }
+            
+        }
+    return 0;
+    
+}
+
 void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
@@ -246,318 +271,66 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
     y1 = min_y;
     y2 = max_y;
 
-    int offsets[4];
-    int max_offset = 0;
-    int max_offset2 = 0;
-    int offset;
+    int get_value;
+    log();
+    
+    while (intersect(game, x1, y1, x2, y2)){  
+        intlog(intersect(game, x1, y1, x2, y2));
+        switch (get_door){
+        case MAP_UNDISCOVERED_DOOR_NORTH:
+                if (x1 < playerx-1)
+                {
+                    x1++;
+                }
+                if (playerx+1 < x2)
+                {
+                    x2--;
+                }
+                y1++; 
 
-    switch (get_door)
-    {
-    case MAP_UNDISCOVERED_DOOR_NORTH:
-        offsets[D_SOUTH] = 0;
-        for (int x = x1+1; x < x2; x++){   
-            get_x1 = game->map.get(&game->map, x, y1);
-            if (is_block(get_x1))
-            {
-                offset = 0;
-                for (int y = y1+1; y < y2; y++)
+            break;
+        case MAP_UNDISCOVERED_DOOR_WEST:
+                x1++;
+                if (y1 < playery-1)
                 {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
+                    y1++;
                 }
-                if (max_offset < offset)
+                if (playery+1 < y2)
                 {
-                    max_offset = offset;
+                    y2--;
+                } 
+            
+            break;
+        case MAP_UNDISCOVERED_DOOR_EAST:
+                x2--;
+                if (y1 < playery-1)
+                {
+                    y1++;
                 }
-            }
+                if (playery+1 < y2)
+                {
+                    y2--;
+                } 
+            break;
+        case MAP_UNDISCOVERED_DOOR_SOUTH:
+                if (x1 < playerx-1)
+                {
+                    x1++;
+                    log();
+                }
+                if (playerx+1 < x2)
+                {
+                    x2--;
+                    log();
+                }
+                y2--; 
+            break;
+        default:
+            break;
         }
-        offsets[D_NORTH] = max_offset;
-        max_offset = 0;
-        max_offset2 = 0;
-        for (int y = y1+1; y < y2; y++){   
-            get_y1 = game->map.get(&game->map, x1, y);
-            get_y2 = game->map.get(&game->map, x2, y);
-            if (is_block(get_y1))
-            {
-                offset = 0;
-                for (int x = x1+1; x < x2; x++)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
-                }
-                
-                if (max_offset < offset)
-                {
-                    max_offset = offset;
-                }
-            }
-            if (is_block(get_y2))
-            {
-                offset = 0;
-                for (int x = x2-1; x > x1; x--)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
-                }
-                if (max_offset2 < offset)
-                {
-                    max_offset2 = offset;
-                }
-            }
-        }
-        offsets[D_WEST] = max_offset;
-        offsets[D_EAST] = max_offset2;
-        break;
-    case MAP_UNDISCOVERED_DOOR_EAST:
-        max_offset = 0;
-        max_offset2 = 0;
-        offsets[D_WEST] = 0;
-        for (int x = x1+1; x < x2; x++){   
-            get_x1 = game->map.get(&game->map, x, y2);
-            get_x2 = game->map.get(&game->map, x, y1);
-            if (is_block(get_x1))
-            {
-                offset = 0;
-                for (int y = y2-1; y > y1; y--)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
-                }
-                if (max_offset < offset)
-                {
-                    max_offset = offset;
-                }
-            }
-            if (is_block(get_x2))
-            {
-                offset = 0;
-                for (int y = y1+1; y < y2; y++)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
-                }
-                if (max_offset2 < offset)
-                {
-                    max_offset2 = offset;
-                }
-            }
-        }
-        offsets[D_SOUTH] = max_offset;
-        offsets[D_NORTH] = max_offset2;
-        max_offset = 0;
-        max_offset2 = 0;
-        for (int y = y1; y < y2; y++){   
-            get_y1 = game->map.get(&game->map, x1, y);
-            if (is_block(get_y1))
-            {
-                offset = 0;
-                for (int x = x1+1; x < x2; x++)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
-                }
-                if (max_offset < offset)
-                {
-                    max_offset = offset;
-                }
-            }
-        }
-        offsets[D_EAST] = max_offset;
-        break;
-    case MAP_UNDISCOVERED_DOOR_WEST:
-        max_offset = 0;
-        max_offset2 = 0;
-        offsets[D_EAST] = 0;
-        for (int x = x1+1; x < x2; x++){   
-            get_x1 = game->map.get(&game->map, x, y2);
-            get_x2 = game->map.get(&game->map, x, y1);
-            if (is_block(get_x1))
-            {
-                offset = 0;
-                for (int y = y2-1; y > y1; y--)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
-                }
-                if (max_offset < offset)
-                {
-                    max_offset = offset;
-                }
-            }
-            if (is_block(get_x2))
-            {
-                offset = 0;
-                for (int y = y1+1; y < y2; y++)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
-                }
-                if (max_offset2 < offset)
-                {
-                    max_offset2 = offset;
-                }
-            }
-        }
-        offsets[D_SOUTH] = max_offset;
-        offsets[D_NORTH] = max_offset2;
-        max_offset = 0;
-        max_offset2 = 0;
-        for (int y = y1; y < y2; y++){   
-            get_y1 = game->map.get(&game->map, x1, y);
-            if (is_block(get_y1))
-            {
-                offset = 0;
-                for (int x = x2-1; x > x1; x--)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
-                }
-                if (max_offset < offset)
-                {
-                    max_offset = offset;
-                }
-            }
-        }
-        offsets[D_WEST] = max_offset;
-        break;
-    case MAP_UNDISCOVERED_DOOR_SOUTH:
-        max_offset = 0;
-        max_offset2 = 0;
-        offsets[D_NORTH] = 0;
-        for (int x = x1+1; x < x2; x++){   
-            get_x1 = game->map.get(&game->map, x, y2);
-            if (is_block(get_x1))
-            {
-                offset = 0;
-                for (int y = y2-1; y > y1; y--)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
-                }
-                if (max_offset < offset)
-                {
-                    max_offset = offset;
-                }
-            }
-        }
-        offsets[D_SOUTH] = max_offset;
-        max_offset = 0;
-        max_offset2 = 0;
-        for (int y = y1+1; y < y2; y++){   
-            get_y1 = game->map.get(&game->map, x1, y);
-            get_y2 = game->map.get(&game->map, x2, y);
-            if (is_block(get_y1))
-            {
-                offset = 0;
-                for (int x = x1+1; x < x2; x++)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    } else {
-                        break;
-                    }
-                    
-                }
-                
-                if (max_offset < offset)
-                {
-                    max_offset = offset;
-                }
-            }
-            if (is_block(get_y2))
-            {
-                offset = 0;
-                for (int x = x2-1; x > x1; x--)
-                {
-                    if (is_block(game->map.get(&game->map, x, y)))
-                    {   
-                        offset++;
-                    
-                    } else {
-                        break;
-                    }
-                    
-                }
-                if (max_offset2 < offset)
-                {
-                    max_offset2 = offset;
-                }
-            }
-        }
-        offsets[D_WEST] = max_offset;
-        offsets[D_EAST] = max_offset2;
-        break;
-    default:
-        break;
     }
 
-    intlog(x1);
-    intlog(x2);
-    intlog(y1);
-    intlog(y2);
-
-    x1 += offsets[D_EAST];
-    x2 -= offsets[D_WEST];
-    y1 += offsets[D_NORTH];
-    y2 -= offsets[D_SOUTH];
-
-    intlog(x1);
-    intlog(x2);
-    intlog(y1);
-    intlog(y2);
-
-    if (x1+1 > x2)
+    if (y2-y1 < 3)
     {
         switch (get_door)
         {
@@ -578,11 +351,14 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
             break;
         }
     }
-    if (y1+1 > y2)
+    if (y2-y1 < 3)
     {
         switch (get_door)
         {
         case MAP_UNDISCOVERED_DOOR_SOUTH:
+            y1 = playery;
+            y2 = playery+ROOM_MIN_SIZE;
+            break;
         case MAP_UNDISCOVERED_DOOR_NORTH:
             y1 = playery-ROOM_MIN_SIZE;
             y2 = playery;
@@ -686,8 +462,7 @@ void printmap(Game* game){
             
             if ( (playerx == actual_x && playery == actual_y))
             {   
-                
-                mvwprintw(game->window.top, j, i, "🤖");
+                print(game->window.top, j, i, "🤖");
                 //mvwprintw(game->window.top, j, i, "Ƣ@");   
             }else
             {
@@ -695,6 +470,11 @@ void printmap(Game* game){
                 {
                 case MAP_WALL:
                     cprint(game->window.top, i, j, COLOR_MUR2, "🔳"); 
+                    break;
+                case MAP_ROOM:
+                    break;
+                case MAP_NONE:
+                    cprint(game->window.top, i, j, COLOR_MUR2, ".."); 
                     break;
                 case MAP_UNDISCOVERED_DOOR_NORTH:
                 case MAP_UNDISCOVERED_DOOR_EAST:
@@ -774,11 +554,13 @@ void __movement(Game* self){
     }
     self->window.__key = 0;
     check_generation(self);
+
 }
 
 
 void Game_init(Game* self){
-    srand(20);
+    srand(time(NULL));
+    intlog(time(NULL));
     log_reset();
     ARA_Window_init(&self->window, W_MODE_MULTIPLE);
     Map_init(&self->map, MAP_SIZE_X, MAP_SIZE_Y);

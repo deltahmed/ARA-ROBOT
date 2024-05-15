@@ -10,6 +10,8 @@ typedef enum map_def_enum{
     MAP_NONE,
     MAP_ALL,
     MAP_WALL,
+    MAP_ROOM,
+    MAP_FUTURE_ROOM,
     MAP_DOOR_NORTH,
     MAP_DOOR_EAST,
     MAP_DOOR_WEST,
