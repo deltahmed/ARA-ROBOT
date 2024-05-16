@@ -3,11 +3,12 @@
 #include "ARA_def.h"
 #include "ARA_window.h"
 
-#define MAP_SIZE_X 300
-#define MAP_SIZE_Y 300
+#define MAP_SIZE_X 100
+#define MAP_SIZE_Y 100
 
 typedef enum map_def_enum{
     MAP_NONE,
+    MAP_VOID,
     MAP_ALL,
     MAP_WALL,
     MAP_ROOM,

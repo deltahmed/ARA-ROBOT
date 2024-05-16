@@ -24,3 +24,8 @@ int randint(int a, int b){
     }
     return a + rand()%(b-a);
 }
+
+int is_in(int x, int a, int b){
+    return x <= max(a,b) && x >= min(a,b);
+    
+}
