@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 file : src/game.c func : is_in_triangle line :668 value: 0
 file : src/game.c func : is_in_triangle line :668 value: 1
@@ -23087,3 +23088,5 @@ file : src/game.c func : is_in_triangle line :668 value: 0
 file : src/game.c func : is_in_triangle line :668 value: 1
 file : src/game.c func : is_in_triangle line :668 value: 1
 file : src/game.c func : is_in_triangle line :668 value: 2
+=======
+>>>>>>> d2b9694 (upgrade menu)
