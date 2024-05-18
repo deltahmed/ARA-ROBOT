@@ -37,6 +37,22 @@ void printmenu(ARA_Window self, char choice[SIZE_MENU][20], int cursor){
     }
 }
 
+void printCredit(ARA_Window self){
+    char credit[SIZE_CREDIT][20]={"MI-3 tri-K","Ahmed AMIMI","Abdelwaheb AZMANI","Rayane MEHANNI"};
+    int y=0,lines=0,columns=0,letters=0;
+    for(y=0;y<SIZE_CREDIT;y++){
+        letters=strlen(credit[y]);
+        letters--;
+        lines=4*y+NB_LINES/2-(SIZE_CREDIT-1)*2;
+        columns=NB_COLS/2;//Faire -10 pour le centrer
+        mvwprintw(self.main_window, lines, columns-2, "🏮");
+        mvwprintw(self.main_window, lines, columns-letters/2 +10, "%s",credit[y]);
+        mvwprintw(self.main_window, lines, columns+22, "🏮");
+    }
+    mvwprintw(self.main_window, NB_LINES-3, NB_COLS-10, "Menu : m");
+    mvwprintw(self.main_window, NB_LINES-2, NB_COLS-3, "↩");
+}
+
 int movementmenu(ARA_Window self, int *cursor){
     switch(self.get_key(&self)){
         case '\n' :
@@ -79,18 +95,49 @@ int menuChoice(Game *game){
             return 1;
         case 1 :
             recoverGame(game);
+            game->timer.reset(&game->timer);
             return 1;
         case 4 :
-            char choice[SIZE_MENU][20]={"Groupe","MI-3 tri-K","Membres","Ahmed","Abdelwaheb","Rayane"};
             game->window.clear_all(&game->window);
             game->window.create_one_win_mode(&game->window);
             printTitle(game->window);
-            printmenu(game->window, choice, 7);
-            game->window.update_key(&game->window);
-            game->window.get_key(&game->window);
+            printCredit(game->window);
+            do{
+                game->window.update_key(&game->window);
+            }while(game->window.get_key(&game->window)!='m');
             menuChoice(game);
             break;
         default :
+            game->window.destroy();
+            game->map.destroy(&game->map);
             return 0;
     }
+}
+
+void printGameOver(ARA_Window self){
+    int y=7;
+    mvwprintw(self.main_window,y,8,"  _______      ___      .___  ___.  _______");                     
+    mvwprintw(self.main_window,y+1,8," /  _____|    /   \\     |   \\/   | |   ____|");                    
+    mvwprintw(self.main_window,y+2,8,"|  |  __     /  ^  \\    |  \\  /  | |  |__");                       
+    mvwprintw(self.main_window,y+3,8,"|  | |_ |   /  /_\\  \\   |  |\\/|  | |   __|");                      
+    mvwprintw(self.main_window,y+4,8,"|  |__| |  /  _____  \\  |  |  |  | |  |____");                     
+    mvwprintw(self.main_window,y+5,8," \\______| /__/     \\__\\ |__|  |__| |_______|");                                                                                   
+    mvwprintw(self.main_window,y+7,8,"                    ______   ____    ____  _______ .______");      
+    mvwprintw(self.main_window,y+8,8,"                   /  __  \\  \\   \\  /   / |   ____||   _  \\");     
+    mvwprintw(self.main_window,y+9,8,"                  |  |  |  |  \\   \\/   /  |  |__   |  |_)  |");    
+    mvwprintw(self.main_window,y+10,8,"                  |  |  |  |   \\      /   |   __|  |      /");     
+    mvwprintw(self.main_window,y+11,8,"                  |  `--'  |    \\    /    |  |____ |  |\\  \\----.");
+    mvwprintw(self.main_window,y+12,8,"                   \\______/      \\__/     |_______|| _| `._____|");
+}
+
+void gameEnd(Game game){
+    game.window.clear_all(&game.window);
+    game.window.create_one_win_mode(&game.window);
+    printGameOver(game.window);
+    mvwprintw(game.window.main_window, NB_LINES-3, NB_COLS-10, "Menu : m");
+    mvwprintw(game.window.main_window, NB_LINES-2, NB_COLS-3, "↩");
+    game.window.refresh_all(&game.window);
+    do{
+        game.window.update_key(&game.window);
+    }while(game.window.get_key(&game.window)!='m');
 }

@@ -73,6 +73,7 @@ void recoverTimer(Timer *self){
     fread(&self->__paused, sizeof(boolean), 1, fichier);
     fread(&self->__start_game_time, sizeof(Time), 1, fichier);
     fread(&self->__timer, sizeof(Time), 1, fichier);
+    //Une piste pour resoudre le probleme d heure apres un recover est d enlever le premier et troisieme fread
     fclose(fichier);
 }
 

@@ -23,6 +23,7 @@ typedef enum map_def_enum{
     MAP_UNDISCOVERED_DOOR_SOUTH,
     MAP_END_OF_BLOCK,
     MAP_TASK,
+    MAP_MONSTER,
 }Map_def;
 
 typedef struct __map_struct{

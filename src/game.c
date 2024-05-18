@@ -224,6 +224,7 @@ void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def ban
     }
     
     game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_TASK);
+    game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_MONSTER);
      
     generate_doors(game, x1, y1, x2, y2, banned_door);
     
@@ -758,6 +759,9 @@ void printmap(Game* game){
                     break;
                 case MAP_TASK:
                     cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "💬"); 
+                    break;
+                case MAP_MONSTER:
+                    cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "👾"); 
                     break;
                 case MAP_ROOM:
                     if (!is_door(game->map.get(&game->map, playerx, playery)))
