@@ -1,4 +1,5 @@
 #define _XOPEN_SOURCE_EXTENDED 1
+#define _XOPEN_SOURCE 700
 
 #include <ncursesw/ncurses.h>
 

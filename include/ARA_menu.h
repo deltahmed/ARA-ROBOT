@@ -4,7 +4,7 @@
 #include "ARA_def.h"
 #include "ARA_window.h"
 #include "game.h"
-#include "file.h"
+#include "ARA_file.h"
 #define SIZE_MENU 6
 #define SIZE_CREDIT 4
 

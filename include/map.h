@@ -6,6 +6,8 @@
 #define MAP_SIZE_X 100
 #define MAP_SIZE_Y 100
 
+typedef uint32_t Size;
+
 typedef enum map_def_enum{
     MAP_NONE,
     MAP_VOID,

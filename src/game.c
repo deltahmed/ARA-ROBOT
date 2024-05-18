@@ -13,6 +13,10 @@ typedef enum dir_enum{
     D_Y,
 }Direction;
 
+void fill_probable_zone(Game* game, int x, int y, Map_def fill);
+int is_block(Map_def value);
+int stick_in_range(int x,int rangex1,int rangex2);
+
 Map_def get_inverse_door(Map_def direction){
     switch (direction)
     {
@@ -246,9 +250,9 @@ void generatemap(Game* game){
     int randomtab[20] = {0};
     randomtab[0] = MAP_VOID;
     
-    for (int x = 0; x < game->map.sizex(&game->map); x++)
+    for (int x = 0; x < (int)game->map.sizex(&game->map); x++)
     {
-        for (int y = 0; y < game->map.sizey(&game->map); y++)
+        for (int y = 0; y < (int)game->map.sizey(&game->map); y++)
         {
             game->map.set(&game->map, x, y, randomtab[randint(0,20)]);
         }
@@ -309,6 +313,7 @@ int check_possible_gen(Game* game, int x, int y, Map_def door){
     default:
         break;
     }
+    return 0;
 }
 
 int intersect(Game* game, int x1, int y1, int x2, int y2){
@@ -342,7 +347,7 @@ int intersect(Game* game, int x1, int y1, int x2, int y2){
 void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
-    int get_x1, get_x2, get_y1, get_y2;
+    
     int get_door = game->map.get(&game->map, playerx, playery);
     fill_probable_zone(game, playerx, playery, MAP_NONE);
     int max_x = max(x1,x2);
@@ -355,8 +360,6 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
     y1 = min_y;
     y2 = max_y;
     
-
-    int get_value;
      
 
     while (intersect(game, x1, y1, x2, y2)){  
@@ -712,6 +715,7 @@ int is_in_cone(Game* game, int x, int y, int player_x, int player_y){
     default:
         break;
     }
+    return 0;
     
 }
 

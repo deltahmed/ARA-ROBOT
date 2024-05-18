@@ -4,8 +4,8 @@
 #include "ARA_window.h"
 #include "game.h"
 #include "menu.h"
-#include "file.h"
-#include "events.h"
+#include "ARA_file.h"
+#include "ARA_events.h"
 
 //88 33
 

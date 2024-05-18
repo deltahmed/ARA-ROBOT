@@ -184,7 +184,6 @@ void ARA_Window_init(ARA_Window* self, ARA_Window_mode mode){
     setlocale(LC_ALL, "");
     initscr();
     cbreak();
-    keypad(self->main_window, TRUE);
     noecho();
     self->__key = 0;
     self->__cursor = 0;
@@ -194,6 +193,7 @@ void ARA_Window_init(ARA_Window* self, ARA_Window_mode mode){
     } else {
         __create_windows(self);
     }
+    keypad(self->main_window, TRUE);
     __color_init(self);
     __refresh_all(self);
     self->box_all = __ARA_box;

@@ -12,7 +12,7 @@
 #include "ARA_error.h"
 #include "ARA_math.h"
 #include "colors.h"
-#include "ARA_file.h"
+#include "ARA_file_def.h"
 
 #define TRUE 1
 #define FALSE 0

@@ -1,4 +1,4 @@
-#include "file.h"
+#include "ARA_file.h"
 
 void saveArray(Map *self){
     FILE *fichier=NULL;

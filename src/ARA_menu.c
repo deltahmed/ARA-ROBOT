@@ -1,4 +1,4 @@
-#include "menu.h"
+#include "ARA_menu.h"
 
 void printTitle(ARA_Window self){
     int y=9;
@@ -112,6 +112,7 @@ int menuChoice(Game *game){
             game->map.destroy(&game->map);
             return 0;
     }
+    return 0;
 }
 
 void printGameOver(ARA_Window self){
