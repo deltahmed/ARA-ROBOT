@@ -20,7 +20,7 @@ int main(){
         return 0;
     }
     game.window.destroy();
-    while(TRUE) {
+    while(true) {
         game.window.clear_all(&game.window);
 
         game.window.create(&game.window);
@@ -36,13 +36,13 @@ int main(){
         cprintf(game.window.bottom, 2, 6, BASE_CRS_COLOR_BRIGHT_RED, "Temps : %ld",game.timer.get(&game.timer));
 
         
-        printmap(&game);
+        print_map(&game);
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_TASK){
             task(&game);
         }
         //Je la mets avant mouvement comme ca elle reste tant que j ai pas bouge
         game.window.update_key(&game.window);
-        __movement(&game);
+        player_movement(&game);
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_MONSTER && QTE(&game)==0){
             break;
             //Parce que quand on sort de la boucle ca veut dire qu on a perdu car on a pas encore de condition de win
@@ -56,7 +56,7 @@ int main(){
         game.window.update(&game.window);
     }
     gameEnd(game);
-    }while(TRUE);
+    }while(true);
     saveGame(&game);
     game.window.destroy();
     game.map.destroy(&game.map);

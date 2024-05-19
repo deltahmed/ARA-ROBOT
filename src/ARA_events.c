@@ -70,7 +70,7 @@ int QTE(Game *game){
         touches(*game);
         game->timer.update(&game->timer);
         cprintf(game->window.bottom, 2, 6, BASE_CRS_COLOR_BRIGHT_RED, "Temps : %ld",game->timer.get(&game->timer));
-        printmap(game);
+        print_map(game);
         game->window.update_key(&game->window);
         car=game->window.get_key(&game->window);            
         game->window.update(&game->window);
@@ -83,7 +83,7 @@ int QTE(Game *game){
     game->map.set(&game->map,game->player.get_x(&game->player),game->player.get_y(&game->player),MAP_ROOM);
     game->window.clear_all(&game->window);
     game->window.create(&game->window);
-    printmap(game);
+    print_map(game);
     game->window.update(&game->window);
     return 1;
 }

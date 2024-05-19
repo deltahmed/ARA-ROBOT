@@ -193,7 +193,7 @@ void ARA_Window_init(ARA_Window* self, ARA_Window_mode mode){
     } else {
         __create_windows(self);
     }
-    keypad(self->main_window, TRUE);
+    keypad(self->main_window, true);
     __color_init(self);
     __refresh_all(self);
     self->box_all = __ARA_box;

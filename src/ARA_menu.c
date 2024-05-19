@@ -90,7 +90,7 @@ int menuGame(Game *game){
 int menuChoice(Game *game){
     switch (menuGame(game)){
         case 0 :
-            generatemap(game);
+            generate_map(game);
             game->timer.reset(&game->timer);
             return 1;
         case 1 :

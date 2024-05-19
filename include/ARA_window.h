@@ -20,7 +20,7 @@
 #define GAME_SCREEN_Y 20
 
 typedef int Key;
-typedef char boolean;
+typedef int boolean;
 
 typedef enum  __ARA_Window_Mode_enum {
     W_MODE_MULTIPLE,

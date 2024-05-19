@@ -8,8 +8,17 @@
 #include "ARA_time.h"
 #include "ARA_debug.h"
 
+#define ROOM_MAX_SIZE 22
+#define ROOM_MIN_SIZE 3
 
-
+typedef enum __dir_enum{
+    D_NORTH,
+    D_EAST,
+    D_WEST,
+    D_SOUTH,
+    D_X,
+    D_Y,
+}Direction;
 
 typedef struct __game_struct
 {   
@@ -20,13 +29,48 @@ typedef struct __game_struct
     
 }Game;
 
-void generatemap(Game* game);
+//generator.c
+Map_def get_inverse_door(Map_def direction);
+Map_def discover_door(Map_def direction);
 
-void printmap(Game* game);
+void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def direction);
+void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door);
+void generate_with_rules(Game* game, int x1, int y1, int x2, int y2);
+void generate_room(Game* game);
+void generate_first_room(Game* game);
+void generate_map(Game* game);
 
-void __movement(Game* self);
+void fill_probable_zone(Game* game, int x, int y, Map_def fill);
+void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door);
 
+int is_block(Map_def value);
+int is_door(Map_def value);
+int is_real_block(Map_def value);
+int is_undiscovered_door(Map_def value);
+
+int check_3x3_zone(Game* game, int offsetx, int offsety);
+int check_possible_gen(Game* game, int x, int y, Map_def door);
+void check_generation_update(Game* game);
+
+int intersect(Game* game, int x1, int y1, int x2, int y2);
+
+int stick_in_range(int x,int rangex1,int rangex2);
+
+//game.c
+
+void get_actual_room(Game* game, int player_x, int player_y, int* x1, int* x2, int* y1, int* y2);
+
+int is_in_triangle(int tested_x, int tested_y, int x1, int x2, int basey, int miny, int maxy, Direction direction);
+int is_in_cone(Game* game, int x, int y, int player_x, int player_y, int* room1_x1, int* room1_x2, int* room1_y1, int* room1_y2, int* room2_x1, int* room2_x2, int* room2_y1, int* room2_y2);
+
+void print_switch_room(Game* game, int get_value, int i, int j);
+void print_in_shadow(Game* game, int get_value, int playerx, int playery, int i, int j, int actual_x, int actual_y);
+void print_map(Game* game);
+
+boolean check_player_move(Game* self, int x, int y);
+
+void player_movement(Game* self);
 
 void Game_init(Game* self);
-
+void Game_restart(Game* self)
 #endif

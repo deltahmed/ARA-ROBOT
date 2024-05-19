@@ -14,10 +14,9 @@
 #include "colors.h"
 #include "ARA_file_def.h"
 
-#define TRUE 1
-#define FALSE 0
+#define NEGATIVE -1
 
 typedef uint32_t Size;
-typedef char boolean;
+typedef int boolean;
 
 #endif
