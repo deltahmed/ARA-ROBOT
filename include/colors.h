@@ -4,6 +4,9 @@
 #include "ARA_def.h"
 #include "ARA_window.h"
 
+// ========================== terminal color ===============================
+
+
 #define ARA_COLOR_RESET "\033[0m"
 
 #define ARA_STYLE_BOLD "\033[1m"
@@ -47,6 +50,8 @@
 #define ARA_BG_BRIGHT_CYAN "\033[106m"
 #define ARA_BG_BRIGHT_WHITE "\033[107m"
 
+// ========================== Curses colors ===============================
+
 #define CRS_COLOR_BLACK 0
 #define CRS_COLOR_RED 1
 #define CRS_COLOR_GREEN 2
@@ -63,6 +68,7 @@
 #define CRS_COLOR_BRIGHT_MAGENTA 13
 #define CRS_COLOR_BRIGHT_CYAN 14
 
+// ========================== Curses color pairs ===============================
 
 #define BASE_CRS_COLOR_BLACK 0
 #define BASE_CRS_COLOR_RED 1

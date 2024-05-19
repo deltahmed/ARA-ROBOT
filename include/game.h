@@ -8,9 +8,15 @@
 #include "ARA_time.h"
 #include "ARA_debug.h"
 
+/**
+ * @brief Rooms max and min size definition
+ */
 #define ROOM_MAX_SIZE 22
 #define ROOM_MIN_SIZE 3
 
+/**
+ * @brief a direction struct for multiple uses
+ */
 typedef enum __dir_enum{
     D_NORTH,
     D_EAST,
@@ -20,6 +26,9 @@ typedef enum __dir_enum{
     D_Y,
 }Direction;
 
+/**
+ * @brief Game struct with all the game need
+ */
 typedef struct __game_struct
 {   
     ARA_Window window;
@@ -29,9 +38,12 @@ typedef struct __game_struct
     
 }Game;
 
-//generator.c
+// ========================== generator.c ===============================
+
 Map_def get_inverse_door(Map_def direction);
 Map_def discover_door(Map_def direction);
+
+
 
 void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def direction);
 void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door);
@@ -56,7 +68,7 @@ int intersect(Game* game, int x1, int y1, int x2, int y2);
 
 int stick_in_range(int x,int rangex1,int rangex2);
 
-//game.c
+// ========================== game.c ===============================
 
 void get_actual_room(Game* game, int player_x, int player_y, int* x1, int* x2, int* y1, int* y2);
 
@@ -72,5 +84,5 @@ boolean check_player_move(Game* self, int x, int y);
 void player_movement(Game* self);
 
 void Game_init(Game* self);
-void Game_restart(Game* self)
+void Game_restart(Game* self);
 #endif

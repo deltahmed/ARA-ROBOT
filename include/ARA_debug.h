@@ -5,8 +5,16 @@
 #include <stdlib.h>
 #include "ARA_def.h"
 
-
+/**
+ * @brief this macro call ARA_debug_message with the needed arguments
+ */
 #define log() (ARA_debug_message(__FILE__,  __FUNCTION__, __LINE__))
+
+/**
+ * @brief This macro calls ARA_debug_message_value with the necessary arguments to log an integer value along with the file name, function name, and line number.
+ * 
+ * @param value The value logged
+ */
 #define intlog(value) (ARA_debug_message_value(value, __FILE__,  __FUNCTION__, __LINE__))
 
 void ARA_debug_message(const char * file, const char * function, int line);

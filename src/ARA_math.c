@@ -29,3 +29,16 @@ int is_in(int x, int a, int b){
     return x <= max(a,b) && x >= min(a,b);
     
 }
+
+int stick_in_range(int x,int a,int b){
+    if (x < a)
+    {
+        return a;
+    }
+    if (x > b)
+    {
+        return b;
+    }
+    return x;
+    
+}

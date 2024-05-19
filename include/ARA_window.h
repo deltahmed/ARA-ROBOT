@@ -8,8 +8,35 @@
 
 #include "ARA_def.h"
 
+/**
+ * @brief Prints a string with a specified color attribute at a given position in a window.
+ *
+ * This macro sets the specified color attribute, prints the string at the 
+ * specified position in the given window, and then turns off the color attribute.
+ *
+ * @param win The window where the string is printed.
+ * @param x The x coordinate of the string 
+ * @param y The y coordinate of the string 
+ * @param attribute The color attribute to use (COLOR_PAIR).
+ * @param str The string to print.
+ */
 #define cprint(win,x,y,attribute,str) (wattron(win, COLOR_PAIR(attribute)), mvwprintw(win, y, x, str), wattroff(win, COLOR_PAIR(attribute)))
-#define print(win,x,y,str) (mvwprintw(win, y, x, str))
+
+/**
+ * @brief Prints a formatted string with a specified color attribute at a given position in a window
+ *
+ * This macro sets the specified color attribute, prints the formatted string 
+ * at the specified position in the given window, and then turns off the color attribute
+ * 
+ * CAUTION : DO NOT USE A NON FORMATTED STR WITH THIS MACRO USE cprint instead 
+ *
+ * @param win The window where the formatted string is printed
+ * @param x The x coordinate of the string 
+ * @param y The y coordinate of the string 
+ * @param attribute The color attribute to use (COLOR_PAIR)
+ * @param format_str The formatted string to print
+ * @param ... Additional arguments for the formatted string
+ */
 #define cprintf(win,x,y,attribute,format_str,...) (wattron(win, COLOR_PAIR(attribute)), mvwprintw(win, y, x, format_str, __VA_ARGS__), wattroff(win, COLOR_PAIR(attribute)))
 
 
@@ -22,11 +49,17 @@
 typedef int Key;
 typedef int boolean;
 
+/**
+ * @brief Enumeration for the different window modes
+ */
 typedef enum  __ARA_Window_Mode_enum {
     W_MODE_MULTIPLE,
     W_MODE_ONE,
 }ARA_Window_mode;
 
+/**
+ * @brief This enumeration defines the possible window selections
+ */
 typedef enum  __ARA_Window_choice_enum {
     W_MAIN,
     W_TOP,
@@ -34,35 +67,105 @@ typedef enum  __ARA_Window_choice_enum {
     W_RIGHT,
 }ARA_Window_choice;
 
-typedef struct __ARA_Window_struct
-{
-    WINDOW* main_window;
+/**
+ * @brief Structure representing a window its properties and methods
+ */
+typedef struct __ARA_Window_struct {
+    WINDOW* main_window;   /**< The main window */
 
-    WINDOW* top;
-    WINDOW* bottom;
-    WINDOW* right;
+    WINDOW* top;           /**< The top sub-window */
+    WINDOW* bottom;        /**< The bottom sub-window*/
+    WINDOW* right;         /**< The right sub-window*/
 
-    boolean __one_win_mode;
-    Key __key;
-    boolean __cursor;
+    boolean __one_win_mode; 
+    Key __key;              
+    boolean __cursor;       
 
+    /**
+     * @brief Draws boxes around all windows
+     * 
+     * @param self Pointer to the ARA_Window structure
+     */
     void (*box_all)(struct __ARA_Window_struct* self);
+
+    /**
+     * @brief Creates all windows
+     * 
+     * @param self Pointer to self
+     */
     void (*create)(struct __ARA_Window_struct* self);
+
+    /**
+     * @brief Creates a single window
+     * 
+     * @param self Pointer to self
+     */
     void (*create_one_win_mode)(struct __ARA_Window_struct* self);
+
+    /**
+     * @brief Refreshes all windows
+     * 
+     * @param self Pointer to self
+     */
     void (*refresh_all)(struct __ARA_Window_struct* self);
+
+    /**
+     * @brief Refreshes a specific window
+     * 
+     * @param self Pointer to self
+     * @param choice_window The window to refresh
+     */
     void (*refresh_win)(struct __ARA_Window_struct* self, ARA_Window_choice choice_window);
+
+    /**
+     * @brief Clears all windows
+     * 
+     * @param self Pointer to self
+     */
     void (*clear_all)(struct __ARA_Window_struct* self);
+
+    /**
+     * @brief Clears a specific window
+     * 
+     * @param self Pointer to self
+     * @param choice_window The window to clear
+     */
     void (*clear_win)(struct __ARA_Window_struct* self, ARA_Window_choice choice_window);
+
+    /**
+     * @brief Updates the current key
+     * 
+     * @param self Pointer to self
+     */
     void (*update_key)(struct __ARA_Window_struct* self);
+
+    /**
+     * @brief Gets the current key
+     * 
+     * @param self Pointer to self
+     * @return The current key
+     */
     Key (*get_key)(struct __ARA_Window_struct* self);
+
+    /**
+     * @brief Updates the window state
+     * 
+     * @param self Pointer to self
+     */
     void (*update)(struct __ARA_Window_struct* self);
+
+    /**
+     * @brief flip the cursor show state
+     * 
+     * @param self Pointer to self
+     */
     void (*show_cursor)(struct __ARA_Window_struct* self);
+
+    /**
+     * @brief end curses
+     */
     void (*destroy)();
-
-
-    
-}ARA_Window;
-
+} ARA_Window;
 void ARA_Window_init(ARA_Window* self, ARA_Window_mode mode);
 
 #endif

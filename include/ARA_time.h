@@ -3,7 +3,13 @@
 #include <time.h>
 #include "ARA_def.h"
 
+
 typedef time_t Time;
+
+/**
+ * @brief The Timer definition with all the methods 
+ * 
+ */
 typedef struct __timer_struct{
     Time __start_game_time;
     Time __actual_time;

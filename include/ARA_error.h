@@ -5,9 +5,16 @@
 #include <stdlib.h>
 
 
-
+/**
+ * @brief This macro calls the ARA_error_function with the necessary arguments to show where the ARA error is
+ *
+ * @param type The type of error to log, represented by the Error enum.
+ */
 #define ARA_error(type) (ARA_error_function(type, __FILE__,  __FUNCTION__, __LINE__))
 
+/**
+ * @brief Enumeration of all possible ARA error types.
+ */
 typedef enum __error_enum {
     UNDEFINED_ERROR = 1000,
     ALLOCATION_ERROR,
