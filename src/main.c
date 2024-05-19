@@ -3,7 +3,7 @@
 #include "map.h"
 #include "ARA_window.h"
 #include "game.h"
-#include "menu.h"
+#include "ARA_menu.h"
 #include "ARA_file.h"
 #include "ARA_events.h"
 
