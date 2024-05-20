@@ -9,14 +9,20 @@
 
 //88 33
 
-//22 58
+//22 
+
+/**
+ * @brief The main fuction with the main game loop.
+ * 
+ * @return int 
+ */
 int main(){
     Game game;
     int r=0;
     do{
     Game_init(&game);
     
-    if(menuChoice(&game)==0){
+    if(choice_menu(&game)==0){
         return 0;
     }
     game.window.destroy();

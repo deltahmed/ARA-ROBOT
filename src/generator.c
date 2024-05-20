@@ -3,10 +3,11 @@
 
 
 /**
- * @brief Function to get the inverse direction of a door
+ * @brief Function to get the inverse direction of a door.
  * 
- * @param direction base direction
- * @return Map_def : inverse direction
+ * @param direction base direction.
+ * @return Map_def : inverse direction.
+ * @throw Raise a VALUE_ERROR if the direction is not an undiscovered door.
  */
 Map_def get_inverse_door(Map_def direction){
     switch (direction)
@@ -26,10 +27,11 @@ Map_def get_inverse_door(Map_def direction){
 }
 
 /**
- * @brief Change the state of a Undiscovered door to a discovered door
+ * @brief Change the state of a Undiscovered door to a discovered door.
  * 
- * @param direction base direction
- * @return Map_def the discovered door
+ * @param direction base direction.
+ * @return Map_def the discovered door.
+ * @throw Raise a VALUE_ERROR if the direction is not an undiscovered door.
  */
 Map_def discover_door(Map_def direction){
     switch (direction)
@@ -43,20 +45,20 @@ Map_def discover_door(Map_def direction){
     case MAP_UNDISCOVERED_DOOR_SOUTH:
         return MAP_DOOR_SOUTH;
     default:
-        ARA_error(UNDEFINED_ERROR);
+        ARA_error(VALUE_ERROR);
         return NEGATIVE;
     }
 }
 
 /**
- * @brief This function generate doors on a precises wall
+ * @brief This function generate doors on a precises wall.
  * 
- * @param game The current game
- * @param x1 The up left corner of the room x coordinate 
- * @param y1 The up left corner of the room y coordinate 
- * @param x2 The down right corner of the room x coordinate 
- * @param y2 The down right corner of the room y coordinate 
- * @param direction The door direction
+ * @param game The current game.
+ * @param x1 The up left corner of the room x coordinate .
+ * @param y1 The up left corner of the room y coordinate .
+ * @param x2 The down right corner of the room x coordinate .
+ * @param y2 The down right corner of the room y coordinate .
+ * @param direction The door direction.
  */
 void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def direction){
     int rand_var;
@@ -105,14 +107,14 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
 }
 
 /**
- * @brief This function generate all the random doors in a room
+ * @brief This function generate all the random doors in a room.
  * 
- * @param game The current game
- * @param x1 The up left corner of the room x coordinate 
- * @param y1 The up left corner of the room y coordinate 
- * @param x2 The down right corner of the room x coordinate 
- * @param y2 The down right corner of the room y coordinate 
- * @param banned_door The door where the player from
+ * @param game The current game.
+ * @param x1 The up left corner of the room x coordinate. 
+ * @param y1 The up left corner of the room y coordinate .
+ * @param x2 The down right corner of the room x coordinate .
+ * @param y2 The down right corner of the room y coordinate .
+ * @param banned_door The door where the player from.
  */
 void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door){
      
@@ -158,9 +160,9 @@ void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_d
 }
 
 /**
- * @brief This function generate the first room of a new game
+ * @brief This function generate the first room of a new game.
  * 
- * @param game The current game
+ * @param game The current game.
  */
 void generate_first_room(Game* game){
      
@@ -175,9 +177,9 @@ void generate_first_room(Game* game){
 }
 
 /**
- * @brief This function generate the map and set the stars (*) in the background
+ * @brief This function generate the map and set the stars (*) in the background.
  * 
- * @param game The current game
+ * @param game The current game.
  */
 void generate_map(Game* game){
     int randomtab[20] = {0};
@@ -196,13 +198,13 @@ void generate_map(Game* game){
 }
 
 /**
- * @brief This function generate the future room without crossing the others rooms
+ * @brief This function generate the future room without crossing the others rooms.
  * 
- * @param game The current game
- * @param x1 The up left corner of the room x coordinate 
- * @param y1 The up left corner of the room y coordinate 
- * @param x2 The down right corner of the room x coordinate 
- * @param y2 The down right corner of the room y coordinate 
+ * @param game The current game.
+ * @param x1 The up left corner of the room x coordinate .
+ * @param y1 The up left corner of the room y coordinate .
+ * @param x2 The down right corner of the room x coordinate .
+ * @param y2 The down right corner of the room y coordinate .
  */
 void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
     int playerx = game->player.get_x(&game->player);
@@ -333,11 +335,6 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
             break;
         }
     }
-
-    if (intersect(game, x1, y1, x2, y2))
-    {
-        ARA_error(VALUE_ERROR);
-    }
     
     fill_zone_and_doors(game,x1, y1, x2, y2, get_inverse_door(get_door));
      
@@ -345,9 +342,9 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
 }
 
 /**
- * @brief This function generate a random room and call the generate_with_rules function
+ * @brief This function generate a random room and call the generate_with_rules function.
  * 
- * @param game The current game
+ * @param game The current game.
  */
 void generate_room(Game* game){
      
@@ -405,12 +402,12 @@ void generate_room(Game* game){
 }
 
 /**
- * @brief This function fill a future probable zone for a room with MAP_FUTURE_ROOM or MAP_NONE
+ * @brief This function fill a future probable zone for a room with MAP_FUTURE_ROOM or MAP_NONE.
  * 
- * @param game The current game
- * @param x The player x position
- * @param y The player y position
- * @param fill The Map_def fill for the probable zone
+ * @param game The current game..
+ * @param x The player x position.
+ * @param y The player y position.
+ * @param fill The Map_def fill for the probable zone.
  */
 void fill_probable_zone(Game* game, int x, int y, Map_def fill){
     int get_door = game->map.get(&game->map, x, y);
@@ -455,14 +452,14 @@ void fill_probable_zone(Game* game, int x, int y, Map_def fill){
 }
 
 /**
- * @brief This function create the room walls and call the generate_doors function
+ * @brief This function create the room walls and call the generate_doors function.
  * 
- * @param game The current game
- * @param x1 The up left corner of the room x coordinate 
- * @param y1 The up left corner of the room y coordinate 
- * @param x2 The down right corner of the room x coordinate 
- * @param y2 The down right corner of the room y coordinate 
- * @param banned_door The door where the player from
+ * @param game The current .
+ * @param x1 The up left corner of the room x coordinate .
+ * @param y1 The up left corner of the room y coordinate.
+ * @param x2 The down right corner of the room x coordinate .
+ * @param y2 The down right corner of the room y coordinate.
+ * @param banned_door The door where the player .
  */
 void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door){
     int max_x = max(x1,x2);
@@ -504,11 +501,11 @@ void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def ban
 }
 
 /**
- * @brief check if a value in the map is a "real" block (MAP_FUTURE_ROOM exluded)
+ * @brief check if a value in the map is a "real" block (MAP_FUTURE_ROOM exluded).
  * 
- * @param value the map value
- * @return true if the value is a block and it not MAP_FUTURE_ROOM
- * @return false if not
+ * @param value the map value.
+ * @return true if the value is a block and it not MAP_FUTURE_ROOM.
+ * @return false if not.
  */
 int is_real_block(Map_def value){
     return is_block(value) && value != MAP_FUTURE_ROOM;
@@ -516,11 +513,11 @@ int is_real_block(Map_def value){
 }
 
 /**
- * @brief check if a value in the map is an undiscovered door
+ * @brief check if a value in the map is an undiscovered door.
  * 
- * @param value the map value
- * @return true if the value is a undiscovered door 
- * @return false if not
+ * @param value the map value.
+ * @return true if the value is a undiscovered door .
+ * @return false if not.
  */
 int is_undiscovered_door(Map_def value){
     if (value >= MAP_UNDISCOVERED_DOOR_NORTH && value <= MAP_UNDISCOVERED_DOOR_SOUTH )
@@ -531,22 +528,22 @@ int is_undiscovered_door(Map_def value){
 }
 
 /**
- * @brief check if a value in the map is a block (MAP_FUTURE_ROOM included)
+ * @brief check if a value in the map is a block (MAP_FUTURE_ROOM included).
  * 
- * @param value the map value
- * @return true if the value is a block
- * @return false if not
+ * @param value the map value.
+ * @return true if the value is a block.
+ * @return false if not.
  */
 int is_block(Map_def value){
     return (value < MAP_END_OF_BLOCK && value > MAP_ALL);
 }
 
 /**
- * @brief check if a value in the map is an door
+ * @brief check if a value in the map is an door.
  * 
- * @param value the map value
- * @return true if the value is a door 
- * @return false if not
+ * @param value the map value.
+ * @return true if the value is a door .
+ * @return false if not.
  */
 int is_door(Map_def value){
     return (value <= MAP_UNDISCOVERED_DOOR_SOUTH && value >= MAP_DOOR_NORTH);
@@ -555,13 +552,13 @@ int is_door(Map_def value){
 
 
 /**
- * @brief Check if a 3x3 zone is free
+ * @brief Check if a 3x3 zone is free.
  * 
- * @param game The current game
- * @param offsetx The up left corner of the room x coordinate where the zone start
- * @param offsety The up left corner of the room y coordinate where the zone start
- * @return true if the zone is free 
- * @return false if not
+ * @param game The current game.
+ * @param offsetx The up left corner of the room x coordinate where the zone start.
+ * @param offsety The up left corner of the room y coordinate where the zone start.
+ * @return true if the zone is free .
+ * @return false if not.
  */
 int check_3x3_zone(Game* game, int offsetx, int offsety){
     for (int i = 0; i < 3; i++)
@@ -588,14 +585,14 @@ int check_3x3_zone(Game* game, int offsetx, int offsety){
 
 
 /**
- * @brief Check if a 3x3 zone is available on a specific door
+ * @brief Check if a 3x3 zone is available on a specific door.
  * 
- * @param game The current game
- * @param x The player x position
- * @param y The player y position
- * @param door The door direction (it has to be undiscovered)
- * @return true if the zone is available 
- * @return false if not
+ * @param game The current game.
+ * @param x The player x position.
+ * @param y The player y position.
+ * @param door The door direction (it has to be undiscovered).
+ * @return true if the zone is available .
+ * @return false if not.
  */
 int check_possible_gen(Game* game, int x, int y, Map_def door){
     switch (door)
@@ -619,9 +616,9 @@ int check_possible_gen(Game* game, int x, int y, Map_def door){
 }
 
 /**
- * @brief Check if the player is on a undiscovered door and generate a room
+ * @brief Check if the player is on a undiscovered door and generate a room.
  * 
- * @param game The current game
+ * @param game The current game.
  */
 void check_generation_update(Game* game){
     int playerx = game->player.get_x(&game->player);
@@ -635,15 +632,15 @@ void check_generation_update(Game* game){
 }
 
 /**
- * @brief This function check if a defined area is intercecting with other rooms
+ * @brief This function check if a defined area is intercecting with other rooms.
  * 
- * @param game The current game
- * @param x1 The up left corner of the room x coordinate 
- * @param y1 The up left corner of the room y coordinate 
- * @param x2 The down right corner of the room x coordinate 
- * @param y2 The down right corner of the room y coordinate 
- * @return true if the area is free 
- * @return false if the area isnt free
+ * @param game The current game.
+ * @param x1 The up left corner of the room x coordinate.
+ * @param y1 The up left corner of the room y coordinate.
+ * @param x2 The down right corner of the room x coordinate.
+ * @param y2 The down right corner of the room y coordinate.
+ * @return true if the area is free.
+ * @return false if the area isnt free.
  */
 int intersect(Game* game, int x1, int y1, int x2, int y2){
     if (x1+1 >= x2)

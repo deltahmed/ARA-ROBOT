@@ -6,6 +6,10 @@
 
 // ========================== terminal color ===============================
 
+/**
+ * @brief terminal colors.
+ * 
+ */
 
 #define ARA_COLOR_RESET "\033[0m"
 
@@ -52,6 +56,12 @@
 
 // ========================== Curses colors ===============================
 
+
+/**
+ * @brief curses colors.
+ * 
+ */
+
 #define CRS_COLOR_BLACK 0
 #define CRS_COLOR_RED 1
 #define CRS_COLOR_GREEN 2
@@ -69,6 +79,11 @@
 #define CRS_COLOR_BRIGHT_CYAN 14
 
 // ========================== Curses color pairs ===============================
+
+/**
+ * @brief curses color pairs.
+ * 
+ */
 
 #define BASE_CRS_COLOR_BLACK 0
 #define BASE_CRS_COLOR_RED 1

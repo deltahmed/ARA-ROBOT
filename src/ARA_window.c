@@ -1,12 +1,22 @@
 
 #include "ARA_window.h"
 
+/**
+ * @brief flip the cursor show state.
+ * 
+ * @param self Pointer to self.
+ */
 static void __show_cursor(ARA_Window* self){
     self->__cursor = !self->__cursor;
     curs_set(self->__cursor);
 }
 
-
+/**
+ * @brief Draws boxes around all windows.
+ * 
+ * @param self Pointer to the ARA_Window structure.
+ * @throw WINDOWS_DO_NOT_EXIST_ERROR if its in ONE_WINDOW_MODE.
+ */
 static void __ARA_box(ARA_Window* self){
     if (self->__one_win_mode){
         ARA_error(WINDOWS_DO_NOT_EXIST_ERROR);
@@ -16,6 +26,11 @@ static void __ARA_box(ARA_Window* self){
     box(self->right, ACS_VLINE, ACS_HLINE);
 }
 
+/**
+ * @brief Creates a single window.
+ * 
+ * @param self Pointer to self.
+ */
 static void __one_window_mode(ARA_Window* self){
     self->__one_win_mode = 1;
     self->main_window = newwin(NB_LINES,NB_COLS,0,0);
@@ -25,6 +40,11 @@ static void __one_window_mode(ARA_Window* self){
     self->right = NULL;  
 }
 
+/**
+ * @brief Creates all windows.
+ * 
+ * @param self Pointer to self.
+ */
 static void __create_windows(ARA_Window* self){
     if (LINES<NB_LINES || COLS<NB_COLS ){
         __one_window_mode(self);
@@ -42,7 +62,11 @@ static void __create_windows(ARA_Window* self){
     
 
 }
-
+/**
+ * @brief Refreshes all windows.
+ * 
+ * @param self Pointer to self.
+ */
 static void __refresh_all(ARA_Window* self){
     if (!self->__one_win_mode){
         wrefresh(self->top);  
@@ -51,6 +75,14 @@ static void __refresh_all(ARA_Window* self){
     }
     wrefresh(self->main_window);
 }
+
+/**
+ * @brief Refreshes a specific window.
+ * 
+ * @param self Pointer to self.
+ * @param choice_window The window to refresh.
+ * @throw WINDOWS_DO_NOT_EXIST_ERROR if the window choosed do not exit.
+ */
 static void __refresh(ARA_Window* self, ARA_Window_choice choice_window){
     switch (choice_window)
     {
@@ -79,19 +111,40 @@ static void __refresh(ARA_Window* self, ARA_Window_choice choice_window){
     wrefresh(self->main_window);
 }
 
+/**
+ * @brief Updates the current key.
+ * 
+ * @param self Pointer to self.
+ */
 static void __update_key(ARA_Window* self){
     self->__key = (Key)wgetch(self->main_window);
 }
 
+/**
+ * @brief Gets the current key.
+ * 
+ * @param self Pointer to self.
+ * @return The current key.
+ */
 static Key __get_key(ARA_Window* self){
     return self->__key;
 }
 
+/**
+ * @brief Updates the window state.
+ * 
+ * @param self Pointer to self.
+ */
 static void __update_all(ARA_Window* self){
     __refresh_all(self);
 
 }
- 
+
+/**
+ * @brief Clears all windows.
+ * 
+ * @param self Pointer to self.
+ */
 static void __clear_all(ARA_Window* self){
     if (!self->__one_win_mode){
         wclear(self->top);  
@@ -100,6 +153,14 @@ static void __clear_all(ARA_Window* self){
     }
     wclear(self->main_window);
 }
+
+/**
+ * @brief Clears a specific window.
+ * 
+ * @param self Pointer to self.
+ * @param choice_window The window to clear.
+ * @throw WINDOWS_DO_NOT_EXIST_ERROR if the window choosed do not exit.
+*/
 static void __clear(ARA_Window* self, ARA_Window_choice choice_window){
     switch (choice_window)
     {
@@ -128,10 +189,19 @@ static void __clear(ARA_Window* self, ARA_Window_choice choice_window){
     wclear(self->main_window);
 }
 
+/**
+ * @brief end curses.
+ */
 static void __end_curses(){
     endwin();
 }
 
+/**
+ * @brief Initializes color pairs for ncurses.
+ *
+ * This function initializes color pairs for use in the ncurses interface.
+ * @throw raises an NOCOLOR_ERROR if the terminal does not support color.
+ */
 static void __color_init(){
     if (!has_colors()) {
         ARA_error(NOCOLOR_ERROR);
@@ -179,7 +249,11 @@ static void __color_init(){
     init_pair(BASE_CRS_COLOR_BRIGHT_CYAN, CRS_COLOR_BRIGHT_CYAN, CRS_COLOR_BLACK);
 
 }
-
+/**
+ * @brief Initializes the Window structure.
+ *
+ * @param self Pointer to self.
+ */
 void ARA_Window_init(ARA_Window* self, ARA_Window_mode mode){
     setlocale(LC_ALL, "");
     initscr();

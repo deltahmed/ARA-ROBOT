@@ -6,7 +6,7 @@
 
 
 /**
- * @brief This macro calls the ARA_error_function with the necessary arguments to show where the ARA error is
+ * @brief This macro calls the ARA_error_function with the necessary arguments to show where the ARA error is.
  *
  * @param type The type of error to log, represented by the Error enum.
  */

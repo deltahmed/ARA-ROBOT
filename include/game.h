@@ -9,13 +9,13 @@
 #include "ARA_debug.h"
 
 /**
- * @brief Rooms max and min size definition
+ * @brief Rooms max and min size definition.
  */
 #define ROOM_MAX_SIZE 22
 #define ROOM_MIN_SIZE 3
 
 /**
- * @brief a direction struct for multiple uses
+ * @brief a direction struct for multiple uses.
  */
 typedef enum __dir_enum{
     D_NORTH,
@@ -27,7 +27,7 @@ typedef enum __dir_enum{
 }Direction;
 
 /**
- * @brief Game struct with all the game need
+ * @brief Game struct with all the game need.
  */
 typedef struct __game_struct
 {   

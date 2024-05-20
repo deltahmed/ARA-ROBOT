@@ -2,7 +2,17 @@
 #include "game.h"
 //22
 
-
+/**
+ * @brief Get the actual room corners based on the player's position.
+ * 
+ * @param game Pointer to the curent Game.
+ * @param player_x The x coordinate of the player position.
+ * @param player_y The y coordinate of the playe =r position.
+ * @param x1 Pointer to store the left x of the room.
+ * @param x2 Pointer to store the right x of the room.
+ * @param y1 Pointer to store the top y of the room.
+ * @param y2 Pointer to store the bottom y of the room.
+ */
 void get_actual_room(Game* game, int player_x, int player_y, int* x1, int* x2, int* y1, int* y2){
     int get_value;
     for (int x = player_x; x < player_x + ROOM_MAX_SIZE; x++)
@@ -48,6 +58,22 @@ void get_actual_room(Game* game, int player_x, int player_y, int* x1, int* x2, i
     
 }
 
+/**
+ * @brief Check if a point is within a triangle shape.
+ * 
+ * CAUTION : to use it on y coordinate you have to inverse x and y in the func parameters 
+ * 
+ * @param tested_x The x coordinate of the point to test.
+ * @param tested_y The y coordinate of the point to test.
+ * @param x1 The left x of the triangle.
+ * @param x2 The right x of the triangle.
+ * @param basey The base y coordinate of the triangle.
+ * @param miny The minimum y coordinate.
+ * @param maxy The maximum y coordinate.
+ * @param direction The direction of the triangle.
+ * @return true if the point is in the triangle.
+ * @return false if not.
+ */
 int is_in_triangle(int tested_x, int tested_y, int x1, int x2, int basey, int miny, int maxy, Direction direction){
     int spacement = 0;
     switch (direction)
@@ -85,7 +111,25 @@ int is_in_triangle(int tested_x, int tested_y, int x1, int x2, int basey, int mi
     }
     return false;
 }
-
+/**
+ * @brief Check if a point is within a cone area defined relative to the player's position.
+ * 
+ * @param game Pointer to the curent Game.
+ * @param x The x coordinate of the point to test.
+ * @param y The y coordinate of the point to test.
+ * @param player_x The x coordinate of the player position.
+ * @param player_y The y coordinate of the player position.
+ * @param room1_x1 Pointer to store the left x of the first room.
+ * @param room1_x2 Pointer to store the right x of the first room.
+ * @param room1_y1 Pointer to store the top y of the first room.
+ * @param room1_y2 Pointer to store the bottom y of the first room.
+ * @param room2_x1 Pointer to store the left x of the second room.
+ * @param room2_x2 Pointer to store the right x of the second room.
+ * @param room2_y1 Pointer to store the top y of the second room.
+ * @param room2_y2 Pointer to store the bottom y of the second room.
+ * @return true if the point is in the cone.
+ * @return false if not.
+ */
 int is_in_cone(Game* game, int x, int y, int player_x, int player_y, int* room1_x1, int* room1_x2, int* room1_y1, int* room1_y2, int* room2_x1, int* room2_x2, int* room2_y1, int* room2_y2){
     int x1; 
     int x2; 
@@ -123,6 +167,15 @@ int is_in_cone(Game* game, int x, int y, int player_x, int player_y, int* room1_
     
 }
 
+
+/**
+ * @brief Print the appropriate symbol for the room content.
+ * 
+ * @param game Pointer to the curent Game.
+ * @param get_value The value of the content.
+ * @param i The x coordinate for printing (ON THE SCREEN NOT THE MAP).
+ * @param j The y coordinate for printing (ON THE SCREEN NOT THE MAP).
+ */
 void print_switch_room(Game* game, int get_value, int i, int j){
     switch (get_value)
     {
@@ -141,7 +194,18 @@ void print_switch_room(Game* game, int get_value, int i, int j){
 }
             
 
-
+/**
+ * @brief Print the map elements considering the player's visibility.
+ * 
+ * @param game Pointer to the Game structure.
+ * @param get_value The value of the element.
+ * @param playerx The x coordinate of the player position.
+ * @param playery The y coordinate of the player position.
+ * @param i The x coordinate for printing (ON THE SCREEN NOT THE MAP).
+ * @param j The y coordinate for printing (ON THE SCREEN NOT THE MAP).
+ * @param actual_x The x coordinate of the current map element (ON THE MAP NOT THE SCREEN).
+ * @param actual_y The y coordinate of the current map element (ON THE MAP NOT THE SCREEN).
+ */
 void print_in_shadow(Game* game, int get_value, int playerx, int playery, int i, int j, int actual_x, int actual_y){
     int room1_x1;
     int room1_x2;
@@ -193,6 +257,11 @@ void print_in_shadow(Game* game, int get_value, int playerx, int playery, int i,
     }
 }
 
+/**
+ * @brief Print the map on the screen.
+ * 
+ * @param game Pointer to the curent Game.
+ */
 void print_map(Game* game){
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
@@ -277,7 +346,15 @@ void print_map(Game* game){
 }
 
 
-
+/**
+ * @brief Check if a position is valid for the player or not
+ * 
+ * @param self Pointer to the curent Game.
+ * @param x The x coordinate of a position.
+ * @param y The y coordinate of a position.
+ * @return true if the position is valid.
+ * @return false if not.
+ */
 boolean check_player_move(Game* self, int x, int y){
     int sizex = self->map.sizex(&self->map);
     int sizey = self->map.sizey(&self->map);
@@ -289,7 +366,11 @@ boolean check_player_move(Game* self, int x, int y){
 
 
 
-
+/**
+ * @brief This function handle the movement of the player by checking the future position 
+ * 
+ * @param self Pointer to the curent Game.
+ */
 void player_movement(Game* self){
     
     int x = self->player.get_x(&self->player);
@@ -321,7 +402,11 @@ void player_movement(Game* self){
 
 }
 
-
+/**
+ * @brief Initializes the Game structure.
+ *
+ * @param self Pointer to self.
+ */
 void Game_init(Game* self){
     srand(201);
     log_reset();
@@ -331,6 +416,11 @@ void Game_init(Game* self){
     Init_Player(&self->player);
 }
 
+/**
+ * @brief Restart a game.
+ *
+ * @param self Pointer to self.
+ */
 void Game_restart(Game* self){
     srand(201);
     log_reset();

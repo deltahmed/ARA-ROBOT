@@ -4,18 +4,18 @@
 #include "ARA_window.h"
 
 /**
- * @brief MAP size definitions 
+ * @brief MAP size definitions.
  */
 #define MAP_SIZE_X 100
 #define MAP_SIZE_Y 100
 
 /**
- * @brief a definition of Size (unsigned int (uint32))
+ * @brief a definition of Size (unsigned int (uint32)).
  */
 typedef uint32_t Size;
 
 /**
- * @brief All possible values in the map
+ * @brief All possible values in the map.
  */
 
 typedef enum map_def_enum{
@@ -39,7 +39,7 @@ typedef enum map_def_enum{
 }Map_def;
 
 /**
- * @brief Structure representing a map its properties and methods
+ * @brief Structure representing a map its properties and methods.
  */
 typedef struct __map_struct{
     int** __map;
@@ -47,45 +47,45 @@ typedef struct __map_struct{
     Size __sizey;
     
     /**
-     * @brief Gets the width of the map
+     * @brief Gets the width of the map.
      * 
-     * @param self Pointer to self
-     * @return The width of the map
+     * @param self Pointer to self.
+     * @return The width of the map.
      */
     Size (*sizex)(struct __map_struct* self);
     
     /**
-     * @brief Gets the height of the map
+     * @brief Gets the height of the map.
      * 
-     * @param self Pointer to self
-     * @return The height of the map
+     * @param self Pointer to self.
+     * @return The height of the map.
      */
     Size (*sizey)(struct __map_struct* self);
     
     /**
-     * @brief Gets the value at a specified position
+     * @brief Gets the value at a specified position.
      * 
-     * @param self Pointer to self
-     * @param x The x coordinate of the value
-     * @param y The y coordinate of the value
-     * @return The value at the specified position
+     * @param self Pointer to self.
+     * @param x The x coordinate of the value.
+     * @param y The y coordinate of the value.
+     * @return The value at the specified position.
      */
     int (*get)(struct __map_struct* self, int x, int y);
     
     /**
-     * @brief Sets the value at a specified position
+     * @brief Sets the value at a specified position.
      * 
-     * @param self Pointer to self
-     * @param x The x coordinate of the value
-     * @param y The y coordinate of the value
-     * @param value The value to set
+     * @param self Pointer to self.
+     * @param x The x coordinate of the value.
+     * @param y The y coordinate of the value.
+     * @param value The value to set.
      */
     void (*set)(struct __map_struct* self, int x, int y, int value);
     
     /**
-     * @brief Destroys the map, free all allocated resources
+     * @brief Destroys the map, free all allocated resources.
      * 
-     * @param self Pointer to self
+     * @param self Pointer to self.
      */
     void (*destroy)(struct __map_struct* self);
 } Map;

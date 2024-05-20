@@ -8,11 +8,11 @@
 #define SIZE_MENU 6
 #define SIZE_CREDIT 4
 
-void printmenu(ARA_Window self, char choice[SIZE_MENU][20], int k);
-void printCredit(ARA_Window self);
-int movementmenu(ARA_Window self, int *k);
-int menuGame(Game *game);
-int menuChoice(Game *game);
+void print_menu(ARA_Window self, char choice[SIZE_MENU][20], int k);
+void print_credit(ARA_Window self);
+int menu_movement(ARA_Window self, int *k);
+int game_menu(Game *game);
+int choice_menu(Game *game);
 void printGameOver(ARA_Window self);
 void gameEnd(Game game);
 
