@@ -56,9 +56,16 @@ int main(){
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_HEATH_CHARGE){
             object_effect(&game, game.player.get_x(&game.player), game.player.get_y(&game.player));
         }
+        
         print_right_window(&game);
         //Je la mets avant mouvement comme ca elle reste tant que j ai pas bouge
         game.window.update_key(&game.window);
+
+        if(r%3==0){
+            monster(&game);
+            //Ca fait bouger le monstre chaque 3 mouvements pour le nerf
+        }
+
         player_movement(&game);
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_MONSTER && QTE(&game)==0){
             break;
@@ -71,6 +78,7 @@ int main(){
             saveGame(&game);
             //Chaque 50 mouvements ca enregistre
         }
+        
         game.window.update(&game.window);
     }
     gameEnd(game);

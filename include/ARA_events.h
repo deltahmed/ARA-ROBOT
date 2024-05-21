@@ -10,5 +10,7 @@ int QTE(Game *game);
 void keys(Game game);
 void print_arena(Game *game, char car);
 void print_alphabet(Game *game, char car, int x, int y);
+void movementMonster(Game *game, int xmonster, int ymonster);
+void monster(Game *game);
 
 #endif

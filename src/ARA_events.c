@@ -468,3 +468,54 @@ int QTE(Game *game){
     //Je mets du vide a la place du monstre
     return 1;
 }
+
+/**
+ * @brief Gives the direction of the monster to get next to the player
+ * 
+ * @param game The current game
+ * @param xmonster The x of the monster to move
+ * @param ymonster the y of the monster to move
+ */
+void movementMonster(Game *game, int xmonster, int ymonster){
+    int x = game->player.get_x(&game->player), y = game->player.get_y(&game->player);
+    //A ne pas enlever la repetition du game->map.set(....,MAP_ROOM) sinon ca enleve le monstre meme si il ne peut pas bouger 
+    if(x==xmonster){
+        if(y<ymonster && game->map.get(&game->map,xmonster,ymonster-1)==MAP_ROOM){
+            game->map.set(&game->map,xmonster,ymonster-1,MAP_MONSTER);
+            game->map.set(&game->map,xmonster,ymonster,MAP_ROOM);
+        }
+        else if(y>ymonster && game->map.get(&game->map,xmonster,ymonster+1)==MAP_ROOM){
+            game->map.set(&game->map,xmonster,ymonster+1,MAP_MONSTER);
+            game->map.set(&game->map,xmonster,ymonster,MAP_ROOM);
+        }
+    }
+    else{
+        if(x<xmonster && game->map.get(&game->map,xmonster-1,ymonster)==MAP_ROOM){
+            game->map.set(&game->map,xmonster-1,ymonster,MAP_MONSTER);
+            game->map.set(&game->map,xmonster,ymonster,MAP_ROOM);
+        }
+        else if(x>xmonster && game->map.get(&game->map,xmonster+1,ymonster)==MAP_ROOM){
+            game->map.set(&game->map,xmonster+1,ymonster,MAP_MONSTER);
+            game->map.set(&game->map,xmonster,ymonster,MAP_ROOM);
+        }
+    }
+}
+
+/**
+ * @brief Moves the monster next to the player
+ * 
+ * @param game The current game
+ */
+void monster(Game *game){
+    int x=0,y=0,x1=0,y1=0,x2=0,y2=0,posx=game->player.get_x(&game->player),posy=game->player.get_y(&game->player);
+    get_actual_room(game,posx,posy,&x1,&x2,&y1,&y2);
+    for(x=x1;x<x2;x++){
+        for(y=y1;y<y2;y++){
+            if(game->map.get(&game->map,x,y)==MAP_MONSTER){
+                movementMonster(game,x,y);
+                return ;
+                //Je return ; comme ca je ne retombe pas sur le meme monstre une autre fois
+            }
+        }
+    }
+}
