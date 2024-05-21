@@ -7,7 +7,12 @@
 #include "ARA_file.h"
 #define SIZE_MENU 6
 #define SIZE_CREDIT 4
+#define NEWGAME 0
+#define RESUMEGAME 1
+#define CREDIT 4
+#define EXIT 5
 
+void printTitle(ARA_Window self);
 void print_menu(ARA_Window self, char choice[SIZE_MENU][20], int k);
 void print_credit(ARA_Window self);
 int menu_movement(ARA_Window self, int *k);

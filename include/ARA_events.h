@@ -7,6 +7,8 @@
 
 void task(Game *game);
 int QTE(Game *game);
-void touches(Game game);
+void keys(Game game);
+void print_arena(Game *game, char car);
+void print_alphabet(Game *game, char car, int x, int y);
 
 #endif
