@@ -340,15 +340,19 @@ void print_alphabet(Game *game, char car, int y, int x){
  * 
  * @param game Pointer to the current game.
  */
-void task(Game *game){
-    int y=0,x=0,y1=(NB_LINES / 3)-5,y2=(NB_LINES / 3)+5,x1=(NB_COLS / 3)-22,x2=(NB_COLS / 3)+23;
+void task_pop_up(Game *game, char * mission, char * emoji, int* x1, int* y1, int* x2, int* y2){
+    int y=0;
+    int x=0;
+    *x1=(NB_COLS / 3)-22;
+    *y1=(NB_LINES / 3)-7;
+    *x2=(NB_COLS / 3)+23;
+    *y2=(NB_LINES / 3)+7;
     //Il faut que x1 soit egale a (NB_COLS / 3)-k avec k pair comme ca ca ne bug pas avec l'affichage d une emote sur une autre
-    char mission[]="Reparer le dispositif d'oxygene";
     char message[100];
-    for(y=y1;y<y2;y++){
-        for(x=x1;x<x2;x+=2){
-            if(y==y1 || y==y2-1 || x==x1 || x==x2-1){
-                snprintf(message, sizeof(message), "🔆");
+    for(y=*y1; y<*y2; y++){
+        for(x=*x1; x<*x2; x+=2){
+            if(y==*y1 || y==*y2-1 || x==*x1 || x==*x2-1){
+                snprintf(message, sizeof(message), emoji);
             }
             else{
                 snprintf(message, sizeof(message), "  ");
@@ -356,11 +360,33 @@ void task(Game *game){
             mvwaddstr(game->window.top,y,x,message);
         }
     }
-    snprintf(message, sizeof(message), "Task :");
     //Comme mvwaddstr ne prend que 4 parametres je ne peux pas faire (....,"%s",mission) c est pour ca que snprintf formate ma chaine pour etre utilisee sans "%s"
-    mvwaddstr(game->window.top,y1+2,x1+3,message);
     snprintf(message, sizeof(message), "%s",mission);
-    mvwaddstr(game->window.top,y1+4,x1+4,message);
+    mvwaddstr(game->window.top,*y1+1,*x1+(*x2-*x1)/2 - strlen(message)/2 +1,message);
+}
+
+//🕹
+void task_recalibrate(Game *game){
+    int x1, x2, y1, y2;
+    task_pop_up(game, "Recalibrer le vaisssaux", "⚙ ", &x1, &y1, &x2, &y2);
+    char buffer[100];
+    for (int y = y1+4; y < y2-4; y++)
+    {
+        for (int x = x1+2; x < x2-1; x++)
+        {   
+            if ( is_in(x, x1 + (x2-x1)/2 - 3, x1 + (x2-x1)/2 + 3))
+            {
+                cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_RED," ");
+            } else if ( is_in(x, x1 + (x2-x1)/2 - 6, x1 + (x2-x1)/2 + 6 )){
+                cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_YELLOW," ");
+            } else {
+                cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_GREEN," ");
+            }
+            
+            
+        }
+    }
+
 }
 
 /**

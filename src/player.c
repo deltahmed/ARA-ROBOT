@@ -58,8 +58,19 @@ static int __set_life(Player* self, int value){
 }
 
 static void __rearenge_tab(Player* self){
-   
-    
+   self->__inv_index;
+    int new_index = 0;
+    for (int i=0; i < MAX_INVENTORY; i++){
+        if (self-> __inventory[i] != 0){
+            self->__inventory[new_index] = self-> __inventory[i];
+            self->__inventory_count[new_index]= self->__inventory_count[i];
+            new_index++;
+        }
+    }
+    for (int i = new_index; i < MAX_INVENTORY; i++){
+    self-> __inventory[i] = 0;
+    self-> __inventory_count[i] = 0;
+   }
 }
 
 static void __use_object(Player* self, int index){
@@ -67,6 +78,12 @@ static void __use_object(Player* self, int index){
     {
         ARA_error(VALUE_ERROR);
     }
+
+    self->__inventory_count[index]--;
+    if (self-> __inventory_count[index] == 0){ //je pars du principe que la case est déjà vide
+        self->__inventory[index] = 0;
+    }
+    __rearenge_tab(self);
 }
 
 static void __add_object(Player* self, Map_def object){

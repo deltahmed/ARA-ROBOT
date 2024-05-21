@@ -9,7 +9,7 @@
 #include "ARA_def.h"
 
 /**
- * @brief Prints a string with a specified color attribute at a given position in a window.
+ * @brief Prints a string with a specified color attribute at a given position in a window (mvwprintw).
  *
  * This macro sets the specified color attribute, prints the string at the 
  * specified position in the given window, and then turns off the color attribute.
@@ -21,6 +21,20 @@
  * @param str The string to print.
  */
 #define cprint(win,x,y,attribute,str) (wattron(win, COLOR_PAIR(attribute)), mvwprintw(win, y, x, str), wattroff(win, COLOR_PAIR(attribute)))
+
+/**
+ * @brief Prints a string with a specified color attribute at a given position in a window (mvwaddstr).
+ *
+ * This macro sets the specified color attribute, prints the string at the 
+ * specified position in the given window, and then turns off the color attribute.
+ *
+ * @param win The window where the string is printed.
+ * @param x The x coordinate of the string.
+ * @param y The y coordinate of the string .
+ * @param attribute The color attribute to use (COLOR_PAIR).
+ * @param str The string to print.
+ */
+#define cprintadd(win,x,y,attribute,str) (wattron(win, COLOR_PAIR(attribute)), mvwaddstr(win, y, x, str), wattroff(win, COLOR_PAIR(attribute)))
 
 /**
  * @brief Prints a formatted string with a specified color attribute at a given position in a window.

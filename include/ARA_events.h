@@ -5,7 +5,7 @@
 #include "map.h"
 #include "ARA_window.h"
 
-void task(Game *game);
+void task_recalibrate(Game *game);
 int QTE(Game *game);
 void keys(Game game);
 void print_arena(Game *game, char car);
