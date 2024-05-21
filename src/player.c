@@ -49,6 +49,32 @@ static int __get_life(Player* self){
 }
 
 /**
+ * @brief sets the life value of the player  .
+ * 
+ * @param self Pointer to self.
+ */
+static int __set_life(Player* self, int value){
+    self->__life = stick_in_range(value, 0, MAX_LIFE);
+}
+
+static void __rearenge_tab(Player* self){
+   
+    
+}
+
+static void __use_object(Player* self, int index){
+    if (index < 0 || index > MAX_INVENTORY)
+    {
+        ARA_error(VALUE_ERROR);
+    }
+}
+
+static void __add_object(Player* self, Map_def object){
+   
+    
+}
+
+/**
  * @brief Initializes the Player structure.
  *
  * @param self Pointer to self.
@@ -56,12 +82,16 @@ static int __get_life(Player* self){
 void Init_Player(Player* self){
     self->__x = MAP_SIZE_X/2;
     self->__y = MAP_SIZE_Y/2;
-    self->__life = 100;
+    __set_life(self, MAX_LIFE/2);
+    self->__inv_index = 0;
 
     self->get_x = __get_x;
     self->get_y = __get_y;
     self->get_life = __get_life;
     self->set_x = __set_x;
     self->set_y = __set_y;
+    self->add_object = __add_object;
+    self->use_object = __use_object;
+    self->set_life = __set_life;
 
 }

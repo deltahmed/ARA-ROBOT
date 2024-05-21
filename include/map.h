@@ -36,6 +36,9 @@ typedef enum map_def_enum{
     MAP_END_OF_BLOCK,
     MAP_TASK,
     MAP_MONSTER,
+    
+    MAP_HEATH_CHARGE,
+
 }Map_def;
 
 /**

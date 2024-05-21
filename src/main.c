@@ -49,9 +49,14 @@ int main(){
         //On pourrait faire une fonction qui printf tout ce qui est dans la window bottom(keys,time.....)
         
         print_map(&game);
+        print_right_window(&game);
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_TASK){
             task(&game);
         }
+        if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_HEATH_CHARGE){
+            object_effect(&game, game.player.get_x(&game.player), game.player.get_y(&game.player));
+        }
+        print_right_window(&game);
         //Je la mets avant mouvement comme ca elle reste tant que j ai pas bouge
         game.window.update_key(&game.window);
         player_movement(&game);

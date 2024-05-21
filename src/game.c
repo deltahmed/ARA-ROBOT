@@ -179,6 +179,9 @@ int is_in_cone(Game* game, int x, int y, int player_x, int player_y, int* room1_
 void print_switch_room(Game* game, int get_value, int i, int j){
     switch (get_value)
     {
+    case MAP_HEATH_CHARGE:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🔌"); 
+        break;
     case MAP_TASK:
         cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "💬"); 
         break;
@@ -307,6 +310,7 @@ void print_map(Game* game){
                 case MAP_TASK:
                 case MAP_MONSTER:
                 case MAP_ROOM:
+                case MAP_HEATH_CHARGE:
                     print_in_shadow(game, get_value, playerx, playery, i, j, actual_x, actual_y);
                     break;
 
@@ -343,6 +347,15 @@ void print_map(Game* game){
     }
     
     
+}
+void print_right_window(Game* game){
+    cprint(game->window.right, 1, 1, BASE_CRS_COLOR_BRIGHT_GREEN, "battery charging :");
+    int index = 0;
+    for (int i = 0; i < game->player.get_life(&game->player); i+=10)
+    {
+        cprint(game->window.right, 1+index, 2, BASE_CRS_COLOR_BLACK, "🔋");
+        index+=2;
+    }
 }
 
 
