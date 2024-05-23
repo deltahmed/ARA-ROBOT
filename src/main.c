@@ -42,16 +42,12 @@ int main(){
         cprintf(game.window.top, 1, 1, BASE_CRS_COLOR_BRIGHT_RED, "Ceci est la fenetre du haut %d %d %d", COLS, LINES, game.window.get_key(&game.window));
 
         //cprint(game.window.bottom, 1, 1, BASE_CRS_COLOR_BRIGHT_RED, "Ceci est la fenetre du bas");
-        keys(game);
-        
-        game.timer.update(&game.timer);
-        cprintf(game.window.bottom, 2, 6, BASE_CRS_COLOR_BRIGHT_RED, "Temps : %ld",game.timer.get(&game.timer));
-        //On pourrait faire une fonction qui printf tout ce qui est dans la window bottom(keys,time.....)
-        
+        print_bottom_window(&game);
         print_map(&game);
         print_right_window(&game);
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_TASK){
-            task_recalibrate(&game);
+            task_fill(&game);
+            game.map.set(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player),MAP_ROOM);
         }
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_HEATH_CHARGE){
             object_effect(&game, game.player.get_x(&game.player), game.player.get_y(&game.player));
@@ -61,7 +57,7 @@ int main(){
         //Je la mets avant mouvement comme ca elle reste tant que j ai pas bouge
         game.window.update_key(&game.window);
 
-        if(r%3==0){
+        if(r%2==0){
             monster(&game);
             //Ca fait bouger le monstre chaque 3 mouvements pour le nerf
         }
