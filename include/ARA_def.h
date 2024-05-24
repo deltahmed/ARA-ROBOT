@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <time.h>
 #include <wchar.h>
 #include "ARA_error.h"
 #include "ARA_math.h"

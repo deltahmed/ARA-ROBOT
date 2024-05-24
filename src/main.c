@@ -46,7 +46,8 @@ int main(){
         print_map(&game);
         print_right_window(&game);
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_TASK){
-            task_fill(&game);
+            task_recalibrate(&game);
+            
             game.map.set(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player),MAP_ROOM);
         }
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_HEATH_CHARGE){

@@ -1,337 +1,5 @@
 #include "ARA_events.h"
 
-/**
- * @brief Print a stylish alphabet
- * 
- * @param game The current game
- * @param car The user's caracter input
- * @param y The line where to print the alphabet
- * @param x The column where to print the alphabet
- */
-void print_alphabet(Game *game, char car, int y, int x){
-    char message[100];
-    switch(car){
-        case 'a' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀█  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄█  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █  █  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'b' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀█  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀▄  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄█  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'c' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀█  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █     █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄█  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'd' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀▄  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █  █  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄▀  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'e' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀▀  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀▀  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄▄  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'f' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀▀  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀▀  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █     █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'g' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀█  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █ ▄▄  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄█  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'h' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █  █  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀█  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █  █  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'i' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  ▀█▀  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█   █   █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  ▄█▄  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'j' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█     █  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  ▄  █  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄█  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'k' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █ ▄▀  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▄   █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █  █  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'l' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █     █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █     █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄█  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'm' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█ █▀▄▀█ █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█ █ █ █ █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█ █   █ █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'n' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█ █▄  █ █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█ █ █ █ █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█ █  ▀█ █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'o' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█ █▀▀▀█ █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█ █   █ █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█ █▄▄▄█ █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'p' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀█  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄█  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █     █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'q' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀█  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █  █  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  ▀▀█▄  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'r' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █▀▀█  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄▀  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █  █  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 's' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█ █▀▀▀█ █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█ ▀▀▀▄▄ █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█ █▄▄▄█ █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 't' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█ ▀▀█▀▀ █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█   █   █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█   █   █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'u' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█  █  █  █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █  █  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  █▄▄█  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'v' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█ █   █ █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█  █ █  █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█  ▀▄▀  █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'w' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█ █   █ █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█ █ █ █ █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█ █▄▀▄█ █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'x' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█ ▀▄ ▄▀ █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█   █   █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█ ▄▀ ▀▄ █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'y' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█ █   █ █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█ █▄▄▄█ █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█   █   █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case 'z' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-2,x-4,message);
-            snprintf(message, sizeof(message), "█ ▀▀▀▀█ █");
-            mvwaddstr(game->window.top,y-1,x-4,message);
-            snprintf(message, sizeof(message), "█ ▄▄▄▀▀ █");
-            mvwaddstr(game->window.top, y ,x-4,message);
-            snprintf(message, sizeof(message), "█ █▄▄▄▄ █");
-            mvwaddstr(game->window.top,y+1,x-4,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+2,x-4,message);
-            break;
-        case ' ' :
-            snprintf(message, sizeof(message), "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y-1,x-8,message);
-            snprintf(message, sizeof(message), "█ █▄▄▄▄▄▄▄▄▄▄▄▄█ █");
-            mvwaddstr(game->window.top,y,x-8,message);
-            snprintf(message, sizeof(message), "█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y+1,x-8,message);
-    }
-}
 
 /**
  * @brief Displays the control instructions in the bottom window of the game.
@@ -380,27 +48,118 @@ void task_pop_up(Game *game, char * mission, char * emoji, int* x1, int* y1, int
     mvwaddstr(game->window.top,*y1+1,*x1+(*x2-*x1)/2 - strlen(message)/2 +1,message);
 }
 
+void re_print_all(Game *game, int timeout){
+    game->window.clear_all(&game->window);
+    game->window.create(&game->window);
+    wtimeout(game->window.main_window,timeout);
+    print_bottom_window(game);
+    print_right_window(game);
+    print_map(game);
+}
+
 //🕹
-void task_recalibrate(Game *game){
+int task_recalibrate(Game *game){
     int x1, x2, y1, y2;
-    task_pop_up(game, "Recalibrer le vaisssaux", "⚙ ", &x1, &y1, &x2, &y2);
     char buffer[100];
-    for (int y = y1+4; y < y2-4; y++)
-    {
-        for (int x = x1+2; x < x2-1; x++)
-        {   
-            if ( is_in(x, x1 + (x2-x1)/2 - 3, x1 + (x2-x1)/2 + 3))
-            {
-                cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_RED," ");
-            } else if ( is_in(x, x1 + (x2-x1)/2 - 6, x1 + (x2-x1)/2 + 6 )){
-                cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_YELLOW," ");
-            } else {
-                cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_GREEN," ");
-            }
-            
-            
+    int bar_x;
+    int input = 0;
+    int fail = -1;
+    Direction dir = D_WEST;
+    re_print_all(game, TASK_TIMOUT);
+    task_pop_up(game, "Recalibrer le vaisssaux", "⚙ ", &x1, &y1, &x2, &y2);
+    bar_x = x1+5;
+    do
+    {   
+        re_print_all(game, TASK_TIMOUT/4);
+        task_pop_up(game, "Recalibrer le vaisssaux", "⚙ ", &x1, &y1, &x2, &y2);
+        if (dir == D_WEST)
+        {
+            bar_x++;
+        } else {
+            bar_x --;
         }
-    }
+        if (bar_x >= x2-1)
+        {
+            dir = D_EAST;
+        } 
+        if (bar_x <= x1+1) {
+            dir = D_WEST;
+        }
+    
+        for (int y = y1+4; y < y2-3; y++)
+        {
+            for (int x = x1+2; x < x2-1; x++)
+            {   
+                if ( is_in(x, x1 + (x2-x1)/2 - 2, x1 + (x2-x1)/2 + 2))
+                {   
+                    if (bar_x == x)
+                    {
+                        cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_RED,"█");
+                    } else {
+                        cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_RED," ");
+                    }
+                    
+                    
+                } else if ( is_in(x, x1 + (x2-x1)/2 - 6, x1 + (x2-x1)/2 + 6 )){
+                    if (bar_x == x)
+                    {
+                        cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_YELLOW,"█");
+                    } else {
+                        cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_YELLOW," ");
+                    }
+        
+                } else {
+                    if (bar_x == x)
+                    {
+                        cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_GREEN,"█");
+                    } else {
+                        cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_GREEN," ");
+                    }
+                }
+                
+                
+            }
+        }
+        game->window.update_key(&game->window);
+        input = game->window.get_key(&game->window);
+        if (is_in(bar_x, x1 + (x2-x1)/2 - 2, x1 + (x2-x1)/2 + 2) && input == ' ')
+        {
+            fail = 0;
+        } else if (input == ' ') {
+            re_print_all(game, TASK_TIMOUT);
+            task_pop_up(game, "Recalibrer le vaisssaux", "⚙ ", &x1, &y1, &x2, &y2);
+            bar_x = x1+1;
+            input = 0;
+            dir = D_WEST;
+            for (int y = y1+4; y < y2-3; y++)
+        {
+            for (int x = x1+2; x < x2-1; x++){   
+                if ( is_in(x, x1 + (x2-x1)/2 - 2, x1 + (x2-x1)/2 + 2)){   
+                    cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_RED," ");
+                } else if ( is_in(x, x1 + (x2-x1)/2 - 6, x1 + (x2-x1)/2 + 6 )){
+                    cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_YELLOW," ");
+                } else {
+                    cprintadd(game->window.top, x ,y ,FONT_CRS_COLOR_BRIGHT_GREEN," ");
+                    }
+                }
+            }
+        
+            snprintf(buffer, sizeof(buffer), "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
+            mvwaddstr(game->window.top,y1+5,x1+11,buffer);
+            snprintf(buffer, sizeof(buffer), "█  █▀▀▀  █▀▀█ ▀█▀  █    █");
+            mvwaddstr(game->window.top,y1+6,x1+11,buffer);
+            snprintf(buffer, sizeof(buffer), "█  █▀▀▀  █▄▄█  █   █    █");
+            mvwaddstr(game->window.top,y1+7,x1+11,buffer);
+            snprintf(buffer, sizeof(buffer), "█  █     █  █ ▄█▄  █▄▄█ █");
+            mvwaddstr(game->window.top,y1+8,x1+11,buffer);
+            snprintf(buffer, sizeof(buffer), "█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+            mvwaddstr(game->window.top,y1+9,x1+11,buffer);
+            wtimeout(game->window.main_window, MAIN_TIMEOUT);
+            game->window.update_key(&game->window);
+            input = game->window.get_key(&game->window);
+        }   
+    } while (fail != 0);
+
 
 }
 
@@ -422,12 +181,7 @@ void task_fill(Game *game){
             count=0;
             //Pour eviter des valeurs negatives
         }
-        game->window.clear_all(&game->window);
-        game->window.create(&game->window);
-        wtimeout(game->window.main_window,200);
-        print_bottom_window(game);
-        print_right_window(game);
-        print_map(game);
+        re_print_all(game, TASK_TIMOUT);
         task_pop_up(game, "Remplir le reservoir", "🕸 ", &x1, &y1, &x2, &y2);
         posy1=y1+3;
         posy2=y2-2;
@@ -530,12 +284,7 @@ int QTE(Game *game){
     int i=0;
     //Le premier do while c est en attendant que le joueur tape espace
     do{
-        game->window.clear_all(&game->window);
-        game->window.create(&game->window);
-        wtimeout(game->window.main_window,500);
-        print_bottom_window(game);
-        print_right_window(game);
-        print_map(game);
+        re_print_all(game, MAIN_TIMEOUT);
         print_arena(game,-1);
         game->window.update(&game->window);
         game->window.update_key(&game->window);
@@ -543,12 +292,7 @@ int QTE(Game *game){
     //Là le joueur a tape espace et il commence a vraiment jouer le QTE
     for(i=0;i<6;i++){
         carvalue=randint('a','z'+1);
-        game->window.clear_all(&game->window);
-        game->window.create(&game->window);
-        wtimeout(game->window.main_window,1000);
-        print_bottom_window(game);
-        print_right_window(game);
-        print_map(game);
+        re_print_all(game, MAIN_TIMEOUT *2);
         print_arena(game,carvalue);          
         game->window.update(&game->window);
         game->window.update_key(&game->window);
