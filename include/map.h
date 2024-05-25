@@ -6,8 +6,8 @@
 /**
  * @brief MAP size definitions.
  */
-#define MAP_SIZE_X 100
-#define MAP_SIZE_Y 100
+#define MAP_SIZE_X 1000
+#define MAP_SIZE_Y 1000
 
 /**
  * @brief a definition of Size (unsigned int (uint32)).

@@ -71,6 +71,7 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
             
             game->map.set(&game->map, rand_var, y1, MAP_UNDISCOVERED_DOOR_NORTH);
             fill_probable_zone(game, rand_var, y1, MAP_FUTURE_ROOM);
+            game->nb_room++;
         }
         
         break;
@@ -81,6 +82,7 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
             
             game->map.set(&game->map, x2, rand_var, MAP_UNDISCOVERED_DOOR_EAST);
             fill_probable_zone(game, x2, rand_var, MAP_FUTURE_ROOM);
+            game->nb_room++;
         }
         break;
     case MAP_UNDISCOVERED_DOOR_WEST:
@@ -89,6 +91,7 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
         {   
             game->map.set(&game->map, x1, rand_var, MAP_UNDISCOVERED_DOOR_WEST);
             fill_probable_zone(game, x1, rand_var, MAP_FUTURE_ROOM);
+            game->nb_room++;
         }
         break;
     case MAP_UNDISCOVERED_DOOR_SOUTH:
@@ -98,6 +101,7 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
             
             game->map.set(&game->map, rand_var, y2, MAP_UNDISCOVERED_DOOR_SOUTH);
             fill_probable_zone(game, rand_var, y2, MAP_FUTURE_ROOM);
+            game->nb_room++;
         }
         break;
     default:
@@ -624,16 +628,16 @@ int check_possible_gen(Game* game, int x, int y, Map_def door){
     switch (door)
     {
     case MAP_UNDISCOVERED_DOOR_NORTH:
-        return check_3x3_zone(game, x-ROOM_MIN_SIZE/2  , y-ROOM_MIN_SIZE-1);
+        return check_3x3_zone(game, x-ROOM_MIN_SIZE/2  , y-ROOM_MIN_SIZE-1) && (game->nb_room < MAX_NB_ROOMS);
         break;
     case MAP_UNDISCOVERED_DOOR_EAST:
-        return check_3x3_zone(game, x+ROOM_MIN_SIZE, y-ROOM_MIN_SIZE/2);
+        return check_3x3_zone(game, x+ROOM_MIN_SIZE, y-ROOM_MIN_SIZE/2)&& (game->nb_room < MAX_NB_ROOMS);
         break;
     case MAP_UNDISCOVERED_DOOR_WEST:
-        return check_3x3_zone(game, x-ROOM_MIN_SIZE-1, y-1);
+        return check_3x3_zone(game, x-ROOM_MIN_SIZE-1, y-1) && (game->nb_room < MAX_NB_ROOMS);
         break;
     case MAP_UNDISCOVERED_DOOR_SOUTH:
-        return check_3x3_zone(game, x-ROOM_MIN_SIZE/2, y+ROOM_MIN_SIZE);
+        return check_3x3_zone(game, x-ROOM_MIN_SIZE/2, y+ROOM_MIN_SIZE) && (game->nb_room < MAX_NB_ROOMS);
         break;
     default:
         break;

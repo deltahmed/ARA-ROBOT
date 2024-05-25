@@ -8,7 +8,7 @@
 #include "ARA_time.h"
 #include "ARA_debug.h"
 
-#define MAX_NB_ROOMS 30
+#define MAX_NB_ROOMS 8
 
 /**
  * @brief Rooms max and min size definition.
