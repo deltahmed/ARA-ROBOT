@@ -82,7 +82,7 @@ void print_right_window(Game* game);
 
 boolean check_player_move(Game* self, int x, int y);
 
-void player_movement(Game* self);
+int player_movement(Game* self);
 
 void Game_init(Game* self);
 void Game_restart(Game* self);

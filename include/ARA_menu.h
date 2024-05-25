@@ -5,12 +5,12 @@
 #include "ARA_window.h"
 #include "game.h"
 #include "ARA_file.h"
-#define SIZE_MENU 6
+#define SIZE_MENU 4
 #define SIZE_CREDIT 4
 #define NEWGAME 0
 #define RESUMEGAME 1
-#define CREDIT 4
-#define EXIT 5
+#define CREDIT 2
+#define EXIT 3
 
 void printTitle(ARA_Window self);
 void print_menu(ARA_Window self, char choice[SIZE_MENU][20], int k);

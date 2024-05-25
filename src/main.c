@@ -19,6 +19,9 @@
 int main(){
     Game game;
     int r=0,choice=0;
+    struct timespec current;
+    long actual=0,final=0;
+    int compteur=0;
     do{
     Game_init(&game);
     
@@ -32,38 +35,44 @@ int main(){
     game.window.destroy();
     //Pour supprimer le one_win_mode
     while(true) {
-        game.window.clear_all(&game.window);
-
-        game.window.create(&game.window);
-
-        wtimeout(game.window.main_window,500);
-        //wtimeout doit toujours etre apres game.window.create parceque avant elle sera pas deja creee
-
-        cprintf(game.window.top, 1, 1, BASE_CRS_COLOR_BRIGHT_RED, "Ceci est la fenetre du haut %d %d %d", COLS, LINES, game.window.get_key(&game.window));
-
-        //cprint(game.window.bottom, 1, 1, BASE_CRS_COLOR_BRIGHT_RED, "Ceci est la fenetre du bas");
-        print_bottom_window(&game);
-        print_map(&game);
-        print_right_window(&game);
+        re_print_all(&game,400);
+        //cprintf(game.window.top, 1, 1, BASE_CRS_COLOR_BRIGHT_RED, "Ceci est la fenetre du haut %d %d %d", COLS, LINES, game.window.get_key(&game.window));
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_TASK){
-            task_recalibrate(&game);
-            
+            int ran=rand()%3;
+            if(ran==0){
+                task_fill(&game);
+            }
+            else if(ran==1){
+                task_avoid(&game);
+            }
+            else{
+                task_recalibrate(&game);
+            }
             game.map.set(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player),MAP_ROOM);
         }
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_HEATH_CHARGE){
             object_effect(&game, game.player.get_x(&game.player), game.player.get_y(&game.player));
         }
-        
-        print_right_window(&game);
-        //Je la mets avant mouvement comme ca elle reste tant que j ai pas bouge
+
+        compteur+=final-actual;
+        if(compteur<0){
+            compteur=0;
+        }
+        if(compteur>400){
+            compteur=compteur%400;
+            monster(&game);
+        }
+        clock_gettime(CLOCK_REALTIME,&current);
+        actual=current.tv_sec*1000+current.tv_nsec/1000000;
         game.window.update_key(&game.window);
 
-        if(r%2==0){
-            monster(&game);
-            //Ca fait bouger le monstre chaque 3 mouvements pour le nerf
+        if(player_movement(&game)==0){
+            break;
         }
 
-        player_movement(&game);
+        clock_gettime(CLOCK_REALTIME,&current);
+        final=current.tv_sec*1000+current.tv_nsec/1000000;
+
         if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_MONSTER && QTE(&game)==0){
             break;
             //Parce que quand on sort de la boucle ca veut dire qu on a perdu car on a pas encore de condition de win
@@ -78,12 +87,12 @@ int main(){
         
         game.window.update(&game.window);
     }
+    
     gameEnd(game);
     }while(true);
     saveGame(&game);
     game.window.destroy();
     game.map.destroy(&game.map);
-    
     
     return 0;
 }

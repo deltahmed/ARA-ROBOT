@@ -252,6 +252,8 @@ static void __color_init(){
     init_pair(FONT_CRS_COLOR_BRIGHT_GREEN, CRS_COLOR_WHITE, CRS_COLOR_BRIGHT_GREEN);
     init_pair(FONT_CRS_COLOR_BRIGHT_YELLOW, CRS_COLOR_WHITE, CRS_COLOR_BRIGHT_YELLOW);
 
+    init_pair(SPECIAL_CRS_COLOR_RED_YELLOW, CRS_COLOR_BRIGHT_RED, CRS_COLOR_BRIGHT_YELLOW);
+
 }
 /**
  * @brief Initializes the Window structure.

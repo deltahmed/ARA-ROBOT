@@ -384,12 +384,15 @@ boolean check_player_move(Game* self, int x, int y){
  * 
  * @param self Pointer to the curent Game.
  */
-void player_movement(Game* self){
+int player_movement(Game* self){
     
     int x = self->player.get_x(&self->player);
     int y = self->player.get_y(&self->player);
     
     switch(self->window.get_key(&self->window)){
+        case 'm':
+            return 0;
+            break;
         case 'q':
             if(check_player_move(self, x-1, y)){
                 self->player.set_x(&self->player,x-1);
@@ -410,8 +413,11 @@ void player_movement(Game* self){
                 self->player.set_y(&self->player,y+1);
             }
     }
+    
     self->window.__key = 0;
     check_generation_update(self);
+    return 1;
+    //Toujours mettre le return apres check
 
 }
 

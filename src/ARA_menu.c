@@ -103,7 +103,7 @@ int menu_movement(ARA_Window window, int *cursor){
 int game_menu(Game *game){
     int cursor=0;
     //Si on ajoute une autre option faudra changer le SIZE_MENU que j ai defini comme constante
-    char choice[SIZE_MENU][20]={"New game","Resume game","Stats","Settings","Credit","Exit"};
+    char choice[SIZE_MENU][20]={"New game","Resume game","Credits","Exit"};
     ARA_Window_init(&game->window,W_MODE_ONE);
     do{
         game->window.clear_all(&game->window);

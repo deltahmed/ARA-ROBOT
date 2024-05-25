@@ -143,17 +143,11 @@ int task_recalibrate(Game *game){
                     }
                 }
             }
-        
-            snprintf(buffer, sizeof(buffer), "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
-            mvwaddstr(game->window.top,y1+5,x1+11,buffer);
-            snprintf(buffer, sizeof(buffer), "█  █▀▀▀  █▀▀█ ▀█▀  █    █");
-            mvwaddstr(game->window.top,y1+6,x1+11,buffer);
-            snprintf(buffer, sizeof(buffer), "█  █▀▀▀  █▄▄█  █   █    █");
-            mvwaddstr(game->window.top,y1+7,x1+11,buffer);
-            snprintf(buffer, sizeof(buffer), "█  █     █  █ ▄█▄  █▄▄█ █");
-            mvwaddstr(game->window.top,y1+8,x1+11,buffer);
-            snprintf(buffer, sizeof(buffer), "█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
-            mvwaddstr(game->window.top,y1+9,x1+11,buffer);
+            cprintadd(game->window.top,x1+11,y1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
+            cprintadd(game->window.top,x1+11,y1+6,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▀▀█ ▀█▀  █    █");
+            cprintadd(game->window.top,x1+11,y1+7,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▄▄█  █   █    █");
+            cprintadd(game->window.top,x1+11,y1+8,BASE_CRS_COLOR_WHITE,"█  █     █  █ ▄█▄  █▄▄█ █");
+            cprintadd(game->window.top,x1+11,y1+9,BASE_CRS_COLOR_WHITE,"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
             wtimeout(game->window.main_window, MAIN_TIMEOUT);
             game->window.update_key(&game->window);
             input = game->window.get_key(&game->window);
@@ -169,50 +163,78 @@ int task_recalibrate(Game *game){
  * @param game The current game
  */
 void task_fill(Game *game){
-    int x, y, x1, x2, y1, y2, posx1, posx2, posy1, posy2, count=0, k=0;
+    int x1, x2, y1, y2, posx1, posy1, count=0, col=0, nbr=2;
+    // nbr c'est le nombre d espaces qu on doit effectuer pour afficher toute une ligne jaune
     struct timespec current;
     //C est pour avoir un temps en millisecondes
     long actual=0,final=0;
     //Pour stocker le tres grand nombre de millisecondes
     char carvalue=0;
-    char buffer[100];
     do{
-        if(count<1){
-            count=0;
-            //Pour eviter des valeurs negatives
-        }
         re_print_all(game, TASK_TIMOUT);
         task_pop_up(game, "Remplir le reservoir", "🕸 ", &x1, &y1, &x2, &y2);
-        posy1=y1+3;
-        posy2=y2-2;
-        posx1=x1+17;
-        posx2=x2-18;
+        posy1=y1+2;
+        posx1=x1+13;
+        
         //Ici je dessine le conteneur
-        snprintf(buffer, sizeof(buffer), "🟥🟥🟥🟥");
-        mvwaddstr(game->window.top,posy1,posx1-8,buffer);
-        mvwaddstr(game->window.top,posy1,posx2,buffer);
-        for(y=posy1+1;y<posy2;y++){
-            snprintf(buffer, sizeof(buffer), "🟥");
-            mvwaddstr(game->window.top,y,posx1-2,buffer);
-            mvwaddstr(game->window.top,y,posx2,buffer);
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>11*nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
         }
-        snprintf(buffer, sizeof(buffer), "🟥🟥🟥🟥🟥🟥🟥");
-        mvwaddstr(game->window.top,posy2,posx1-2,buffer);
+        cprintadd(game->window.top,posx1  ,posy1 ,col,"            ████");
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>10*nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        }
+        cprintadd(game->window.top,posx1 ,posy1+1,col,"█▀▀▀█▀▀▀▀▀▀▀█▀▀▀▀█");
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>9*nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        }
+        cprintadd(game->window.top,posx1 ,posy1+2,col,"█   █▄▄▄▄▄▄▄█    █");
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>8*nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        }
+        cprintadd(game->window.top,posx1 ,posy1+3,col,"█  ▄          ▄  █");
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>7*nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        }
+        cprintadd(game->window.top,posx1 ,posy1+4,col,"█   ▀▄      ▄▀   █");
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>6*nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        }
+        cprintadd(game->window.top,posx1 ,posy1+5,col,"█     ▀▄  ▄▀     █");
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>5*nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        }
+        cprintadd(game->window.top,posx1 ,posy1+6,col,"█       ██       █");
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>4*nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        }
+        cprintadd(game->window.top,posx1 ,posy1+7,col,"█     ▄▀  ▀▄     █");
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>3*nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        }
+        cprintadd(game->window.top,posx1 ,posy1+8,col,"█   ▄▀      ▀▄   █");
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>2*nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        }
+        cprintadd(game->window.top,posx1 ,posy1+9,col,"█  ▀          ▀  █");
+        col=BASE_CRS_COLOR_BRIGHT_RED;
+        if(count>nbr){
+            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        }
+        cprintadd(game->window.top,posx1,posy1+10,col,"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 
-        //Ici je remplis le conteneur par ligne
-        k=count-count%5;
-        //Comme ca on a que des valeurs divisibles par 5 pour montrer que les lignes
-        for(x=0;x<2*k;x+=2){
-            /*snprintf(buffer, sizeof(buffer), "💧");
-            mvwaddstr(game->window.top,posy2-1,x % (posx2-posx1) + posx1,buffer);*/
-            cprintadd(game->window.top, x % (posx2-posx1) + posx1, posy2-1, FONT_CRS_COLOR_BRIGHT_YELLOW,"  ");
-            if(x % (posx2-posx1) + posx1==posx2-2){
-                posy2--;
-            }
-        }
         game->window.update(&game->window);
         clock_gettime(CLOCK_REALTIME ,&current);
-        //Il faut include <unistd.h> et include <time.h> 
         actual=current.tv_sec*1000+current.tv_nsec/1000000;
         //Ca transforme tout en millisecondes
         game->window.update_key(&game->window);
@@ -221,12 +243,101 @@ void task_fill(Game *game){
         final=current.tv_sec*1000+current.tv_nsec/1000000;
         //Comme ca avec la difference on regarde en combien de temps le joueur a tape une touche pour eviter que le joueur reste appuye sur une touche
         if(carvalue!=' ' || final-actual<50){
-            count--;
+            if(count>0){
+                count--;
+            }//Comme ca on descend pas en dessous de 0
         }
         else{
             count++;
         }
-    }while(count<41);
+    }while(count<11*nbr);
+}
+
+/**
+ * @brief Task of avoiding meteorites
+ * 
+ * @param game The current game
+ */
+void task_avoid(Game *game){
+    int xplayer,yplayer,posx1,posx2,posy1,posy2,retu=1;
+    char carvalue=0;
+    int lines[AVOID]={0},cols[AVOID]={0};
+    struct timespec current;
+    long actual=0,final=0;
+    int compteur=0;
+    do{
+        retu=1;
+        compteur=0;
+        re_print_all(game, 1);
+        task_pop_up(game, "Evitez les meteorites", "🏮", &posx1, &posy1, &posx2, &posy2);
+        xplayer=(posx1+posx2)/2;
+        yplayer=posy2-3;
+        for(int k=0;k<AVOID/4;k++){
+            for(int i=0;i<AVOID;i++){
+                do{
+                    cols[i]=randint(posx1+1,posx2-1);
+                }while(cols[i]%2==0);
+                lines[i]=posy1+2;
+            }
+            while(lines[0]<posy2-2){
+                compteur+=final-actual;
+                if(compteur<0){
+                    compteur=0;
+                }
+                if(compteur>200){
+                    compteur-=200;
+                    for(int i=0;i<AVOID;i++){
+                        lines[i]+=1;
+                    }
+                }
+                clock_gettime(CLOCK_REALTIME,&current);
+                actual=current.tv_sec*1000+current.tv_nsec/1000000;
+                re_print_all(game, 50);
+                task_pop_up(game, "Evitez les meteorites", "🏮", &posx1, &posy1, &posx2, &posy2);
+                mvwaddstr(game->window.top,yplayer,xplayer,"🤖");
+                for(int i=0;i<AVOID;i++){
+                    if(lines[i]==yplayer && cols[i]==xplayer){
+                        mvwaddstr(game->window.top,lines[i],cols[i],"💥");   
+                    }
+                    else{
+                        mvwaddstr(game->window.top,lines[i],cols[i],"🌑");
+                    }
+                }
+            
+                game->window.update_key(&game->window);
+                carvalue=game->window.get_key(&game->window);
+                if(carvalue=='q' && xplayer>posx1+3){
+                    xplayer-=2;
+                }
+                else if(carvalue=='d' && xplayer<posx2-3){
+                    xplayer+=2;
+                }
+                clock_gettime(CLOCK_REALTIME,&current);
+                final=current.tv_sec*1000+current.tv_nsec/1000000;
+                for(int i=0;i<AVOID;i++){
+                    if(cols[i]==xplayer && lines[i]==yplayer){
+                        retu=0;
+                        break;
+                    }
+                }
+                if(retu==0){break;}
+            }
+            if(retu==0){break;}
+        }
+        if(retu==1){
+            return;
+        }
+        re_print_all(game, 1);
+        task_pop_up(game, "Evitez les meteorites", "🏮", &posx1, &posy1, &posx2, &posy2);
+        cprintadd(game->window.top,posx1+11,posy1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
+        cprintadd(game->window.top,posx1+11,posy1+6,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▀▀█ ▀█▀  █    █");
+        cprintadd(game->window.top,posx1+11,posy1+7,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▄▄█  █   █    █");
+        cprintadd(game->window.top,posx1+11,posy1+8,BASE_CRS_COLOR_WHITE,"█  █     █  █ ▄█▄  █▄▄█ █");
+        cprintadd(game->window.top,posx1+11,posy1+9,BASE_CRS_COLOR_WHITE,"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+        wtimeout(game->window.main_window, MAIN_TIMEOUT);
+        game->window.update_key(&game->window);
+        carvalue = game->window.get_key(&game->window);
+    }while(retu==0);
 }
 
 /**
