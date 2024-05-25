@@ -116,45 +116,64 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
  * @param y2 The down right corner of the room y coordinate .
  * @param banned_door The door where the player from.
  */
+
+int get_door_index(int door){
+    return door - MAP_UNDISCOVERED_DOOR_NORTH;
+}
+
+Map_def get_random_door(int* already_visited) {
+    int d_possible[4] = {NEGATIVE, NEGATIVE, NEGATIVE, NEGATIVE};
+    int d_index = 0;
+
+    for (int direction = MAP_UNDISCOVERED_DOOR_NORTH; direction <= MAP_UNDISCOVERED_DOOR_SOUTH; direction++) {
+        if (!already_visited[get_door_index(direction)]) {
+            d_possible[d_index] = direction;
+            d_index++;
+        }
+    }
+
+    if (d_index == 0) {
+        return 0;
+    }
+
+    int rand_index = randint(0, d_index - 1);
+    return (Map_def)d_possible[rand_index];
+}
+
 void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door){
-     
-    int probable_direction[3];
-    int probable_direction_reroll[2];
+
+    Map_def rand_door;
+    int direction_used[4] = {false, false, false, false};
+
+    if (is_door(banned_door))
+    {
+        direction_used[get_door_index((int)banned_door)] = 1;
+    }
+    
       
     int doors = randint(1,4);
-    if (banned_door == MAP_NONE)
-    {
-        return;
-    }
-    if (banned_door == MAP_ALL || doors == 3){
+
+    if (banned_door == MAP_ALL || doors == 3)
+    {   
+
         for (int direction = MAP_UNDISCOVERED_DOOR_NORTH; direction <= MAP_UNDISCOVERED_DOOR_SOUTH; direction++){   
             if (direction != (int)banned_door ){
+               
                 generate_doors_on_wall(game, x1, y1, x2, y2, direction);
+                
             }
             
             
         }
-    } else {
-         
-        int index = 0;
-        for (int direction = MAP_UNDISCOVERED_DOOR_NORTH; direction <= MAP_UNDISCOVERED_DOOR_SOUTH; direction++){   
-            if (direction != (int)banned_door){
-                probable_direction[index] = direction;
-                index++;
-            }
+    }
+    else if (banned_door != MAP_NONE)
+    {
+        for (int i = 0; i < doors; i++)
+        {   
+            rand_door = get_random_door(direction_used);
+            generate_doors_on_wall(game, x1, y1, x2, y2, rand_door);
+            direction_used[get_door_index((int)rand_door)] = true;
         }
-        for (int i = 0; i < doors; i++){
-              
-            int rand_var = randint(0,3);
-            generate_doors_on_wall(game, x1, y1, x2, y2, (Map_def)probable_direction[rand_var]);
-        
-            probable_direction_reroll[0] = randint(0,rand_var);
-            probable_direction_reroll[1] = randint(rand_var+1,3);
-            probable_direction[rand_var] = probable_direction[probable_direction_reroll[randint(0,2)]];
-            
-        }
-          
-        
     }
     
 }
@@ -221,10 +240,17 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
     x2 = max_x;
     y1 = min_y;
     y2 = max_y;
+
+    int miniroom = 0;
     
      
 
-    while (intersect(game, x1, y1, x2, y2)){  
+    while (intersect(game, x1, y1, x2, y2) && !miniroom){  
+        if (y2-y1 + x2 - x1 <= 6)
+        {
+            miniroom = 1;
+        }
+        
         switch (get_door){
         case MAP_UNDISCOVERED_DOOR_NORTH:
                 if (x1 < playerx-1)
@@ -493,9 +519,8 @@ void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def ban
     }
     
     game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_TASK);
-    game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_MONSTER);
+    //game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_MONSTER);
     game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_HEATH_CHARGE);
-    
     generate_doors(game, x1, y1, x2, y2, banned_door);
     
     
