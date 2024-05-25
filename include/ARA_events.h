@@ -18,12 +18,13 @@ void re_print_all(Game *game, int timeout);
 
 
 void task_pop_up(Game *game, char * mission, char * emoji, int* x1, int* y1, int* x2, int* y2);
-int task_recalibrate(Game *game);
+void task_recalibrate(Game *game);
 void task_fill(Game *game);
+void task_temperature(Game *game);
 void task_avoid(Game *game);
-int task_download(Game *game);
-int task_choose(Game *game);
-int task_undertale(Game *game);
+void task_download(Game *game);
+void task_choose(Game *game);
+void task_undertale(Game *game);
 
 void print_arena(Game *game, char car);
 int QTE(Game *game);

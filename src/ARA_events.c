@@ -195,8 +195,12 @@ void re_print_all(Game *game, int timeout){
     print_map(game);
 }
 
-//🕹
-int task_recalibrate(Game *game){
+/**
+ * @brief Task of recalibrating the vessel
+ * Tap SPACE when the cursor in on the red range
+ * @param game The current game
+ */
+void task_recalibrate(Game *game){
     int x1, x2, y1, y2;
     char buffer[100];
     int bar_x;
@@ -295,7 +299,12 @@ int task_recalibrate(Game *game){
 
 }
 
-int task_download(Game *game){
+/**
+ * @brief Task of downloading the logs
+ * Keep pressing on the bouton SPACE to download
+ * @param game The current game
+ */
+void task_download(Game *game){
     int x1, x2, y1, y2;
     char buffer[100];
     int input = 0;
@@ -354,7 +363,12 @@ int task_download(Game *game){
           
 } 
 
-int task_choose(Game *game){
+/**
+ * @brief Task of finding who is the suspect
+ * Move the cursor(q,s,d,z) to the emoji that is different than the others 
+ * @param game The current game
+ */
+void task_choose(Game *game){
     int x1, x2, y1, y2;
     int input = 0;
     int fail = -1;
@@ -484,7 +498,12 @@ int task_choose(Game *game){
           
 }
 
-int task_undertale(Game *game){
+/**
+ * @brief Task of avoiding the bar
+ * Move the heart(q,s,d,z) in order to fly from the bar
+ * @param game The current game
+ */
+void task_undertale(Game *game){
     int x1, x2, y1, y2;
     int input = 0;
     int fail = -1;
@@ -618,68 +637,31 @@ void task_fill(Game *game){
     long actual=0,final=0;
     //Pour stocker le tres grand nombre de millisecondes
     char carvalue=0;
+    char barrel[12][100] = {
+                        "            ████",
+                        "█▀▀▀█▀▀▀▀▀▀▀█▀▀▀▀█",
+                        "█   █▄▄▄▄▄▄▄█    █",
+                        "█  ▄          ▄  █",
+                        "█   ▀▄      ▄▀   █",
+                        "█     ▀▄  ▄▀     █",
+                        "█       ██       █",
+                        "█     ▄▀  ▀▄     █",
+                        "█   ▄▀      ▀▄   █",
+                        "█  ▀          ▀  █",
+                        "█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█"};
     do{
         re_print_all(game, TASK_TIMOUT);
         task_pop_up(game, "Remplir le reservoir", "🕸 ", &x1, &y1, &x2, &y2);
         posy1=y1+2;
         posx1=x1+13;
-        
         //Ici je dessine le conteneur
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>11*nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
+        for(int k=0;k<11;k++){
+            col=BASE_CRS_COLOR_BRIGHT_RED;
+            if(count>(k+1)*nbr){
+                col=SPECIAL_CRS_COLOR_RED_YELLOW;
+            }
+            cprintadd(game->window.top,posx1,posy1+10-k,col,barrel[10-k]);
         }
-        cprintadd(game->window.top,posx1  ,posy1 ,col,"            ████");
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>10*nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
-        }
-        cprintadd(game->window.top,posx1 ,posy1+1,col,"█▀▀▀█▀▀▀▀▀▀▀█▀▀▀▀█");
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>9*nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
-        }
-        cprintadd(game->window.top,posx1 ,posy1+2,col,"█   █▄▄▄▄▄▄▄█    █");
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>8*nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
-        }
-        cprintadd(game->window.top,posx1 ,posy1+3,col,"█  ▄          ▄  █");
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>7*nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
-        }
-        cprintadd(game->window.top,posx1 ,posy1+4,col,"█   ▀▄      ▄▀   █");
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>6*nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
-        }
-        cprintadd(game->window.top,posx1 ,posy1+5,col,"█     ▀▄  ▄▀     █");
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>5*nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
-        }
-        cprintadd(game->window.top,posx1 ,posy1+6,col,"█       ██       █");
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>4*nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
-        }
-        cprintadd(game->window.top,posx1 ,posy1+7,col,"█     ▄▀  ▀▄     █");
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>3*nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
-        }
-        cprintadd(game->window.top,posx1 ,posy1+8,col,"█   ▄▀      ▀▄   █");
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>2*nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
-        }
-        cprintadd(game->window.top,posx1 ,posy1+9,col,"█  ▀          ▀  █");
-        col=BASE_CRS_COLOR_BRIGHT_RED;
-        if(count>nbr){
-            col=SPECIAL_CRS_COLOR_RED_YELLOW;
-        }
-        cprintadd(game->window.top,posx1,posy1+10,col,"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
 
         game->window.update(&game->window);
         clock_gettime(CLOCK_REALTIME ,&current);
@@ -699,6 +681,74 @@ void task_fill(Game *game){
             count++;
         }
     }while(count<11*nbr);
+}
+
+/**
+ * @brief Task of regulating the vessel's temperature
+ * Increase or decrease(z,s) the left number in order to be equal to the right one
+ * @param game The current game
+ */
+void task_temperature(Game *game){
+    int x1,x2,y1,y2,col=0;
+    int correct=0,essay=0;
+    char carvalue=0;
+    char message[20];
+    do{
+        correct=randint(1,401)-200;
+        essay=randint(1,401)-200;
+        carvalue=0;
+        do{
+            re_print_all(game,MAIN_TIMEOUT);
+            task_pop_up(game,"Regulate temperature","🔥",&x1,&y1,&x2,&y2);
+            cprintadd(game->window.top,(x1+x2)/2-7,y1+4,BASE_CRS_COLOR_WHITE,"🔼");
+            sprintf(message, "%d",essay);
+            cprintadd(game->window.top,(x1+x2)/2-9,y1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀█");
+            cprintadd(game->window.top,(x1+x2)/2-9,y1+6,BASE_CRS_COLOR_WHITE,"█     █");
+            cprintadd(game->window.top,(x1+x2)/2-9,y1+7,BASE_CRS_COLOR_WHITE,"█▄▄▄▄▄█");
+            cprintadd(game->window.top,(x1+x2)/2-7,y1+8,BASE_CRS_COLOR_WHITE,"🔽");
+            col=BASE_CRS_COLOR_BRIGHT_RED;
+            if(essay<=0){
+                col=BASE_CRS_COLOR_BRIGHT_BLUE;
+            }
+            cprintadd(game->window.top,(x1+x2)/2-7,y1+6,col,message);
+            sprintf(message, "%d",correct);
+            cprintadd(game->window.top,(x1+x2)/2+5,y1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀█");
+            cprintadd(game->window.top,(x1+x2)/2+5,y1+6,BASE_CRS_COLOR_WHITE,"█     █");
+            cprintadd(game->window.top,(x1+x2)/2+5,y1+7,BASE_CRS_COLOR_WHITE,"█▄▄▄▄▄█");
+            col=BASE_CRS_COLOR_BRIGHT_RED;
+            if(correct<=0){
+                col=BASE_CRS_COLOR_BRIGHT_BLUE;
+            }
+            cprintadd(game->window.top,(x1+x2)/2+7,y1+6,col,message);
+            game->window.update(&game->window);
+
+            game->window.update_key(&game->window);
+            carvalue = game->window.get_key(&game->window);
+            if(carvalue=='s' && essay>-202){
+                essay--;
+            }
+            else if(carvalue=='z' && essay<202){
+                essay++;
+            }
+            else if(carvalue==' ' && essay==correct){
+                return;
+            }
+            else if(carvalue==' ' && essay!=correct){
+                break;
+            }
+            
+        }while(1);
+        re_print_all(game,MAIN_TIMEOUT);
+        task_pop_up(game,"Regulate temperature","🔥",&x1,&y1,&x2,&y2);
+        cprintadd(game->window.top,x1+11,y1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
+        cprintadd(game->window.top,x1+11,y1+6,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▀▀█ ▀█▀  █    █");
+        cprintadd(game->window.top,x1+11,y1+7,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▄▄█  █   █    █");
+        cprintadd(game->window.top,x1+11,y1+8,BASE_CRS_COLOR_WHITE,"█  █     █  █ ▄█▄  █▄▄█ █");
+        cprintadd(game->window.top,x1+11,y1+9,BASE_CRS_COLOR_WHITE,"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+        wtimeout(game->window.main_window, MAIN_TIMEOUT);
+        game->window.update_key(&game->window);
+        carvalue = game->window.get_key(&game->window);
+    }while(1);
 }
 
 /**
@@ -858,8 +908,10 @@ int QTE(Game *game){
         car=game->window.get_key(&game->window);
         if((car!=carvalue)||(car==ERR)){
             //Si le joueur perd on detruit tout
-            game->window.destroy();
-            game->map.destroy(&game->map);
+            //game->window.destroy();
+            //game->map.destroy(&game->map);
+            game->player.set_x(&game->player,MAP_SIZE_X/2);
+            game->player.set_y(&game->player,MAP_SIZE_Y/2);
             return 0;
         }
     }
