@@ -32,13 +32,13 @@ int main(){
                 return 0;
             }
         }while(choice==CREDIT);//choice est egal a 4 si l utilisateur clique sur Credit puis sur la touche m pour revenir au menu
-
+        
         game.window.destroy();
         //Pour supprimer le one_win_mode
         
         while(game.player.get_life(&game.player) >0) {
             re_print_all(&game,400);
-            //cprintf(game.window.top, 1, 1, BASE_CRS_COLOR_BRIGHT_RED, "Ceci est la fenetre du haut %d %d %d", COLS, LINES, game.window.get_key(&game.window));
+
             if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_TASK){
                 task_download(&game);
                 game.map.set(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player),MAP_ROOM);

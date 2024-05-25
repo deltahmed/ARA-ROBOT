@@ -1,4 +1,5 @@
 #include "ARA_menu.h"
+#include <math.h>
 
 /**
  * @brief Print the title of the game.
@@ -116,6 +117,95 @@ int game_menu(Game *game){
     return cursor;
 }
 
+int verif_number(char *numberchar){
+    int number=0,i=0,size=0,add=0;
+    size=strlen(numberchar);
+    for(i=0;i<size;i++){
+        add=numberchar[i];
+        if('0'<=numberchar[i] && numberchar[i]<='9'){
+            add=numberchar[i]-'0';
+        }
+        number+=add*pow(10,size-1-i);
+    }
+    return number;
+}
+
+/**
+ * @brief Verify the caracters of a string
+ * 
+ * @param name 
+ */
+void verif_string(char *name){
+    int i=0,size=0;
+    size=strlen(name);
+    for(i=0;i<size;i++){
+        if(name[i]<'A' || name[i]>'z' || ('Z'<name[i] && name[i]<'a')){
+            name[i]='_';
+        }
+    }
+}
+
+/**
+ * @brief Gets the name and the seed from the player
+ * 
+ * @param game The current game
+ */
+void player_infos(Game *game){
+    char choice[SIZE_INFOS][20]={"Name","Seed"};
+    char name[100];
+    char seedchar[100];
+    int i=0,cursor=0,seed=0;
+    int checkname=0,checkseed=0;
+    int lines=NB_LINES/2-(SIZE_INFOS)*2,columns=NB_COLS/2-24;
+
+    ARA_Window_init(&game->window,W_MODE_ONE);
+
+    //game->player.__name
+
+    do{
+        game->window.clear_all(&game->window);
+        game->window.create_one_win_mode(&game->window);
+        for(i=0;i<SIZE_INFOS;i++){
+            if(cursor==i){
+                mvwprintw(game->window.main_window,6*i+lines,columns-4,"💨");
+            }
+            if(checkname==1 && i==0){
+                mvwprintw(game->window.main_window,6*i+lines-1,columns,"▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄");
+                mvwprintw(game->window.main_window,6*i+lines,columns+5,"%s :  %s",choice[i],name);
+                mvwprintw(game->window.main_window,6*i+lines+1,columns,"▀█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▀");
+            }
+            else{
+                mvwprintw(game->window.main_window,6*i+lines-1,columns,"▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄");
+                mvwprintw(game->window.main_window,6*i+lines,columns+5,"%s : ",choice[i]);
+                mvwprintw(game->window.main_window,6*i+lines+1,columns,"▀█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▀");
+            }
+        }
+        game->window.refresh_all(&game->window);
+        nocbreak();
+        echo();
+        if(cursor==0){
+            wmove(game->window.main_window,lines,columns+13);
+            wscanw(game->window.main_window,"%s",name);
+            verif_string(name);
+            checkname=1;
+            cursor++;
+        }
+        else if(cursor==1){
+            wmove(game->window.main_window,lines+6,columns+13);
+            wscanw(game->window.main_window,"%s",seedchar);
+            seed=verif_number(seedchar);
+            checkseed=1;
+        }
+        cbreak();
+        noecho();
+        if((checkname==1 && checkseed==1)){
+            srand(seed);
+            return;
+        }
+    }while(1);
+}
+
+
 /**
  * @brief Handle the user's choice from the main menu.
  * 
@@ -125,6 +215,8 @@ int game_menu(Game *game){
 int choice_menu(Game *game){
     switch (game_menu(game)){
         case NEWGAME :
+            game->window.destroy(&game->window);
+            player_infos(game);
             generate_map(game);
             game->timer.reset(&game->timer);
             return NEWGAME;
@@ -185,3 +277,4 @@ void gameEnd(Game game){
         game.window.update_key(&game.window);
     }while(game.window.get_key(&game.window)!='m');
 }
+
