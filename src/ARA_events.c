@@ -372,6 +372,7 @@ int task_choose(Game *game){
     rand_x = randint(start_x1+2  , start_x2-3);
     rand_x += rand_x%2;
     rand_y = randint(start_y1+1  , start_y2 -3);
+    int rand_emoji = randint(0,5);
     do
     {   
         re_print_all(game, TASK_TIMOUT/4);
@@ -384,12 +385,53 @@ int task_choose(Game *game){
                 color = (playerx == x && playery == y) ? FONT_CRS_COLOR_GREEN : BASE_CRS_COLOR_WHITE;
 
                 if (is_in(x, start_x1+2  , start_x2-2 ) && is_in(y, start_y1  , start_y2 -2)){
-                    if (x == rand_x && y== rand_y)
-                    { 
-                        cprintadd(game->window.top,x,y,color,"😀");
-                    } else {
-                        cprintadd(game->window.top,x,y,color,"😃");
+                    switch (rand_emoji)
+                    {
+                    case 0:
+                        if (x == rand_x && y== rand_y)
+                        { 
+                            cprintadd(game->window.top,x,y,color,"😄");
+                        } else {
+                            cprintadd(game->window.top,x,y,color,"😃");
+                        }
+                        break;
+                    case 1:
+                        if (x == rand_x && y== rand_y)
+                        { 
+                            cprintadd(game->window.top,x,y,color,"🕦");
+                        } else {
+                            cprintadd(game->window.top,x,y,color,"🕖");
+                        }
+                        break;
+                    case 2:
+                        if (x == rand_x && y== rand_y)
+                        { 
+                            cprintadd(game->window.top,x,y,color,"🔈");
+                        } else {
+                            cprintadd(game->window.top,x,y,color,"🔉");
+                        }
+                        break;
+                    case 3:
+                        if (x == rand_x && y== rand_y)
+                        { 
+                            cprintadd(game->window.top,x,y,color,"🔘");
+                        } else {
+                            cprintadd(game->window.top,x,y,color,"⚪ ");
+                        }
+                        break;
+                    case 4:
+                        if (x == rand_x && y== rand_y)
+                        { 
+                            cprintadd(game->window.top,x,y,color,"‼ ");
+                        } else {
+                            cprintadd(game->window.top,x,y,color,"⁉ ");
+                        }
+                        break;
+                    
+                    default:
+                        break;
                     }
+                    
                     
                 } else  {
                     cprintadd(game->window.top,x,y,color,"  ");
