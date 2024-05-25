@@ -1,9 +1,0 @@
-
-file : src/items.c func : object_effect line :8 value: 90
-file : src/items.c func : object_effect line :10 value: 100
-file : src/items.c func : object_effect line :8 value: 100
-file : src/items.c func : object_effect line :10 value: 110
-file : src/items.c func : object_effect line :8 value: 110
-file : src/items.c func : object_effect line :10 value: 110
-file : src/items.c func : object_effect line :8 value: 110
-file : src/items.c func : object_effect line :10 value: 110

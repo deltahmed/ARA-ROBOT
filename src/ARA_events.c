@@ -356,55 +356,211 @@ int task_download(Game *game){
 
 int task_choose(Game *game){
     int x1, x2, y1, y2;
-    char buffer[100];
     int input = 0;
     int fail = -1;
     re_print_all(game, TASK_TIMOUT);
-    task_pop_up(game, "Who is sus", "⁉ ", &x1, &y1, &x2, &y2);
+    task_pop_up(game, "Who is sus", "🛂", &x1, &y1, &x2, &y2);
     
     int start_x1 = x1+5;
-    int start_x2 = x2-5;
-    int start_y1 = y1+10;
-    int start_y2 = y1+13;
+    int start_x2 = x2-4;
+    int start_y1 = y1+4;
+    int start_y2 = y2-1;
     int color;
-    int progress = start_x1+1;
+    int playerx = start_x1+2;
+    int playery = start_y1;
+    int rand_x,rand_y;
+    rand_x = randint(start_x1+2  , start_x2-3);
+    rand_x += rand_x%2;
+    rand_y = randint(start_y1+1  , start_y2 -3);
     do
     {   
         re_print_all(game, TASK_TIMOUT/4);
-        task_pop_up(game, "Who is sus", "🌐", &x1, &y1, &x2, &y2);
-
-        for (int y = start_y1; y < start_y2; y++)
+        task_pop_up(game, "Who is sus", "🛂", &x1, &y1, &x2, &y2);
+        
+        for (int y = start_y1; y < start_y2-1; y++)
         {
-            for (int x = start_x1; x < start_x2; x++)
+            for (int x = start_x1; x < start_x2; x+=2)
             {   
-                color = (x < progress) ? FONT_CRS_COLOR_GREEN : BASE_CRS_COLOR_WHITE;
+                color = (playerx == x && playery == y) ? FONT_CRS_COLOR_GREEN : BASE_CRS_COLOR_WHITE;
 
-                if (x == start_x1 || x == start_x2-1)
-                {
-                    cprintadd(game->window.top,x,y,color,"█");
-                } else if (y==start_y1){
-                    cprintadd(game->window.top,x,y,color,"▀");
-                } else if (y==start_y2-1){
-                    cprintadd(game->window.top,x,y,color,"▄");
-                } else {
-                    cprintadd(game->window.top,x,y,color," ");
+                if (is_in(x, start_x1+2  , start_x2-2 ) && is_in(y, start_y1  , start_y2 -2)){
+                    if (x == rand_x && y== rand_y)
+                    { 
+                        cprintadd(game->window.top,x,y,color,"😀");
+                    } else {
+                        cprintadd(game->window.top,x,y,color,"😃");
+                    }
+                    
+                } else  {
+                    cprintadd(game->window.top,x,y,color,"  ");
                 }
                 
             }
         }
         game->window.update_key(&game->window);
         input = game->window.get_key(&game->window);
-        if (input == ' ')
+
+        if (input == ' ' && playerx == rand_x && playery == rand_y)
         {
-            progress ++;
-        }
-        if (progress >= start_x2-1){
             fail = 0;
+        } else if (input == ' '){
+            
+            re_print_all(game, 1);
+            task_pop_up(game, "Who is sus", "🛂", &x1, &y1, &x2, &y2);
+            cprintadd(game->window.top,x1+11,y1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
+            cprintadd(game->window.top,x1+11,y1+6,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▀▀█ ▀█▀  █    █");
+            cprintadd(game->window.top,x1+11,y1+7,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▄▄█  █   █    █");
+            cprintadd(game->window.top,x1+11,y1+8,BASE_CRS_COLOR_WHITE,"█  █     █  █ ▄█▄  █▄▄█ █");
+            cprintadd(game->window.top,x1+11,y1+9,BASE_CRS_COLOR_WHITE,"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+            wtimeout(game->window.main_window, MAIN_TIMEOUT);
+            game->window.update_key(&game->window);
+            input = game->window.get_key(&game->window);
+        }
+        switch (input)
+        {
+        case 'z':
+            playery--;
+            playery = stick_in_range(playery, start_y1  , start_y2 -2);
+            break;
+        case 's':
+            playery++;
+            playery = stick_in_range(playery, start_y1  , start_y2 -2);
+            break;
+        case 'q':
+            playerx-=2;
+            playerx = stick_in_range(playerx, start_x1+2  , start_x2-2 );
+            break;
+        case 'd':
+            playerx+=2;
+            playerx = stick_in_range(playerx, start_x1+2  , start_x2-2 );
+            break;
+        default:
+            break;
         }
     
     }while (fail != 0);
           
-} 
+}
+
+int task_undertale(Game *game){
+    int x1, x2, y1, y2;
+    int input = 0;
+    int fail = -1;
+    re_print_all(game, TASK_TIMOUT);
+    task_pop_up(game, "Human..it was nice to meet you", "☠ ", &x1, &y1, &x2, &y2);
+    int nb_r = 0;
+    int start_x1 = x1+5;
+    int start_x2 = x2-4;
+    int start_y1 = y1+4;
+    int start_y2 = y2-1;
+    int color;
+    int playerx = start_x1+2;
+    int playery = start_y1;
+    int rand_y;
+    struct timespec current;
+    long actual = 0 , final= 0, compteur=0;
+    rand_y = playery + 2;
+    int charge = false;
+    do
+    {   
+        
+        re_print_all(game, 50);
+        task_pop_up(game, "do you wanna have a bad time?", "☠ ", &x1, &y1, &x2, &y2);
+        compteur += final - actual;
+        if(compteur<0){
+            compteur=0;
+        }
+        if(compteur>600){
+            compteur-=600;
+            if (!charge)
+            {   
+                rand_y = playery + randint(0  , 2) - randint(0  , 2);
+                charge = true;
+                nb_r++;
+            } else {
+                charge = false;
+            }
+        }
+        
+        
+        
+        for (int y = start_y1; y < start_y2-1; y++)
+        {
+            for (int x = start_x1; x < start_x2; x+=2)
+            {   
+                if (y == rand_y)
+                {
+                    color = (charge) ? FONT_CRS_COLOR_BRIGHT_YELLOW : FONT_CRS_COLOR_BRIGHT_RED;
+                } else {
+                    color = BASE_CRS_COLOR_WHITE;
+                }
+                
+                if (is_in(x, start_x1+2  , start_x2-2 ) && is_in(y, start_y1  , start_y2 -2)){
+                    
+                    if (playerx == x && playery == y)
+                    {
+                        cprintadd(game->window.top,x,y,color,"💙");
+                    } else {
+                        cprintadd(game->window.top,x,y,color,"  ");
+                    }
+                    
+                    
+                    
+                } else  {
+                    cprintadd(game->window.top,x,y,color,"  ");
+                }
+                
+            }
+        }
+        
+        clock_gettime(CLOCK_REALTIME ,&current);
+        actual=current.tv_sec*1000+current.tv_nsec/1000000;
+        //Ca transforme tout en millisecondes
+        game->window.update_key(&game->window);
+        input = game->window.get_key(&game->window);
+        clock_gettime(CLOCK_REALTIME,&current);
+        final=current.tv_sec*1000+current.tv_nsec/1000000;
+
+        if (!charge &&  playery == rand_y){
+            charge = false;
+            nb_r = 0;
+            rand_y = playery + randint(0  , 2) - randint(0  , 2);
+            re_print_all(game, 1);
+            task_pop_up(game, "do you wanna have a bad time?", "☠ ", &x1, &y1, &x2, &y2);
+            cprintadd(game->window.top,x1+11,y1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
+            cprintadd(game->window.top,x1+11,y1+6,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▀▀█ ▀█▀  █    █");
+            cprintadd(game->window.top,x1+11,y1+7,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▄▄█  █   █    █");
+            cprintadd(game->window.top,x1+11,y1+8,BASE_CRS_COLOR_WHITE,"█  █     █  █ ▄█▄  █▄▄█ █");
+            cprintadd(game->window.top,x1+11,y1+9,BASE_CRS_COLOR_WHITE,"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+            wtimeout(game->window.main_window, MAIN_TIMEOUT);
+            game->window.update_key(&game->window);
+            input = game->window.get_key(&game->window);
+        }
+        switch (input)
+        {
+        case 'z':
+            playery--;
+            playery = stick_in_range(playery, start_y1  , start_y2 -2);
+            break;
+        case 's':
+            playery++;
+            playery = stick_in_range(playery, start_y1  , start_y2 -2);
+            break;
+        case 'q':
+            playerx-=2;
+            playerx = stick_in_range(playerx, start_x1+2  , start_x2-2 );
+            break;
+        case 'd':
+            playerx+=2;
+            playerx = stick_in_range(playerx, start_x1+2  , start_x2-2 );
+            break;
+        default:
+            break;
+        }
+    
+    }while (fail != 0 && nb_r < 10 );
+          
+}
 
 
 /**
