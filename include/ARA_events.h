@@ -13,9 +13,8 @@
 
 void print_alphabet(Game *game, char car, int y, int x);
 void print_bottom_window(Game *game);
-void print_right_window(Game* game);
-void re_print_all(Game *game, int timeout);
-
+void print_right_window(Game* game, int time_show);
+void re_print_all(Game *game, int timeout, int show_right_time);
 
 void task_pop_up(Game *game, char * mission, char * emoji, int* x1, int* y1, int* x2, int* y2);
 void task_recalibrate(Game *game);

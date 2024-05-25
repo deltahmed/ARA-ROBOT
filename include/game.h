@@ -8,11 +8,13 @@
 #include "ARA_time.h"
 #include "ARA_debug.h"
 
+#define MAX_NB_ROOMS 30
+
 /**
  * @brief Rooms max and min size definition.
  */
 #define ROOM_MAX_SIZE 22
-#define ROOM_MIN_SIZE 3
+#define ROOM_MIN_SIZE 2
 
 /**
  * @brief a direction struct for multiple uses.
@@ -35,10 +37,16 @@ typedef struct __game_struct
     Map map;
     Timer timer;
     Player player;
+    int nb_room;
+    int nb_gen_room;
+    int nb_tasks;
+    int nb_fin_tasks;
     
 }Game;
 
 // ========================== generator.c ===============================
+
+void update_life(Game * game);
 
 Map_def get_inverse_door(Map_def direction);
 Map_def discover_door(Map_def direction);

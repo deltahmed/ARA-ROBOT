@@ -53,7 +53,7 @@ static int __get_life(Player* self){
  * 
  * @param self Pointer to self.
  */
-static int __set_life(Player* self, int value){
+static __set_life(Player* self, int value){
     self->__life = stick_in_range(value, 0, MAX_LIFE);
 }
 
@@ -63,7 +63,6 @@ static int __set_life(Player* self, int value){
  * @param self Pointer to self.
  */
 static void __rearenge_tab(Player* self){
-   self->__inv_index;
     int new_index = 0;
     for (int i=0; i < MAX_INVENTORY; i++){
         if (self-> __inventory[i] != 0){
@@ -116,7 +115,7 @@ static void __add_object(Player* self, Map_def object){
         ARA_error(VALUE_ERROR);
     }
     for (int i= 0; i < MAX_INVENTORY; i++){
-        if(self->__inventory[i]== object){
+        if(self->__inventory[i]== (int)object){
             self->__inventory_count[i]++;
             if (self->__inventory_count[i] > MAX_COUNT_INV)
             {
@@ -155,5 +154,9 @@ void Init_Player(Player* self){
     self->add_object = __add_object;
     self->use_object = __use_object;
     self->set_life = __set_life;
+    self->__inv_index = 0;
+    self->__vision = 0;
+    self->__speed = 1;
+    self->__xp = 0;
 
 }

@@ -4,6 +4,6 @@
 #include "game.h"
 
 
-int object_effect(Game* game, int x, int y);
+int object_effect(Game* game, Map_def value);
 
 #endif

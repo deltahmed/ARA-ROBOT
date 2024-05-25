@@ -1,6 +1,17 @@
 
 #include "game.h"
+#include "items.h"
 //22
+
+
+void update_life(Game * game){
+    int time = 30 - mod(game->timer.get(&game->timer), 31);
+    if (time == 0)
+    {
+        game->player.set_life(&game->player, game->player.get_life(&game->player) - 4);
+    }
+}
+
 
 /**
  * @brief Get the actual room corners based on the player's position.
@@ -222,11 +233,11 @@ void print_in_shadow(Game* game, int get_value, int playerx, int playery, int i,
 
     int actual_room_x1, actual_room_x2, actual_room_y1, actual_room_y2;
     
-    if (!is_door(game->map.get(&game->map, playerx, playery)))
+    if (!is_door(game->map.get(&game->map, playerx, playery) ) || game->player.__vision)
     {
         get_actual_room(game, playerx, playery, &actual_room_x1, &actual_room_x2, &actual_room_y1, &actual_room_y2);
 
-        if (is_in(actual_x, actual_room_x1, actual_room_x2) &&  is_in(actual_y, actual_room_y1, actual_room_y2))
+        if (((is_in(actual_x, actual_room_x1, actual_room_x2) &&  is_in(actual_y, actual_room_y1, actual_room_y2)) || game->player.__vision ))
         {
             print_switch_room(game, get_value, i, j);
         } else {
@@ -378,32 +389,84 @@ boolean check_player_move(Game* self, int x, int y){
  */
 int player_movement(Game* self){
     
+            
     int x = self->player.get_x(&self->player);
     int y = self->player.get_y(&self->player);
-    
+
     switch(self->window.get_key(&self->window)){
         case 'm':
+        case 'M':
             return 0;
             break;
         case 'q':
+        case 'Q':
+        case KEY_LEFT:
             if(check_player_move(self, x-1, y)){
                 self->player.set_x(&self->player,x-1);
             }
             break;
         case 'd':
+        case 'D':
+        case KEY_RIGHT:
             if(check_player_move(self, x+1, y)){
                 self->player.set_x(&self->player,x+1);
             }
             break;
         case 'z' :
+        case 'Z' :
+        case KEY_UP:
             if(check_player_move(self, x, y-1)){
                 self->player.set_y(&self->player,y-1);
             }
             break;
         case  's' :
+        case  'S' :
+        case KEY_DOWN:
             if(check_player_move(self, x, y+1)){
                 self->player.set_y(&self->player,y+1);
             }
+        case KEY_F(1):
+        case '1':
+            object_effect(self, self->player.__inventory[0]);
+            self->player.use_object(&self->player, 0);
+            break;
+        case KEY_F(2):
+        case '2':
+            object_effect(self, self->player.__inventory[1]);
+            self->player.use_object(&self->player, 1);
+            break;
+        case KEY_F(3):
+        case '3':
+            object_effect(self, self->player.__inventory[2]);
+            self->player.use_object(&self->player, 2);
+            break;
+        case KEY_F(4):
+        case '4':
+            object_effect(self, self->player.__inventory[3]);
+            self->player.use_object(&self->player, 3);
+            break;
+        case KEY_F(5):
+        case '5':
+            object_effect(self, self->player.__inventory[4]);
+            self->player.use_object(&self->player, 4);
+            break;
+        case KEY_F(6):
+        case '6':
+            object_effect(self, self->player.__inventory[5]);
+            self->player.use_object(&self->player, 5);
+            break;
+        case KEY_F(7):
+        case '7':
+            object_effect(self, self->player.__inventory[6]);
+            self->player.use_object(&self->player, 6);
+            break;
+        case KEY_F(8):
+        case '8':
+            object_effect(self, self->player.__inventory[7]);
+            self->player.use_object(&self->player, 7);
+            break;
+        default:
+            break;
     }
     
     self->window.__key = 0;
@@ -425,19 +488,5 @@ void Game_init(Game* self){
     Map_init(&self->map, MAP_SIZE_X, MAP_SIZE_Y);
     Timer_init(&self->timer);
     Init_Player(&self->player);
-}
-
-/**
- * @brief Restart a game.
- *
- * @param self Pointer to self.
- */
-void Game_restart(Game* self){
-    srand(201);
-    log_reset();
-    ARA_Window_init(&self->window, W_MODE_MULTIPLE);
-    Map_init(&self->map, MAP_SIZE_X, MAP_SIZE_Y);
-    Timer_init(&self->timer);
-    Init_Player(&self->player);
-
+    self->nb_room = 1;
 }

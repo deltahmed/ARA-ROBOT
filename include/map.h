@@ -38,6 +38,12 @@ typedef enum map_def_enum{
     MAP_MONSTER,
     
     MAP_HEATH_CHARGE,
+    MAP_HEATH_MEGA_CHARGE,
+    MAP_SONIC_VISION,
+    MAP_SONIC_SPEED,
+    MAP_HEATH_OR_DIE,
+
+
 
 }Map_def;
 

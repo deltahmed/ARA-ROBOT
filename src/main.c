@@ -37,7 +37,7 @@ int main(){
         //Pour supprimer le one_win_mode
         
         while(game.player.get_life(&game.player) >0) {
-            re_print_all(&game,400);
+            re_print_all(&game,400,true);
 
             if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_TASK){
                 task_download(&game);

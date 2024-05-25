@@ -5,9 +5,10 @@
 #include "ARA_debug.h"
 #include "ARA_error.h"
 
-#define MAX_INVENTORY 10
+#define MAX_INVENTORY 8
 #define MAX_COUNT_INV 64
 #define MAX_LIFE 110
+#define MAX_NAME 100
 
 /**
  * @brief Structure representing a player its properties and methods.
@@ -17,10 +18,13 @@ typedef struct __player_struct
     int __x;
     int __y;
     int __life;
+    int __name[100];
     int __inventory[MAX_INVENTORY];
     int __inventory_count[MAX_INVENTORY];
     int __inv_index;
-
+    int __vision;
+    int __speed;
+    int __xp;
     /**
      * @brief Gets the x coordinate of the player.
      * 

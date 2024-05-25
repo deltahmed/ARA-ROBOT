@@ -38,6 +38,7 @@ static void __one_window_mode(ARA_Window* self){
     self->top = NULL;  
     self->bottom = NULL;  
     self->right = NULL;  
+    keypad(self->main_window, true);
 }
 
 /**
@@ -57,9 +58,12 @@ static void __create_windows(ARA_Window* self){
         self->top = subwin(self->main_window, (NB_LINES / 3)*2, (NB_COLS/3)*2, 0, 0);  
         self->bottom = subwin(self->main_window, NB_LINES / 3, (NB_COLS/3)*2, (NB_LINES / 3)*2, 0);
         self->right = subwin(self->main_window, 0, NB_COLS/3, 0, (NB_COLS/3)*2);
+        keypad(self->top, true);
+        keypad(self->bottom, true);
+        keypad(self->right, true);
         __ARA_box(self);
     }
-    
+    keypad(self->main_window, true);
 
 }
 /**
@@ -271,10 +275,12 @@ void ARA_Window_init(ARA_Window* self, ARA_Window_mode mode){
     curs_set(self->__cursor);
     if (mode){
         __one_window_mode(self);
+        
     } else {
         __create_windows(self);
     }
-    keypad(self->main_window, true);
+
+
     __color_init(self);
     __refresh_all(self);
     self->box_all = __ARA_box;

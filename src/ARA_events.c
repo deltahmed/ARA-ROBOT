@@ -6,7 +6,7 @@
  * @param game Pointer to the current game.
  */
 
-void print_right_window(Game* game){
+void print_right_window(Game* game, int time_show){
     char bat[20][100] = {
                         "▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄",
                         "█                     █",
@@ -49,21 +49,32 @@ void print_right_window(Game* game){
             }
             
             else {
-                cprint(game->window.right, 3, y, FONT_CRS_COLOR_GREEN, bat[i]);
+                cprintf(game->window.right, 3, y, FONT_CRS_COLOR_GREEN,"%s", bat[i]);
             }
             
         } else {
-            cprint(game->window.right, 3, y, BASE_CRS_COLOR_WHITE, bat[i]);
+            cprintf(game->window.right, 3, y, BASE_CRS_COLOR_WHITE, "%s",bat[i]);
         }
         
         
         y++;
     }
-
-    cprint(game->window.right, 3, y+1, BASE_CRS_COLOR_WHITE, "▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄");
-    game->timer.update(&game->timer);
-    cprintf(game->window.right, 5, y+2, BASE_CRS_COLOR_BRIGHT_RED, "Temps : %ld",game->timer.get(&game->timer));
-    cprint(game->window.right, 3, y+3, BASE_CRS_COLOR_WHITE, "▀█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▀");
+    if (time_show)
+    {
+        int time = 30 - mod(game->timer.get(&game->timer), 31);
+        update_life(game);
+        cprint(game->window.right, 3, y+1, BASE_CRS_COLOR_WHITE, "▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄");
+        game->timer.update(&game->timer);
+        cprintf(game->window.right, 7, y+2, BASE_CRS_COLOR_BRIGHT_RED, " Décharge : %d",time);
+        cprint(game->window.right, 3, y+3, BASE_CRS_COLOR_WHITE, "▀█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▀");
+    } else {
+        game->timer.update(&game->timer);
+        cprint(game->window.right, 3, y+1, BASE_CRS_COLOR_WHITE, "▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄");
+        cprint(game->window.right, 7, y+2, BASE_CRS_COLOR_BRIGHT_RED, "TASK IN PROGRESS");
+        cprint(game->window.right, 3, y+3, BASE_CRS_COLOR_WHITE, "▀█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▀");
+    }
+    
+    
 
     cprint(game->window.right, 1, y+5, BASE_CRS_COLOR_WHITE, "          █▀▀▀▀▀█");
     cprint(game->window.right, 1, y+6, BASE_CRS_COLOR_WHITE, "          █  Z  █");
@@ -84,10 +95,8 @@ void print_right_window(Game* game){
 
 
 }
-
 void print_bottom_window(Game *game){
     Player player = game->player;
-    char buffer[100];
     int base_x = 4;
     int x = base_x;
     int y = 1;
@@ -96,12 +105,8 @@ void print_bottom_window(Game *game){
     {
         for (int i = base_i; i < MAX_INVENTORY/2 + base_i; i++)
         {   
-            if (i+1 == 10)
-            {
-                cprintf(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "▄█▀▀%d▀▀█▄ ",0);
-            } else {
-                cprintf(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "▄█▀▀%d▀▀█▄ ",i+1);
-            }
+
+            cprintf(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█▀F%d|%d ▀█ ",i+1,i+1);
             x+=10;
         }
         x = base_x;
@@ -111,7 +116,19 @@ void print_bottom_window(Game *game){
             switch (player.__inventory[i])
             {
             case MAP_HEATH_CHARGE:
-                cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ 🔌    █ ");
+                cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ 🔋    █ ");
+                break;
+            case MAP_SONIC_VISION:
+                cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ 🔮    █ ");
+                break;
+            case MAP_HEATH_MEGA_CHARGE:
+                cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ ⚡    █ ");
+                break;
+            case MAP_SONIC_SPEED:
+                cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ ☄️    █ ");
+                break;
+            case MAP_HEATH_OR_DIE:
+                cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ 🧪    █ ");
                 break;
             default:
                 cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ []    █ ");
@@ -130,15 +147,16 @@ void print_bottom_window(Game *game){
         y++;
         for (int i = base_i; i < MAX_INVENTORY/2 + base_i; i++)
         {   
-            cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "▀█▄▄▄▄▄█▀ ");
+            cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█▄▄▄▄▄▄▄█ ");
             x+=10;
         }
         x = base_x;
         y+= 2;
         base_i += MAX_INVENTORY/2;
     }
-    
-    
+        cprint(game->window.bottom, 45, 4, BASE_CRS_COLOR_WHITE, "█▀▀▀▀▀▀▀█ ");
+        cprintf(game->window.bottom, 46, 5, BASE_CRS_COLOR_WHITE, "xp : %d",player.__xp);
+        cprint(game->window.bottom, 45, 6, BASE_CRS_COLOR_WHITE, "█▄▄▄▄▄▄▄█ ");
     
 }
 
@@ -174,11 +192,12 @@ void task_pop_up(Game *game, char * mission, char * emoji, int* x1, int* y1, int
         for(x=*x1; x<*x2; x+=2){
             if(y==*y1 || y==*y2-1 || x==*x1 || x==*x2-1){
                 snprintf(message, sizeof(message), emoji);
+                mvwaddstr(game->window.top,y,x,message);
             }
             else{
-                snprintf(message, sizeof(message), "  ");
+                mvwaddstr(game->window.top,y,x,"  ");
             }
-            mvwaddstr(game->window.top,y,x,message);
+            
         }
     }
     //Comme mvwaddstr ne prend que 4 parametres je ne peux pas faire (....,"%s",mission) c est pour ca que snprintf formate ma chaine pour etre utilisee sans "%s"
@@ -186,12 +205,12 @@ void task_pop_up(Game *game, char * mission, char * emoji, int* x1, int* y1, int
     mvwaddstr(game->window.top,*y1+1,*x1+(*x2-*x1)/2 - strlen(message)/2 +1,message);
 }
 
-void re_print_all(Game *game, int timeout){
+void re_print_all(Game *game, int timeout, int show_right_time){
     game->window.clear_all(&game->window);
     game->window.create(&game->window);
     wtimeout(game->window.main_window,timeout);
     print_bottom_window(game);
-    print_right_window(game);
+    print_right_window(game, show_right_time);
     print_map(game);
 }
 
@@ -202,17 +221,16 @@ void re_print_all(Game *game, int timeout){
  */
 void task_recalibrate(Game *game){
     int x1, x2, y1, y2;
-    char buffer[100];
     int bar_x;
     int input = 0;
     int fail = -1;
     Direction dir = D_WEST;
-    re_print_all(game, TASK_TIMOUT);
+    re_print_all(game, TASK_TIMOUT, false);
     task_pop_up(game, "Recalibrer le vaisssaux", "⚙ ", &x1, &y1, &x2, &y2);
     bar_x = x1+5;
     do
     {   
-        re_print_all(game, TASK_TIMOUT/4);
+        re_print_all(game, TASK_TIMOUT/4, false);
         task_pop_up(game, "Recalibrer le vaisssaux", "⚙ ", &x1, &y1, &x2, &y2);
         if (dir == D_WEST)
         {
@@ -267,8 +285,9 @@ void task_recalibrate(Game *game){
         if (is_in(bar_x, x1 + (x2-x1)/2 - 2, x1 + (x2-x1)/2 + 2) && input == ' ')
         {
             fail = 0;
+            game->player.__xp++;
         } else if (input == ' ') {
-            re_print_all(game, TASK_TIMOUT);
+            re_print_all(game, TASK_TIMOUT, false);
             task_pop_up(game, "Recalibrer le vaisssaux", "⚙ ", &x1, &y1, &x2, &y2);
             bar_x = x1+1;
             input = 0;
@@ -285,6 +304,7 @@ void task_recalibrate(Game *game){
                     }
                 }
             }
+            game->player.set_life(&game->player, game->player.get_life(&game->player) - 10);
             cprintadd(game->window.top,x1+11,y1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
             cprintadd(game->window.top,x1+11,y1+6,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▀▀█ ▀█▀  █    █");
             cprintadd(game->window.top,x1+11,y1+7,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▄▄█  █   █    █");
@@ -299,17 +319,11 @@ void task_recalibrate(Game *game){
 
 }
 
-/**
- * @brief Task of downloading the logs
- * Keep pressing on the bouton SPACE to download
- * @param game The current game
- */
 void task_download(Game *game){
     int x1, x2, y1, y2;
-    char buffer[100];
     int input = 0;
     int fail = -1;
-    re_print_all(game, TASK_TIMOUT);
+    re_print_all(game, TASK_TIMOUT, false);
     task_pop_up(game, "Download DATA", "🌐", &x1, &y1, &x2, &y2);
     
     int start_x1 = x1+5;
@@ -320,7 +334,7 @@ void task_download(Game *game){
     int progress = start_x1+1;
     do
     {   
-        re_print_all(game, TASK_TIMOUT/4);
+        re_print_all(game, TASK_TIMOUT/4, false);
         task_pop_up(game, "Download DATA", "🌐", &x1, &y1, &x2, &y2);
         cprintadd(game->window.top,x1+13,y1+2,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
         cprintadd(game->window.top,x1+13,y1+3,BASE_CRS_COLOR_WHITE,"█        █        █");
@@ -363,17 +377,12 @@ void task_download(Game *game){
           
 } 
 
-/**
- * @brief Task of finding who is the suspect
- * Move the cursor(q,s,d,z) to the emoji that is different than the others 
- * @param game The current game
- */
 void task_choose(Game *game){
     int x1, x2, y1, y2;
     int input = 0;
     int fail = -1;
-    re_print_all(game, TASK_TIMOUT);
-    task_pop_up(game, "Who is sus", "🛂", &x1, &y1, &x2, &y2);
+    re_print_all(game, TASK_TIMOUT, false);
+    task_pop_up(game, "Find the sus DNA", "🧫", &x1, &y1, &x2, &y2);
     
     int start_x1 = x1+5;
     int start_x2 = x2-4;
@@ -389,8 +398,8 @@ void task_choose(Game *game){
     int rand_emoji = randint(0,5);
     do
     {   
-        re_print_all(game, TASK_TIMOUT/4);
-        task_pop_up(game, "Who is sus", "🛂", &x1, &y1, &x2, &y2);
+        re_print_all(game, TASK_TIMOUT/4, false);
+        task_pop_up(game, "Find the sus DNA", "🧫", &x1, &y1, &x2, &y2);
         
         for (int y = start_y1; y < start_y2-1; y++)
         {
@@ -457,12 +466,14 @@ void task_choose(Game *game){
         input = game->window.get_key(&game->window);
 
         if (input == ' ' && playerx == rand_x && playery == rand_y)
-        {
+        {   
+            game->player.__xp+=5;
             fail = 0;
         } else if (input == ' '){
             
-            re_print_all(game, 1);
-            task_pop_up(game, "Who is sus", "🛂", &x1, &y1, &x2, &y2);
+            re_print_all(game, 1, false);
+            task_pop_up(game, "Find the sus DNA", "🧫", &x1, &y1, &x2, &y2);
+            game->player.set_life(&game->player, game->player.get_life(&game->player) - 10);
             cprintadd(game->window.top,x1+11,y1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
             cprintadd(game->window.top,x1+11,y1+6,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▀▀█ ▀█▀  █    █");
             cprintadd(game->window.top,x1+11,y1+7,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▄▄█  █   █    █");
@@ -498,16 +509,11 @@ void task_choose(Game *game){
           
 }
 
-/**
- * @brief Task of avoiding the bar
- * Move the heart(q,s,d,z) in order to fly from the bar
- * @param game The current game
- */
 void task_undertale(Game *game){
     int x1, x2, y1, y2;
     int input = 0;
     int fail = -1;
-    re_print_all(game, TASK_TIMOUT);
+    re_print_all(game, TASK_TIMOUT, false);
     task_pop_up(game, "Human..it was nice to meet you", "☠ ", &x1, &y1, &x2, &y2);
     int nb_r = 0;
     int start_x1 = x1+5;
@@ -525,7 +531,7 @@ void task_undertale(Game *game){
     do
     {   
         
-        re_print_all(game, 50);
+        re_print_all(game, 50, false);
         task_pop_up(game, "do you wanna have a bad time?", "☠ ", &x1, &y1, &x2, &y2);
         compteur += final - actual;
         if(compteur<0){
@@ -586,8 +592,9 @@ void task_undertale(Game *game){
             charge = false;
             nb_r = 0;
             rand_y = playery + randint(0  , 2) - randint(0  , 2);
-            re_print_all(game, 1);
+            re_print_all(game, 1, false);
             task_pop_up(game, "do you wanna have a bad time?", "☠ ", &x1, &y1, &x2, &y2);
+            game->player.set_life(&game->player, game->player.get_life(&game->player) - 10);
             cprintadd(game->window.top,x1+11,y1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
             cprintadd(game->window.top,x1+11,y1+6,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▀▀█ ▀█▀  █    █");
             cprintadd(game->window.top,x1+11,y1+7,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▄▄█  █   █    █");
@@ -620,9 +627,9 @@ void task_undertale(Game *game){
         }
     
     }while (fail != 0 && nb_r < 10 );
+    game->player.__xp+=5;
           
 }
-
 
 /**
  * @brief Task of filling a tank
@@ -650,7 +657,7 @@ void task_fill(Game *game){
                         "█  ▀          ▀  █",
                         "█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█"};
     do{
-        re_print_all(game, TASK_TIMOUT);
+        re_print_all(game, TASK_TIMOUT, false);
         task_pop_up(game, "Remplir le reservoir", "🕸 ", &x1, &y1, &x2, &y2);
         posy1=y1+2;
         posx1=x1+13;
@@ -681,6 +688,7 @@ void task_fill(Game *game){
             count++;
         }
     }while(count<11*nbr);
+    game->player.__xp+=1;
 }
 
 /**
@@ -698,7 +706,7 @@ void task_temperature(Game *game){
         essay=randint(1,401)-200;
         carvalue=0;
         do{
-            re_print_all(game,MAIN_TIMEOUT);
+            re_print_all(game,MAIN_TIMEOUT,false);
             task_pop_up(game,"Regulate temperature","🔥",&x1,&y1,&x2,&y2);
             cprintadd(game->window.top,(x1+x2)/2-7,y1+4,BASE_CRS_COLOR_WHITE,"🔼");
             sprintf(message, "%d",essay);
@@ -738,7 +746,7 @@ void task_temperature(Game *game){
             }
             
         }while(1);
-        re_print_all(game,MAIN_TIMEOUT);
+        re_print_all(game,MAIN_TIMEOUT,false);
         task_pop_up(game,"Regulate temperature","🔥",&x1,&y1,&x2,&y2);
         cprintadd(game->window.top,x1+11,y1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
         cprintadd(game->window.top,x1+11,y1+6,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▀▀█ ▀█▀  █    █");
@@ -749,8 +757,8 @@ void task_temperature(Game *game){
         game->window.update_key(&game->window);
         carvalue = game->window.get_key(&game->window);
     }while(1);
+    game->player.__xp+=1;
 }
-
 /**
  * @brief Task of avoiding meteorites
  * 
@@ -766,7 +774,7 @@ void task_avoid(Game *game){
     do{
         retu=1;
         compteur=0;
-        re_print_all(game, 1);
+        re_print_all(game, 1, false);
         task_pop_up(game, "Evitez les meteorites", "🏮", &posx1, &posy1, &posx2, &posy2);
         xplayer=(posx1+posx2)/2;
         yplayer=posy2-3;
@@ -790,7 +798,7 @@ void task_avoid(Game *game){
                 }
                 clock_gettime(CLOCK_REALTIME,&current);
                 actual=current.tv_sec*1000+current.tv_nsec/1000000;
-                re_print_all(game, 50);
+                re_print_all(game, 50, false);
                 task_pop_up(game, "Evitez les meteorites", "🏮", &posx1, &posy1, &posx2, &posy2);
                 mvwaddstr(game->window.top,yplayer,xplayer,"🤖");
                 for(int i=0;i<AVOID;i++){
@@ -825,8 +833,9 @@ void task_avoid(Game *game){
         if(retu==1){
             return;
         }
-        re_print_all(game, 1);
+        re_print_all(game, 1, false);
         task_pop_up(game, "Evitez les meteorites", "🏮", &posx1, &posy1, &posx2, &posy2);
+        game->player.set_life(&game->player, game->player.get_life(&game->player) - 10);
         cprintadd(game->window.top,posx1+11,posy1+5,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
         cprintadd(game->window.top,posx1+11,posy1+6,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▀▀█ ▀█▀  █    █");
         cprintadd(game->window.top,posx1+11,posy1+7,BASE_CRS_COLOR_WHITE,"█  █▀▀▀  █▄▄█  █   █    █");
@@ -836,6 +845,7 @@ void task_avoid(Game *game){
         game->window.update_key(&game->window);
         carvalue = game->window.get_key(&game->window);
     }while(retu==0);
+    game->player.__xp+=5;
 }
 
 /**
@@ -893,7 +903,7 @@ int QTE(Game *game){
     int i=0;
     //Le premier do while c est en attendant que le joueur tape espace
     do{
-        re_print_all(game, MAIN_TIMEOUT);
+        re_print_all(game, MAIN_TIMEOUT, false);
         print_arena(game,-1);
         game->window.update(&game->window);
         game->window.update_key(&game->window);
@@ -901,7 +911,7 @@ int QTE(Game *game){
     //Là le joueur a tape espace et il commence a vraiment jouer le QTE
     for(i=0;i<6;i++){
         carvalue=randint('a','z'+1);
-        re_print_all(game, MAIN_TIMEOUT *2);
+        re_print_all(game, MAIN_TIMEOUT*2, false);
         print_arena(game,carvalue);          
         game->window.update(&game->window);
         game->window.update_key(&game->window);
