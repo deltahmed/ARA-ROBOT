@@ -425,6 +425,7 @@ int player_movement(Game* self){
             if(check_player_move(self, x, y+1)){
                 self->player.set_y(&self->player,y+1);
             }
+            break;
         case KEY_F(1):
         case '1':
             object_effect(self, self->player.__inventory[0]);

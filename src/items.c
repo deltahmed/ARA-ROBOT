@@ -1,10 +1,10 @@
 #include "items.h"
 
-int destroy_obj(Game* game, int x, int y ){
+void destroy_obj(Game* game, int x, int y ){
     game->map.set(&game->map, x ,y, MAP_ROOM);
 }
 
-int object_effect(Game* game, Map_def value){
+void object_effect(Game* game, Map_def value){
     
 
     switch (value)

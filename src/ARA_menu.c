@@ -125,7 +125,7 @@ int verif_number(char *numberchar){
         if('0'<=numberchar[i] && numberchar[i]<='9'){
             add=numberchar[i]-'0';
         }
-        number+=add*pow(10,size-1-i);
+        number+=add* (int)pow(10,size-1-i);
     }
     return number;
 }

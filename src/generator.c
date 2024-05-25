@@ -624,13 +624,13 @@ int check_possible_gen(Game* game, int x, int y, Map_def door){
     switch (door)
     {
     case MAP_UNDISCOVERED_DOOR_NORTH:
-        return check_3x3_zone(game, x-ROOM_MIN_SIZE/2, y-ROOM_MIN_SIZE);
+        return check_3x3_zone(game, x-ROOM_MIN_SIZE/2  , y-ROOM_MIN_SIZE-1);
         break;
     case MAP_UNDISCOVERED_DOOR_EAST:
         return check_3x3_zone(game, x+ROOM_MIN_SIZE, y-ROOM_MIN_SIZE/2);
         break;
     case MAP_UNDISCOVERED_DOOR_WEST:
-        return check_3x3_zone(game, x-ROOM_MIN_SIZE, y-1);
+        return check_3x3_zone(game, x-ROOM_MIN_SIZE-1, y-1);
         break;
     case MAP_UNDISCOVERED_DOOR_SOUTH:
         return check_3x3_zone(game, x-ROOM_MIN_SIZE/2, y+ROOM_MIN_SIZE);

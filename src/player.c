@@ -53,7 +53,7 @@ static int __get_life(Player* self){
  * 
  * @param self Pointer to self.
  */
-static __set_life(Player* self, int value){
+static void __set_life(Player* self, int value){
     self->__life = stick_in_range(value, 0, MAX_LIFE);
 }
 

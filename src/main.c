@@ -6,6 +6,7 @@
 #include "ARA_menu.h"
 #include "ARA_file.h"
 #include "ARA_events.h"
+#include "items.h"
 
 //88 33
 
@@ -43,10 +44,6 @@ int main(){
                 task_download(&game);
                 game.map.set(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player),MAP_ROOM);
             }
-            if(game.map.get(&game.map,game.player.get_x(&game.player),game.player.get_y(&game.player))==MAP_HEATH_CHARGE){
-                object_effect(&game, game.player.get_x(&game.player), game.player.get_y(&game.player));
-            }
-
             compteur+=final-actual;
             if(compteur<0){
                 compteur=0;
