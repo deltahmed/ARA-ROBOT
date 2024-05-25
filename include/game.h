@@ -78,7 +78,7 @@ int is_in_cone(Game* game, int x, int y, int player_x, int player_y, int* room1_
 void print_switch_room(Game* game, int get_value, int i, int j);
 void print_in_shadow(Game* game, int get_value, int playerx, int playery, int i, int j, int actual_x, int actual_y);
 void print_map(Game* game);
-void print_right_window(Game* game);
+
 
 boolean check_player_move(Game* self, int x, int y);
 

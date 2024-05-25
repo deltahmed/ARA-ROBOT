@@ -5,8 +5,145 @@
  * @brief Displays the control instructions in the bottom window of the game.
  * @param game Pointer to the current game.
  */
+
+void print_right_window(Game* game){
+    char bat[20][100] = {
+                        "▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄",
+                        "█                     █",
+                        "█          ██         █",
+                        "█         ██          █",
+                        "█        ██           █",
+                        "█       ▀▀▀█▄▄▄       █",
+                        "█           ██        █",
+                        "█          ██         █",
+                        "█         ██          █",
+                        "█                     █",
+                        "▀█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▀"};
+
+    cprint(game->window.right, 3, 1, BASE_CRS_COLOR_WHITE, "         █▀▀▀█");
+    int y = 2;
+    int x = 3;
+    int health = game->player.get_life(&game->player);
+    int filled_length = (health * 11) / 100;
+    for (int i = 0; i < 11; i++)
+    {   
+        
+        
+        if (i > 11 - filled_length)
+        {   
+            if (i == 0)
+            {   
+                cprint(game->window.right, x, y, BASE_CRS_COLOR_WHITE, "▄");
+                x++;
+                cprint(game->window.right, x, y, FONT_CRS_COLOR_GREEN, "█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
+                x+=21;
+                cprint(game->window.right, x, y, BASE_CRS_COLOR_WHITE, "▄");
+                x = 3;
+            } else if (i == 10){
+                cprint(game->window.right, x, y, BASE_CRS_COLOR_WHITE, "▀");
+                x++;
+                cprint(game->window.right, x, y, FONT_CRS_COLOR_GREEN, "█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+                x+=21;
+                cprint(game->window.right, x, y, BASE_CRS_COLOR_WHITE, "▀");
+                x = 3;
+            }
+            
+            else {
+                cprint(game->window.right, 3, y, FONT_CRS_COLOR_GREEN, bat[i]);
+            }
+            
+        } else {
+            cprint(game->window.right, 3, y, BASE_CRS_COLOR_WHITE, bat[i]);
+        }
+        
+        
+        y++;
+    }
+
+    cprint(game->window.right, 3, y+1, BASE_CRS_COLOR_WHITE, "▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄");
+    game->timer.update(&game->timer);
+    cprintf(game->window.right, 5, y+2, BASE_CRS_COLOR_BRIGHT_RED, "Temps : %ld",game->timer.get(&game->timer));
+    cprint(game->window.right, 3, y+3, BASE_CRS_COLOR_WHITE, "▀█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▀");
+
+    cprint(game->window.right, 1, y+5, BASE_CRS_COLOR_WHITE, "          █▀▀▀▀▀█");
+    cprint(game->window.right, 1, y+6, BASE_CRS_COLOR_WHITE, "          █  Z  █");
+    cprint(game->window.right, 1, y+7, BASE_CRS_COLOR_WHITE, "          █▄▄▄▄▄█");
+    cprint(game->window.right, 1, y+9, BASE_CRS_COLOR_WHITE, " █▀▀▀▀▀█  █▀▀▀▀▀█  █▀▀▀▀▀█");
+    cprint(game->window.right, 1, y+10, BASE_CRS_COLOR_WHITE, " █  Q  █  █  S  █  █  D  █");
+    cprint(game->window.right, 1, y+11, BASE_CRS_COLOR_WHITE, " █▄▄▄▄▄█  █▄▄▄▄▄█  █▄▄▄▄▄█");
+    cprint(game->window.right, 1, y+13, BASE_CRS_COLOR_WHITE, " █▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
+    cprint(game->window.right, 1, y+14, BASE_CRS_COLOR_WHITE, " █ █▄▄▄▄▄▄▄TASKS▄▄▄▄▄▄▄█ █ ");
+    cprint(game->window.right, 1, y+15, BASE_CRS_COLOR_WHITE, " █▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+    cprint(game->window.right, 1, y+17, BASE_CRS_COLOR_WHITE, " █▀ M ▀█▄▄▄▄▄▄MENU▄▄▄▄▄▄▄▄");
+    cprint(game->window.right, 1, y+18, BASE_CRS_COLOR_WHITE, " █▄▄▄▄▄█                 ▀");
+
+
+
+
+
+
+
+}
+
 void print_bottom_window(Game *game){
-    mvwprintw(game->window.bottom,1,3,"    +---+");
+    Player player = game->player;
+    char buffer[100];
+    int base_x = 4;
+    int x = base_x;
+    int y = 1;
+    int base_i = 0;
+    for (int j = 0; j < 2; j++)
+    {
+        for (int i = base_i; i < MAX_INVENTORY/2 + base_i; i++)
+        {   
+            if (i+1 == 10)
+            {
+                cprintf(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "▄█▀▀%d▀▀█▄ ",0);
+            } else {
+                cprintf(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "▄█▀▀%d▀▀█▄ ",i+1);
+            }
+            x+=10;
+        }
+        x = base_x;
+        y++;
+        for (int i = base_i; i < MAX_INVENTORY/2 + base_i; i++)
+        {   
+            switch (player.__inventory[i])
+            {
+            case MAP_HEATH_CHARGE:
+                cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ 🔌    █ ");
+                break;
+            default:
+                cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ []    █ ");
+                break;
+            }
+            x+=10;
+        }
+        x = base_x;
+        y++;
+        for (int i = base_i; i < MAX_INVENTORY/2 + base_i; i++)
+        {   
+            cprintf(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█   x%02d █ ",player.__inventory_count[i]);
+            x+=10;
+        }
+        x = base_x;
+        y++;
+        for (int i = base_i; i < MAX_INVENTORY/2 + base_i; i++)
+        {   
+            cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "▀█▄▄▄▄▄█▀ ");
+            x+=10;
+        }
+        x = base_x;
+        y+= 2;
+        base_i += MAX_INVENTORY/2;
+    }
+    
+    
+    
+}
+
+/*
+mvwprintw(game->window.bottom,1,3,"    +---+");
     mvwprintw(game->window.bottom,2,3,"    | z |");
     mvwprintw(game->window.bottom,3,3,"+---+---+---+");
     mvwprintw(game->window.bottom,4,3,"| q | s | d |");
@@ -14,7 +151,8 @@ void print_bottom_window(Game *game){
     mvwprintw(game->window.bottom,7,2,"m : Menu");
     game->timer.update(&game->timer);
     cprintf(game->window.bottom, 2, 6, BASE_CRS_COLOR_BRIGHT_RED, "Temps : %ld",game->timer.get(&game->timer));
-}
+
+*/
 
 /**
  * @brief Displays a task with a border made of emoji characters.
@@ -156,6 +294,118 @@ int task_recalibrate(Game *game){
 
 
 }
+
+int task_download(Game *game){
+    int x1, x2, y1, y2;
+    char buffer[100];
+    int input = 0;
+    int fail = -1;
+    re_print_all(game, TASK_TIMOUT);
+    task_pop_up(game, "Download DATA", "🌐", &x1, &y1, &x2, &y2);
+    
+    int start_x1 = x1+5;
+    int start_x2 = x2-5;
+    int start_y1 = y1+10;
+    int start_y2 = y1+13;
+    int color;
+    int progress = start_x1+1;
+    do
+    {   
+        re_print_all(game, TASK_TIMOUT/4);
+        task_pop_up(game, "Download DATA", "🌐", &x1, &y1, &x2, &y2);
+        cprintadd(game->window.top,x1+13,y1+2,BASE_CRS_COLOR_WHITE,"█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█");
+        cprintadd(game->window.top,x1+13,y1+3,BASE_CRS_COLOR_WHITE,"█        █        █");
+        cprintadd(game->window.top,x1+13,y1+4,BASE_CRS_COLOR_WHITE,"█   ▀▄   █   ▄▀   █");
+        cprintadd(game->window.top,x1+13,y1+5,BASE_CRS_COLOR_WHITE,"█     ▀▄ █ ▄▀     █");
+        cprintadd(game->window.top,x1+13,y1+6,BASE_CRS_COLOR_WHITE,"█ █     ▀█▀     █ █");
+        cprintadd(game->window.top,x1+13,y1+7,BASE_CRS_COLOR_WHITE,"█ █▄▄▄▄▄▄▄▄▄▄▄▄▄█ █");
+        cprintadd(game->window.top,x1+13,y1+8,BASE_CRS_COLOR_WHITE,"█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█");
+
+        for (int y = start_y1; y < start_y2; y++)
+        {
+            for (int x = start_x1; x < start_x2; x++)
+            {   
+                color = (x < progress) ? FONT_CRS_COLOR_GREEN : BASE_CRS_COLOR_WHITE;
+
+                if (x == start_x1 || x == start_x2-1 || ( (y == start_y1 || y == start_y2-1) && (x == start_x1+1 || x == start_x2-2) ))
+                {
+                    cprintadd(game->window.top,x,y,color,"█");
+                } else if (y==start_y1){
+                    cprintadd(game->window.top,x,y,color,"▀");
+                } else if (y==start_y2-1){
+                    cprintadd(game->window.top,x,y,color,"▄");
+                } else {
+                    cprintadd(game->window.top,x,y,color," ");
+                }
+                
+            }
+        }
+        game->window.update_key(&game->window);
+        input = game->window.get_key(&game->window);
+        if (input == ' ')
+        {
+            progress ++;
+        }
+        if (progress >= start_x2-1){
+            fail = 0;
+        }
+    
+    }while (fail != 0);
+          
+} 
+
+int task_choose(Game *game){
+    int x1, x2, y1, y2;
+    char buffer[100];
+    int input = 0;
+    int fail = -1;
+    re_print_all(game, TASK_TIMOUT);
+    task_pop_up(game, "Who is sus", "⁉ ", &x1, &y1, &x2, &y2);
+    
+    int start_x1 = x1+5;
+    int start_x2 = x2-5;
+    int start_y1 = y1+10;
+    int start_y2 = y1+13;
+    int color;
+    int progress = start_x1+1;
+    do
+    {   
+        re_print_all(game, TASK_TIMOUT/4);
+        task_pop_up(game, "Who is sus", "🌐", &x1, &y1, &x2, &y2);
+
+        for (int y = start_y1; y < start_y2; y++)
+        {
+            for (int x = start_x1; x < start_x2; x++)
+            {   
+                color = (x < progress) ? FONT_CRS_COLOR_GREEN : BASE_CRS_COLOR_WHITE;
+
+                if (x == start_x1 || x == start_x2-1)
+                {
+                    cprintadd(game->window.top,x,y,color,"█");
+                } else if (y==start_y1){
+                    cprintadd(game->window.top,x,y,color,"▀");
+                } else if (y==start_y2-1){
+                    cprintadd(game->window.top,x,y,color,"▄");
+                } else {
+                    cprintadd(game->window.top,x,y,color," ");
+                }
+                
+            }
+        }
+        game->window.update_key(&game->window);
+        input = game->window.get_key(&game->window);
+        if (input == ' ')
+        {
+            progress ++;
+        }
+        if (progress >= start_x2-1){
+            fail = 0;
+        }
+    
+    }while (fail != 0);
+          
+} 
+
 
 /**
  * @brief Task of filling a tank

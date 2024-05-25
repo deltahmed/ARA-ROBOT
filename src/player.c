@@ -57,6 +57,11 @@ static int __set_life(Player* self, int value){
     self->__life = stick_in_range(value, 0, MAX_LIFE);
 }
 
+/**
+ * @brief Rearranges the player's inventory to remove empty slots.
+ *
+ * @param self Pointer to self.
+ */
 static void __rearenge_tab(Player* self){
    self->__inv_index;
     int new_index = 0;
@@ -73,6 +78,16 @@ static void __rearenge_tab(Player* self){
    }
 }
 
+/**
+ * @brief Uses an item from the player's inventory.
+ *
+ * removes teh item it if the count reaches zero.
+ * It then rearranges the inventory to remove any empty slots.
+ *
+ * @param self Pointer to self.
+ * @param index Index of the item.
+ * @throw VALUE_ERROR if index not in range.
+ */
 static void __use_object(Player* self, int index){
     if (index < 0 || index > MAX_INVENTORY)
     {
@@ -80,15 +95,39 @@ static void __use_object(Player* self, int index){
     }
 
     self->__inventory_count[index]--;
-    if (self-> __inventory_count[index] == 0){ //je pars du principe que la case est déjà vide
+    if (self-> __inventory_count[index] <= 0){ 
         self->__inventory[index] = 0;
+        self-> __inventory_count[index] = 0;
     }
     __rearenge_tab(self);
 }
 
+/**
+ * @brief Adds an item to the player inventory.
+ *
+ * If the item already exists in the inventory, it increases its count. if not it add  the item to the first available slot.
+ *
+ * @param self Pointer to self..
+ * @param object The item.
+ * @throw VALUE_ERROR if __inv_index not in range.
+ */
 static void __add_object(Player* self, Map_def object){
-   
-    
+    if (self-> __inv_index >= MAX_INVENTORY){
+        ARA_error(VALUE_ERROR);
+    }
+    for (int i= 0; i < MAX_INVENTORY; i++){
+        if(self->__inventory[i]== object){
+            self->__inventory_count[i]++;
+            if (self->__inventory_count[i] > MAX_COUNT_INV)
+            {
+                self->__inventory_count[i] = MAX_COUNT_INV;
+            }
+            return;
+        }
+    }
+    self->__inventory[self->__inv_index] = object;
+    self->__inventory_count[self->__inv_index] = 1;
+    self->__inv_index++;
 }
 
 /**
@@ -99,8 +138,14 @@ static void __add_object(Player* self, Map_def object){
 void Init_Player(Player* self){
     self->__x = MAP_SIZE_X/2;
     self->__y = MAP_SIZE_Y/2;
-    __set_life(self, MAX_LIFE/2);
+    __set_life(self, MAX_LIFE-20);
     self->__inv_index = 0;
+    for (size_t i = 0; i < MAX_INVENTORY; i++)
+    {
+        self->__inventory[i] = 0;
+        self->__inventory_count[i] = 0;
+    }
+    
 
     self->get_x = __get_x;
     self->get_y = __get_y;

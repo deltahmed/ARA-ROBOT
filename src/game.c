@@ -348,15 +348,7 @@ void print_map(Game* game){
     
     
 }
-void print_right_window(Game* game){
-    cprint(game->window.right, 1, 1, BASE_CRS_COLOR_BRIGHT_GREEN, "battery charging :");
-    int index = 0;
-    for (int i = 0; i < game->player.get_life(&game->player); i+=10)
-    {
-        cprint(game->window.right, 1+index, 2, BASE_CRS_COLOR_BLACK, "🔋");
-        index+=2;
-    }
-}
+
 
 
 /**
