@@ -14,7 +14,7 @@
  * @brief Rooms max and min size definition.
  */
 #define ROOM_MAX_SIZE 22
-#define ROOM_MIN_SIZE 2
+#define ROOM_MIN_SIZE 3
 
 /**
  * @brief a direction struct for multiple uses.
