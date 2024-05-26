@@ -570,14 +570,24 @@ void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def ban
             game->map.set(&game->map, rand_x, rand_y, randint(MAP_MONSTER, MAP_MONSTER4 +1)); 
         }
     }
-    nb = randint (0, 3);
+    nb = randint (0, 2);
     for (int i = 0; i < nb; i++)
     {
         rand_x = randint(x1+1,x2-1);
         rand_y = randint(y1+1,y2-1);
         if (game->map.get(&game->map,rand_x, rand_y) == MAP_ROOM)
         {
-            game->map.set(&game->map, rand_x, rand_y, randint(MAP_HEATH_CHARGE, MAP_HEATH_OR_DIE+1)); 
+            game->map.set(&game->map, rand_x, rand_y, randint(MAP_HEATH_MEGA_CHARGE, MAP_HEATH_OR_DIE+1)); 
+        }
+    }
+    nb = randint (0, 5);
+    for (int i = 0; i < nb; i++)
+    {
+        rand_x = randint(x1+1,x2-1);
+        rand_y = randint(y1+1,y2-1);
+        if (game->map.get(&game->map,rand_x, rand_y) == MAP_ROOM)
+        {
+            game->map.set(&game->map, rand_x, rand_y, MAP_HEATH_CHARGE); 
         }
     }
 

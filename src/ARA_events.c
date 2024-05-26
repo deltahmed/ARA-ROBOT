@@ -415,7 +415,7 @@ void task_choose(Game *game){
     rand_x = randint(start_x1+2  , start_x2-3);
     rand_x += rand_x%2;
     rand_y = randint(start_y1+1  , start_y2 -3);
-    int rand_emoji = randint(0,5);
+    int rand_emoji = randint(0,9);
     do
     {   
         re_print_all(game, TASK_TIMOUT/4, false);
@@ -468,6 +468,38 @@ void task_choose(Game *game){
                             cprintadd(game->window.top,x,y,color,"‼ ");
                         } else {
                             cprintadd(game->window.top,x,y,color,"⁉ ");
+                        }
+                        break;
+                    case 5:
+                        if (x == rand_x && y== rand_y)
+                        { 
+                            cprintadd(game->window.top,x,y,color,"😈");
+                        } else {
+                            cprintadd(game->window.top,x,y,color,"👿");
+                        }
+                        break;
+                    case 6:
+                        if (x == rand_x && y== rand_y)
+                        { 
+                            cprintadd(game->window.top,x,y,color,"🐏");
+                        } else {
+                            cprintadd(game->window.top,x,y,color,"🐑");
+                        }
+                        break;
+                    case 7:
+                        if (x == rand_x && y== rand_y)
+                        { 
+                            cprintadd(game->window.top,x,y,color,"🏠");
+                        } else {
+                            cprintadd(game->window.top,x,y,color,"🏡");
+                        }
+                        break;
+                    case 8:
+                        if (x == rand_x && y== rand_y)
+                        { 
+                            cprintadd(game->window.top,x,y,color,"🚈");
+                        } else {
+                            cprintadd(game->window.top,x,y,color,"🚄");
                         }
                         break;
                     

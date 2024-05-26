@@ -43,7 +43,7 @@ void object_effect(Game* game, Map_def value){
     case MAP_HEATH_OR_DIE:
         if (randint(0,2) == 0)
         {
-            game->player.set_life(&game->player, game->player.get_life(&game->player) + 10);
+            game->player.set_life(&game->player, game->player.get_life(&game->player) + 30);
         } else {
             game->player.set_life(&game->player, game->player.get_life(&game->player) - 10);
         }
