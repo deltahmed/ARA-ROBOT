@@ -182,7 +182,7 @@ void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_d
     {   
 
         for (int direction = MAP_UNDISCOVERED_DOOR_NORTH; direction <= MAP_UNDISCOVERED_DOOR_SOUTH; direction++){   
-            if (direction != (int)banned_door ){
+            if (direction != (int)banned_door){
                
                 generate_doors_on_wall(game, x1, y1, x2, y2, direction);
                 
@@ -271,7 +271,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
      
 
     while (intersect(game, x1, y1, x2, y2) && !miniroom){  
-        if (y2-y1 + x2 - x1 <= 6)
+        if (y2-y1<=3 || x2 - x1 <= 3)
         {
             miniroom = 1;
         }
@@ -343,7 +343,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
             break;
         }
     }
-    if (x2-x1 < ROOM_MIN_SIZE+1)
+    if (x2-x1 < ROOM_MIN_SIZE+1 || miniroom)
     {
         switch (get_door)
         {
@@ -365,7 +365,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
         }
     }
 
-    if (y2-y1 < ROOM_MIN_SIZE+1)
+    if (y2-y1 < ROOM_MIN_SIZE+1 || miniroom)
     {
         switch (get_door)
         {
