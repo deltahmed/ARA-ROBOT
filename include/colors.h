@@ -1,3 +1,13 @@
+/**
+ * @file colors.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Colors handling header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef ARA_COLOR_H
 #define ARA_COLOR_H
 

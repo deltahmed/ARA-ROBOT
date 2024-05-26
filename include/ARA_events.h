@@ -1,3 +1,13 @@
+/**
+ * @file ARA_events.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Games events handling header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef EVENTS_H
 #define EVENTS_H
 

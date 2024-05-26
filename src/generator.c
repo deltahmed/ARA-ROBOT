@@ -1,4 +1,12 @@
-
+/**
+ * @file generator.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Genration of the map related functions 
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "game.h"
 
 

@@ -1,3 +1,13 @@
+/**
+ * @file ARA_menu.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Menu handling header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef MENU_H
 #define MENU_H
 

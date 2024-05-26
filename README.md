@@ -30,6 +30,7 @@
 
 * [About The Project](#about-the-project)
   * [Built With](#built-with)
+  * [Documentation](#documentation)
 * [Prerequisites](#prerequisites)
 * [Environment](#environment)
 * [Installation](#installation)
@@ -45,6 +46,11 @@
 
 **ARA-ROBOT** is a C game using the `ncursesw` library, created as part of a school project for the end of the second semester of the first year of preparatory engineering. The game is a **Rogue Lite** where you play as a robot moving through portals within a randomly generated map. Inside these maps, you will encounter **space monsters** that you must either eliminate or try to escape from as they are quite fast. Embark on an adventure and discover numerous **tasks** to complete inside this monster-infested ship.
 
+### Documentation
+
+[You can check the documentation here](https://ARArobot.deltahmed.fr)
+
+
 ### Built With
 
 ![GCC](https://img.shields.io/badge/-GCC-05122A?style=for-the-badge&logo=GNU)
@@ -52,7 +58,6 @@
 ![C](https://img.shields.io/badge/-ncursesw-05122A?style=for-the-badge&logo=C)
 ![Make](https://img.shields.io/badge/-make-05122A?style=for-the-badge&logo=C)
 ![Make](https://img.shields.io/badge/-linux-05122A?style=for-the-badge&logo=linux)
-
 
 ## Prerequisites
 - A recent version of the C compiler and make.

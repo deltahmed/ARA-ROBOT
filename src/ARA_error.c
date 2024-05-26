@@ -1,3 +1,13 @@
+/**
+ * @file ARA_error.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Error handling
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include "ARA_error.h"
 #include "colors.h"
 

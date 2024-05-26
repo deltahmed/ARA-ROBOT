@@ -1,4 +1,12 @@
-
+/**
+ * @file ARA_window.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Windows and ncurses related functions/methods
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "ARA_window.h"
 
 /**

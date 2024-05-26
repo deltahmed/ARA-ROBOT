@@ -1,3 +1,12 @@
+/**
+ * @file items.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Objects functions 
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "items.h"
 
 /**

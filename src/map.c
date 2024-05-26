@@ -1,4 +1,12 @@
-
+/**
+ * @file map.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Map related functions/methods
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "map.h"
 
 /**

@@ -1,4 +1,12 @@
-
+/**
+ * @file ARA_math.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Useful Maths functions 
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "ARA_math.h"
 
 /**

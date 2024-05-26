@@ -1,4 +1,12 @@
-
+/**
+ * @file game.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Main game funtion and print map function
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "game.h"
 #include "items.h"
 //22

@@ -1,3 +1,13 @@
+/**
+ * @file ARA_time.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Time handling header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef ARA_TIME
 #define ARA_TIME
 #include <time.h>

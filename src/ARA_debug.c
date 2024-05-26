@@ -1,3 +1,12 @@
+/**
+ * @file ARA_debug.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief debug functions 
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "ARA_debug.h"
 
 /**

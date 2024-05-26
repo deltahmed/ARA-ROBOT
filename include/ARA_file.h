@@ -1,3 +1,13 @@
+/**
+ * @file ARA_file.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Files and saves handling header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef FILE_H
 #define FILE_H
 #include "ARA_def.h"

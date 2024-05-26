@@ -1,4 +1,12 @@
-
+/**
+ * @file main.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Main loop file
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "ARA_def.h"
 #include "map.h"
 #include "ARA_window.h"

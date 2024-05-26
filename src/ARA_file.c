@@ -1,3 +1,12 @@
+/**
+ * @file ARA_file.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief files handling, save game, resume game
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "ARA_file.h"
 
 /**

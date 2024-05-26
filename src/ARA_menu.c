@@ -1,3 +1,13 @@
+/**
+ * @file ARA_menu.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief All the specific menus 
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include "ARA_menu.h"
 #include <math.h>
 

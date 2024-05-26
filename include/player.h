@@ -1,3 +1,13 @@
+/**
+ * @file player.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Player handling header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef PLAYER_H
 #define PLAYER_H
 

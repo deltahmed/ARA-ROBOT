@@ -1,3 +1,13 @@
+/**
+ * @file ARA_error.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Error handling header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef ARAERROR
 #define ARAERROR
 

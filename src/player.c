@@ -1,3 +1,13 @@
+/**
+ * @file player.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Player related functions/methods
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include "player.h"
 
 /**

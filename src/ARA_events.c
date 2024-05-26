@@ -1,3 +1,13 @@
+/**
+ * @file ARA_events.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Events and task; printing on the right and bottom window
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #include "ARA_events.h"
 
 

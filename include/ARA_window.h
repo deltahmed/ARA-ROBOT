@@ -1,3 +1,13 @@
+/**
+ * @file ARA_window.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief ncursesw handling header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #define _XOPEN_SOURCE_EXTENDED 1
 #define _XOPEN_SOURCE 700
 

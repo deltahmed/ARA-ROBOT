@@ -1,3 +1,13 @@
+/**
+ * @file map.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Map definition and handling header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef MAP
 #define MAP
 #include "ARA_def.h"

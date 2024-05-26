@@ -1,3 +1,13 @@
+/**
+ * @file ARA_def.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Definition header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef MAIN
 #define MAIN
 

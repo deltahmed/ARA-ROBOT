@@ -1,3 +1,13 @@
+/**
+ * @file game.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Main game (and generation) header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef GAME_H
 #define GAME_H
 

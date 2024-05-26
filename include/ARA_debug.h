@@ -1,3 +1,14 @@
+/**
+ * @file ARA_debug.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A. ()
+ * @brief debug file header
+ * @version 1.0
+ * @date 2024-05-26
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef DEBUG_H
 #define DEBUG_H
 

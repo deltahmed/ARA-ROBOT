@@ -1,4 +1,12 @@
-
+/**
+ * @file alphabet.c
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Alphabet printing for QTE
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
 #include "ARA_events.h"
 
 /**

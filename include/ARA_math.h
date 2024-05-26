@@ -1,3 +1,13 @@
+/**
+ * @file ARA_math.h
+ * @author Ahmed A., Rayane M., Abdelwaheb A.
+ * @brief Maths handling header
+ * @version 1.0
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #ifndef OWN_MATH
 #define OWN_MATH
 
