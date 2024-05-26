@@ -538,18 +538,26 @@ void task_choose(Game *game){
         switch (input)
         {
         case 'z':
+        case 'Z':
+        case KEY_UP:
             playery--;
             playery = stick_in_range(playery, start_y1  , start_y2 -2);
             break;
         case 's':
+        case 'S':
+        case KEY_DOWN:
             playery++;
             playery = stick_in_range(playery, start_y1  , start_y2 -2);
             break;
         case 'q':
+        case 'Q':
+        case KEY_LEFT:
             playerx-=2;
             playerx = stick_in_range(playerx, start_x1+2  , start_x2-2 );
             break;
         case 'd':
+        case 'D':
+        case KEY_RIGHT:
             playerx+=2;
             playerx = stick_in_range(playerx, start_x1+2  , start_x2-2 );
             break;
@@ -664,18 +672,26 @@ void task_undertale(Game *game){
         switch (input)
         {
         case 'z':
+        case 'Z':
+        case KEY_UP:
             playery--;
             playery = stick_in_range(playery, start_y1  , start_y2 -2);
             break;
         case 's':
+        case 'S':
+        case KEY_DOWN:
             playery++;
             playery = stick_in_range(playery, start_y1  , start_y2 -2);
             break;
         case 'q':
+        case 'Q':
+        case KEY_LEFT:
             playerx-=2;
             playerx = stick_in_range(playerx, start_x1+2  , start_x2-2 );
             break;
         case 'd':
+        case 'D':
+        case KEY_RIGHT:
             playerx+=2;
             playerx = stick_in_range(playerx, start_x1+2  , start_x2-2 );
             break;
@@ -909,10 +925,10 @@ void task_avoid(Game *game){
             
                 game->window.update_key(&game->window);
                 carvalue=game->window.get_key(&game->window);
-                if(carvalue=='q' && xplayer>posx1+3){
+                if( (carvalue=='q' || carvalue=='Q' || carvalue==KEY_LEFT) && xplayer>posx1+3){
                     xplayer-=2;
                 }
-                else if(carvalue=='d' && xplayer<posx2-3){
+                else if((carvalue=='d' || carvalue=='D' || carvalue==KEY_RIGHT) && xplayer<posx2-3){
                     xplayer+=2;
                 }
                 clock_gettime(CLOCK_REALTIME,&current);
@@ -1040,7 +1056,7 @@ int QTE(Game *game, int monster){
         game->window.update(&game->window);
         game->window.update_key(&game->window);
         car=game->window.get_key(&game->window);
-        if((car!=carvalue)||(car==ERR)){
+        if((car!=carvalue && car!= carvalue-32)||(car==ERR)){
             //Si le joueur perd on detruit tout
             //game->window.destroy();
             //game->map.destroy(&game->map);

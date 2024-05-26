@@ -92,12 +92,16 @@ int menu_movement(ARA_Window window, int *cursor){
         case '\n' :
             return true;
         case 'z' :
+        case 'Z' :
+        case KEY_UP :
             if((*cursor)>0){
                 (*cursor)--;
             }
             break;
             //Ne pas enlever le break; sinon ca passe a celui d'apres et ca bug
         case 's' :
+        case 'S' :
+        case KEY_DOWN :
             if((*cursor)<SIZE_MENU-1){
                 (*cursor)++;
             }
