@@ -337,8 +337,8 @@ void printTitleWin(ARA_Window self){
 }
 
 /**
- * @brief 
- * 
+ * @brief Handle game win
+ * @param game The current game
  */
 void gameWin(Game game){
     ARA_Window_init(&game.window,W_MODE_ONE);

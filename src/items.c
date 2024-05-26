@@ -1,9 +1,22 @@
 #include "items.h"
 
+/**
+ * @brief Destroys an object on the game map at the specified coordinates.
+ *
+ * @param game Pointer to the game.
+ * @param x The x coordinate of the object to destroy.
+ * @param y The y coordinate of the object to destroy.
+ */
 void destroy_obj(Game* game, int x, int y ){
     game->map.set(&game->map, x ,y, MAP_ROOM);
 }
 
+/**
+ * @brief Applies the effect of a collected object on the game or player.
+ * 
+ * @param game Pointer to the game.
+ * @param value The type of object collected.
+ */
 void object_effect(Game* game, Map_def value){
     
 

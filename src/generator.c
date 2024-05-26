@@ -110,21 +110,24 @@ void generate_doors_on_wall(Game* game, int x1, int y1, int x2, int y2, Map_def 
     }
 }
 
-/**
- * @brief This function generate all the random doors in a room.
- * 
- * @param game The current game.
- * @param x1 The up left corner of the room x coordinate. 
- * @param y1 The up left corner of the room y coordinate .
- * @param x2 The down right corner of the room x coordinate .
- * @param y2 The down right corner of the room y coordinate .
- * @param banned_door The door where the player from.
- */
 
+/**
+ * @brief Calculates the index of a door based on its door value.
+ *
+ * @param door The door value.
+ * @return The index of the door.
+ */
 int get_door_index(int door){
     return door - MAP_UNDISCOVERED_DOOR_NORTH;
 }
 
+/**
+ * @brief Returns a random undiscovered door from the available options.
+ *
+ *
+ * @param already_visited An array indicating which doors have already been visited.
+ * @return A random undiscovered door value, or 0 if no undiscovered doors are available.
+ */
 Map_def get_random_door(int* already_visited) {
     int d_possible[4] = {NEGATIVE, NEGATIVE, NEGATIVE, NEGATIVE};
     int d_index = 0;
@@ -144,6 +147,16 @@ Map_def get_random_door(int* already_visited) {
     return (Map_def)d_possible[rand_index];
 }
 
+/**
+ * @brief This function generate all the random doors in a room.
+ * 
+ * @param game The current game.
+ * @param x1 The up left corner of the room x coordinate. 
+ * @param y1 The up left corner of the room y coordinate .
+ * @param x2 The down right corner of the room x coordinate .
+ * @param y2 The down right corner of the room y coordinate .
+ * @param banned_door The door where the player from.
+ */
 void generate_doors(Game* game, int x1, int y1, int x2, int y2, Map_def banned_door){
 
     Map_def rand_door;
