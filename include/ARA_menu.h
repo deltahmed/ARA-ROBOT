@@ -13,6 +13,7 @@
 #define RESUMEGAME 1
 #define CREDIT 2
 #define EXIT 3
+#define RESTORE_FAIL 10
 
 void printTitle(ARA_Window self);
 void print_menu(ARA_Window self, char choice[SIZE_MENU][20], int k);
@@ -25,5 +26,7 @@ void player_infos(Game *game);
 int choice_menu(Game *game);
 void printGameOver(ARA_Window self);
 void gameEnd(Game game);
+void printTitleWin(ARA_Window self);
+void gameWin(Game game);
 
 #endif

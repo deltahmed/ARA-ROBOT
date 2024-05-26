@@ -32,7 +32,7 @@ int main(){
             if(choice==EXIT){
                 return 0;
             }
-        }while(choice==CREDIT);//choice est egal a 4 si l utilisateur clique sur Credit puis sur la touche m pour revenir au menu
+        }while(choice==CREDIT || choice==RESTORE_FAIL);//choice est egal a 4 si l utilisateur clique sur Credit puis sur la touche m pour revenir au menu
         
         game.window.destroy();
         //Pour supprimer le one_win_mode

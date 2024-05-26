@@ -18,7 +18,7 @@ typedef struct __player_struct
     int __x;
     int __y;
     int __life;
-    int __name[100];
+    char __name[100];
     int __inventory[MAX_INVENTORY];
     int __inventory_count[MAX_INVENTORY];
     int __inv_index;

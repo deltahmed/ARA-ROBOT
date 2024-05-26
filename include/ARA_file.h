@@ -10,12 +10,12 @@
 
 
 
-void saveArray(Map *self);
-void recoverArray(Map *self);
-void savePlayer(Player *self);
-void recoverPlayer(Player *self);
-void saveTimer(Timer *self);
-void recoverTimer(Timer *self);
+void saveArray(Game *game);
+void recoverArray(Game *game);
+void savePlayer(Game *game);
+void recoverPlayer(Game *game);
+void saveTimer(Game *game);
+void recoverTimer(Game *game);
 void saveGame(Game *game);
 void recoverGame(Game *game);
 

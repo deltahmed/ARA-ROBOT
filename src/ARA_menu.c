@@ -152,15 +152,12 @@ void verif_string(char *name){
  */
 void player_infos(Game *game){
     char choice[SIZE_INFOS][20]={"Name","Seed"};
-    char name[100];
     char seedchar[100];
     int i=0,cursor=0,seed=0;
     int checkname=0,checkseed=0;
     int lines=NB_LINES/2-(SIZE_INFOS)*2,columns=NB_COLS/2-24;
 
     ARA_Window_init(&game->window,W_MODE_ONE);
-
-    //game->player.__name
 
     do{
         game->window.clear_all(&game->window);
@@ -171,7 +168,7 @@ void player_infos(Game *game){
             }
             if(checkname==1 && i==0){
                 mvwprintw(game->window.main_window,6*i+lines-1,columns,"▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄");
-                mvwprintw(game->window.main_window,6*i+lines,columns+5,"%s :  %s",choice[i],name);
+                mvwprintw(game->window.main_window,6*i+lines,columns+5,"%s :  %s",choice[i],game->player.__name);
                 mvwprintw(game->window.main_window,6*i+lines+1,columns,"▀█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▀");
             }
             else{
@@ -185,8 +182,8 @@ void player_infos(Game *game){
         echo();
         if(cursor==0){
             wmove(game->window.main_window,lines,columns+13);
-            wscanw(game->window.main_window,"%s",name);
-            verif_string(name);
+            wscanw(game->window.main_window,"%s",game->player.__name);
+            verif_string(game->player.__name);
             checkname=1;
             cursor++;
         }
@@ -205,6 +202,39 @@ void player_infos(Game *game){
     }while(1);
 }
 
+int restor_with_name(Game *game){
+    int lines=NB_LINES/2-(SIZE_INFOS)*2,columns=NB_COLS/2-24;
+    int r=1;
+
+    ARA_Window_init(&game->window,W_MODE_ONE);
+
+    game->window.clear_all(&game->window);
+    game->window.create_one_win_mode(&game->window);
+    mvwprintw(game->window.main_window,lines-1,columns,"▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄");
+    mvwprintw(game->window.main_window,lines,columns+5,"NAME : ");
+    mvwprintw(game->window.main_window,lines+1,columns,"▀█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█▀");
+
+    game->window.refresh_all(&game->window);
+    nocbreak();
+    echo();
+    wmove(game->window.main_window,lines,columns+13);
+    wscanw(game->window.main_window,"%s",game->player.__name);
+    verif_string(game->player.__name);
+    cbreak();
+    noecho();
+    
+    char name[200];
+    sprintf(name,"%splayer.bin",game->player.__name);
+    FILE *fichier=fopen(name,"rb");
+    if(fichier==NULL){
+        r=0;
+    }
+    else{
+        fclose(fichier);
+    }
+    return r;
+    game->window.destroy();
+}
 
 /**
  * @brief Handle the user's choice from the main menu.
@@ -221,6 +251,9 @@ int choice_menu(Game *game){
             game->timer.reset(&game->timer);
             return NEWGAME;
         case RESUMEGAME :
+            if(restor_with_name(game)==0){
+                return RESTORE_FAIL;
+            }
             recoverGame(game);
             game->timer.reset(&game->timer);
             return RESUMEGAME;
@@ -278,3 +311,44 @@ void gameEnd(Game game){
     }while(game.window.get_key(&game.window)!='m');
 }
 
+/**
+ * @brief Print the title of the game.
+ * 
+ * @param window The current window.
+ */
+void printTitleWin(ARA_Window self){
+    int y=4;
+    mvwprintw(self.main_window,y+1,20,"$$\\     $$\\");                                      
+    mvwprintw(self.main_window,y+2,20,"\\$$\\   $$  |");                                     
+    mvwprintw(self.main_window,y+3,20," \\$$\\ $$  /$$$$$$\\  $$\\   $$\\");                    
+    mvwprintw(self.main_window,y+4,20,"  \\$$$$  /$$  __$$\\ $$ |  $$ |");                   
+    mvwprintw(self.main_window,y+5,20,"   \\$$  / $$ /  $$ |$$ |  $$ |");                   
+    mvwprintw(self.main_window,y+6,20,"    $$ |  $$ |  $$ |$$ |  $$ |");                   
+    mvwprintw(self.main_window,y+7,20,"    $$ |  \\$$$$$$  |\\$$$$$$  |");                   
+    mvwprintw(self.main_window,y+8,20,"    \\__|   \\______/  \\______/");                                                                  
+    mvwprintw(self.main_window,y+10,20,"            $$\\      $$\\ $$\\                 $$\\"); 
+    mvwprintw(self.main_window,y+11,20,"            $$ | $\\  $$ |\\__|                $$ |");
+    mvwprintw(self.main_window,y+12,20,"            $$ |$$$\\ $$ |$$\\ $$$$$$$\\        $$ |");
+    mvwprintw(self.main_window,y+13,20,"            $$ $$ $$\\$$ |$$ |$$  __$$\\       $$ |");
+    mvwprintw(self.main_window,y+14,20,"            $$$$  _$$$$ |$$ |$$ |  $$ |      \\__|");
+    mvwprintw(self.main_window,y+15,20,"            $$$  / \\$$$ |$$ |$$ |  $$ |");          
+    mvwprintw(self.main_window,y+16,20,"            $$  /   \\$$ |$$ |$$ |  $$ |      $$\\"); 
+    mvwprintw(self.main_window,y+17,20,"            \\__/     \\__|\\__|\\__|  \\__|      \\__|");
+}
+
+/**
+ * @brief 
+ * 
+ */
+void gameWin(Game game){
+    ARA_Window_init(&game.window,W_MODE_ONE);
+    game.window.clear_all(&game.window);
+    game.window.create_one_win_mode(&game.window);
+    printTitleWin(game.window);
+    mvwprintw(game.window.main_window, NB_LINES-3, NB_COLS-10, "Menu : m");
+    mvwprintw(game.window.main_window, NB_LINES-2, NB_COLS-3, "↩");
+    game.window.refresh_all(&game.window);
+    do{
+        game.window.update_key(&game.window);
+    }while(game.window.get_key(&game.window)!='m');
+}
