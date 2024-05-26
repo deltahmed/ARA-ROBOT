@@ -160,3 +160,5 @@ void Init_Player(Player* self){
     self->__xp = 0;
 
 }
+
+

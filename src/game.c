@@ -540,6 +540,9 @@ int player_movement(Game* self){
 
 }
 
+
+
+
 /**
  * @brief Initializes the Game structure.
  *

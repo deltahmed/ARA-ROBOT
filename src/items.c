@@ -34,3 +34,6 @@ void object_effect(Game* game, Map_def value){
 }
 
 
+
+
+

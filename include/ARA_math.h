@@ -14,3 +14,6 @@ int is_in(int x, int a, int b);
 int stick_in_range(int x,int a,int b);
 
 #endif
+
+
+

@@ -714,6 +714,9 @@ int check_generation_update(Game* game){
     
 }
 
+
+
+
 /**
  * @brief This function check if a defined area is intercecting with other rooms.
  * 

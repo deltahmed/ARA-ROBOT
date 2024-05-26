@@ -24,3 +24,5 @@ clean:
 
 run:
 	./$(TARGET)
+
+	
