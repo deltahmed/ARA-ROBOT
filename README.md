@@ -48,7 +48,7 @@
 
 ### Documentation
 
-[You can check the documentation here](https://ARArobot.deltahmed.fr)
+[You can check the documentation here : https://ararobot.deltahmed.fr/](https://ARArobot.deltahmed.fr)
 
 
 ### Built With
