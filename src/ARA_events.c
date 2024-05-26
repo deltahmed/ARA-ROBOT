@@ -879,7 +879,7 @@ void task_temperature(Game *game){
  */
 void task_avoid(Game *game){
     int xplayer,yplayer,posx1,posx2,posy1,posy2,retu=1;
-    char carvalue=0;
+    int carvalue=0;
     int lines[AVOID]={0},cols[AVOID]={0};
     struct timespec current;
     long actual=0,final=0;
