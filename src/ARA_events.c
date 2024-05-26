@@ -895,6 +895,8 @@ void task_avoid(Game *game){
             if(retu==0){break;}
         }
         if(retu==1){
+            game->player.__xp+=5;
+            game->nb_end_tasks++;
             return;
         }
         re_print_all(game, 1, false);
@@ -909,8 +911,7 @@ void task_avoid(Game *game){
         game->window.update_key(&game->window);
         carvalue = game->window.get_key(&game->window);
     }while(retu==0);
-    game->player.__xp+=5;
-    game->nb_end_tasks++;
+    
 }
 
 /**
