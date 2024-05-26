@@ -224,7 +224,7 @@ int restor_with_name(Game *game){
     noecho();
     
     char name[200];
-    sprintf(name,"%splayer.bin",game->player.__name);
+    sprintf(name,"data/%splayer.bin",game->player.__name);
     FILE *fichier=fopen(name,"rb");
     if(fichier==NULL){
         r=0;

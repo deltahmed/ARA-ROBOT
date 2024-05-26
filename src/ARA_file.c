@@ -4,7 +4,7 @@ void saveArray(Game *game){
     FILE *fichier=NULL;
     Size i=0;
     char name[200];
-    sprintf(name,"%smap.bin",game->player.__name);
+    sprintf(name,"data/%smap.bin",game->player.__name);
     fichier=fopen(name,"wb");
     //S'il n'est pas deja cree il sera creer tout seul parce que j'utilise le mode "wb"
     if(fichier==NULL){
@@ -20,7 +20,7 @@ void recoverArray(Game *game){
     FILE *fichier=NULL;
     Size i=0;
     char name[200];
-    sprintf(name,"%smap.bin",game->player.__name);
+    sprintf(name,"data/%smap.bin",game->player.__name);
     fichier=fopen(name,"rb");
     if(fichier==NULL){
         exit(101);
@@ -34,7 +34,7 @@ void recoverArray(Game *game){
 
 void savePlayer(Game *game){
     char name[200];
-    sprintf(name,"%splayer.bin",game->player.__name);
+    sprintf(name,"data/%splayer.bin",game->player.__name);
     FILE *fichier = fopen(name, "wb");
     if(fichier == NULL){
         exit(200);
@@ -47,7 +47,7 @@ void savePlayer(Game *game){
 
 void recoverPlayer(Game *game){
     char name[200];
-    sprintf(name,"%splayer.bin",game->player.__name);
+    sprintf(name,"data/%splayer.bin",game->player.__name);
     FILE *fichier = fopen(name, "rb");
     if(fichier == NULL){
         exit(201);
@@ -60,7 +60,7 @@ void recoverPlayer(Game *game){
 
 void saveTimer(Game *game){
     char name[200];
-    sprintf(name,"%stimer.bin",game->player.__name);
+    sprintf(name,"data/%stimer.bin",game->player.__name);
     FILE *fichier = fopen(name, "wb");
     if(fichier == NULL){
         exit(300);
@@ -75,7 +75,7 @@ void saveTimer(Game *game){
 
 void recoverTimer(Game *game){
     char name[200];
-    sprintf(name,"%stimer.bin",game->player.__name);
+    sprintf(name,"data/%stimer.bin",game->player.__name);
     FILE *fichier = fopen(name, "rb");
     if(fichier == NULL){
         exit(301);
