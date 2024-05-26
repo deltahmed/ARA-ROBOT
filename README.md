@@ -111,6 +111,11 @@ The game controls are as follows (Arrows work):
 - `m` to go to menu
 - `space` to interact with tasks
 
+- 🔋 recharge
+- 🔮 super vision 
+- ⚡ super recharge
+- 🧪 unknown potion
+
 Detailed instructions and objectives are explained in the game.
 
 ## Contributors
