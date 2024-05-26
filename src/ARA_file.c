@@ -41,6 +41,7 @@ void savePlayer(Game *game){
     }
     fwrite(&game->player.__x, sizeof(int), 1, fichier);
     fwrite(&game->player.__y, sizeof(int), 1, fichier);
+    fwrite(&game->player.__life, sizeof(char), 1, fichier);
     fwrite(&game->player.__vision, sizeof(int), 1, fichier);
     fwrite(&game->player.__xp, sizeof(int), 1, fichier);
     fwrite(&game->player.__inv_index, sizeof(int), 1, fichier);
@@ -113,6 +114,7 @@ void saveGame(Game *game){
     fwrite(&game->nb_tasks, sizeof(int), 1, fichier);
     //Je ne peux pas enregistrer toute la structure d'un coup car dans toutes les structures il y a des pointeurs (l'entete des fonctions) qui font buguer le fichier
     //Donc il faut le faire manuellement pour chaque structure
+    fclose(fichier);
 }
 
 void recoverGame(Game *game){
@@ -121,7 +123,7 @@ void recoverGame(Game *game){
     recoverTimer(game);
     char name[MAX_FILE_NAME];
     sprintf(name,"data/%sgameconst.bin",game->player.__name);
-    FILE *fichier = fopen(name, "wb");
+    FILE *fichier = fopen(name, "rb");
     if(fichier == NULL){
         ARA_error(FILE_ERROR);
     }
@@ -129,4 +131,5 @@ void recoverGame(Game *game){
     fread(&game->nb_gen_room, sizeof(int), 1, fichier);
     fread(&game->nb_room, sizeof(int), 1, fichier);
     fread(&game->nb_tasks, sizeof(int), 1, fichier);
+    fclose(fichier);
 }
