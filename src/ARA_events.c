@@ -62,7 +62,7 @@ void print_right_window(Game* game, int time_show){
     if (time_show)
     {
         int time = 30 - mod(game->timer.get(&game->timer), 31);
-        update_life(game);
+        
         cprint(game->window.right, 3, y+1, BASE_CRS_COLOR_WHITE, "▄█▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀█▄");
         game->timer.update(&game->timer);
         cprintf(game->window.right, 7, y+2, BASE_CRS_COLOR_BRIGHT_RED, " Décharge : %d",time);
@@ -123,9 +123,6 @@ void print_bottom_window(Game *game){
                 break;
             case MAP_HEATH_MEGA_CHARGE:
                 cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ ⚡    █ ");
-                break;
-            case MAP_SONIC_SPEED:
-                cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ ☄️    █ ");
                 break;
             case MAP_HEATH_OR_DIE:
                 cprint(game->window.bottom, x, y, BASE_CRS_COLOR_WHITE, "█ 🧪    █ ");
@@ -315,6 +312,7 @@ void task_recalibrate(Game *game){
             input = game->window.get_key(&game->window);
         }   
     } while (fail != 0);
+    game->nb_end_tasks++;
 
 
 }
@@ -374,6 +372,7 @@ void task_download(Game *game){
         }
     
     }while (fail != 0);
+    game->nb_end_tasks++;
           
 } 
 
@@ -506,7 +505,7 @@ void task_choose(Game *game){
         }
     
     }while (fail != 0);
-          
+    game->nb_end_tasks++;
 }
 
 void task_undertale(Game *game){
@@ -628,6 +627,7 @@ void task_undertale(Game *game){
     
     }while (fail != 0 && nb_r < 10 );
     game->player.__xp+=5;
+    game->nb_end_tasks++;
           
 }
 
@@ -689,6 +689,38 @@ void task_fill(Game *game){
         }
     }while(count<11*nbr);
     game->player.__xp+=1;
+    game->nb_end_tasks++;
+}
+
+
+void task(Game *game, int value){
+    switch (value)
+    {
+    case MAP_TASK_REC:
+        task_recalibrate(game);
+        break;
+    case MAP_TASK_FILL:
+        task_fill(game);
+        break;
+    case MAP_TASK_TEMPER:
+        task_temperature(game);
+        break;
+    case MAP_TASK_AVOID:
+        task_avoid(game);
+        break;
+    case MAP_TASK_DOWN:
+        task_download(game);
+        break;
+    case MAP_TASK_CHOOSE:
+        task_choose(game);
+        break;
+    case MAP_TASK_UNDER:
+        task_undertale(game);
+        break;
+    
+    default:
+        break;
+    }
 }
 
 /**
@@ -758,6 +790,7 @@ void task_temperature(Game *game){
         carvalue = game->window.get_key(&game->window);
     }while(1);
     game->player.__xp+=1;
+    game->nb_end_tasks++;
 }
 /**
  * @brief Task of avoiding meteorites
@@ -846,6 +879,7 @@ void task_avoid(Game *game){
         carvalue = game->window.get_key(&game->window);
     }while(retu==0);
     game->player.__xp+=5;
+    game->nb_end_tasks++;
 }
 
 /**
@@ -854,7 +888,7 @@ void task_avoid(Game *game){
  * @param game Pointer to the Game structure containing game state and window information.
  * @param car The player input caracter
  */
-void print_arena(Game *game, char car){
+void print_arena(Game *game, char car, int monster){
     int y=0,x=0,y1=(NB_LINES / 3)-5,y2=(NB_LINES / 3)+5,x1=(NB_COLS / 3)-22,x2=(NB_COLS / 3)+23;
     //Il faut que x1 soit egale a (NB_COLS / 3)-k avec k pair comme ca ca ne bug pas avec l'affichage d une emote sur une autre
     char fight[]="C'est l'heure du du-du-du-du-duel";
@@ -875,8 +909,33 @@ void print_arena(Game *game, char car){
     mvwaddstr(game->window.top,y1+1,x1+6,message);
     snprintf(message, sizeof(message), "🤖");
     mvwaddstr(game->window.top,y2-3,x1+3,message);
-    snprintf(message, sizeof(message), "👾");
-    mvwaddstr(game->window.top,y1+3,x2-4,message);
+    switch (monster)
+    {
+    case MAP_MONSTER:
+        snprintf(message, sizeof(message), "👾");
+        mvwaddstr(game->window.top,y1+3,x2-4,message);
+        break;
+    case MAP_MONSTER1:
+        snprintf(message, sizeof(message), "🕷");
+        mvwaddstr(game->window.top,y1+3,x2-4,message);
+        break;
+    case MAP_MONSTER2:
+        snprintf(message, sizeof(message), "👽");
+        mvwaddstr(game->window.top,y1+3,x2-4,message);
+        break;
+    case MAP_MONSTER3:
+        snprintf(message, sizeof(message), "🐙");
+        mvwaddstr(game->window.top,y1+3,x2-4,message);
+        break;
+    case MAP_MONSTER4:
+        snprintf(message, sizeof(message), "🛸");
+        mvwaddstr(game->window.top,y1+3,x2-4,message);
+        break;
+    
+    default:
+        break;
+    }
+    
     if(car>=0){
         print_alphabet(game,car,(y1+y2)/2,(x1+x2)/2);
     }
@@ -898,13 +957,13 @@ void print_arena(Game *game, char car){
  * @return true if the QTE is successfully completed.
  * @return false if not.
  */
-int QTE(Game *game){
+int QTE(Game *game, int monster){
     char carvalue=0,car=0;
     int i=0;
     //Le premier do while c est en attendant que le joueur tape espace
     do{
         re_print_all(game, MAIN_TIMEOUT, false);
-        print_arena(game,-1);
+        print_arena(game,-1, monster );
         game->window.update(&game->window);
         game->window.update_key(&game->window);
     }while(game->window.get_key(&game->window)!=' ');
@@ -912,7 +971,7 @@ int QTE(Game *game){
     for(i=0;i<6;i++){
         carvalue=randint('a','z'+1);
         re_print_all(game, MAIN_TIMEOUT*2, false);
-        print_arena(game,carvalue);          
+        print_arena(game,carvalue, monster);          
         game->window.update(&game->window);
         game->window.update_key(&game->window);
         car=game->window.get_key(&game->window);
@@ -938,30 +997,60 @@ int QTE(Game *game){
  * @param xmonster The x of the monster to move
  * @param ymonster the y of the monster to move
  */
-void movementMonster(Game *game, int xmonster, int ymonster){
+void movementMonster(Game *game, int xmonster, int ymonster, int _monster) {
     int x = game->player.get_x(&game->player), y = game->player.get_y(&game->player);
-    //A ne pas enlever la repetition du game->map.set(....,MAP_ROOM) sinon ca enleve le monstre meme si il ne peut pas bouger 
-    if(x==xmonster){
-        if(y<ymonster && game->map.get(&game->map,xmonster,ymonster-1)==MAP_ROOM){
-            game->map.set(&game->map,xmonster,ymonster-1,MAP_MONSTER);
-            game->map.set(&game->map,xmonster,ymonster,MAP_ROOM);
+
+    if (x == xmonster) {
+        if (y < ymonster) {
+            if (game->map.get(&game->map, xmonster, ymonster - 1) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster, ymonster - 1, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            } else if (game->map.get(&game->map, xmonster - 1, ymonster) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster - 1, ymonster, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            } else if (game->map.get(&game->map, xmonster + 1, ymonster) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster + 1, ymonster, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            }
+        } else if (y > ymonster) {
+            if (game->map.get(&game->map, xmonster, ymonster + 1) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster, ymonster + 1, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            } else if (game->map.get(&game->map, xmonster - 1, ymonster) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster - 1, ymonster, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            } else if (game->map.get(&game->map, xmonster + 1, ymonster) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster + 1, ymonster, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            }
         }
-        else if(y>ymonster && game->map.get(&game->map,xmonster,ymonster+1)==MAP_ROOM){
-            game->map.set(&game->map,xmonster,ymonster+1,MAP_MONSTER);
-            game->map.set(&game->map,xmonster,ymonster,MAP_ROOM);
-        }
-    }
-    else{
-        if(x<xmonster && game->map.get(&game->map,xmonster-1,ymonster)==MAP_ROOM){
-            game->map.set(&game->map,xmonster-1,ymonster,MAP_MONSTER);
-            game->map.set(&game->map,xmonster,ymonster,MAP_ROOM);
-        }
-        else if(x>xmonster && game->map.get(&game->map,xmonster+1,ymonster)==MAP_ROOM){
-            game->map.set(&game->map,xmonster+1,ymonster,MAP_MONSTER);
-            game->map.set(&game->map,xmonster,ymonster,MAP_ROOM);
+    } else {
+        if (x < xmonster) {
+            if (game->map.get(&game->map, xmonster - 1, ymonster) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster - 1, ymonster, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            } else if (y < ymonster && game->map.get(&game->map, xmonster, ymonster - 1) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster, ymonster - 1, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            } else if (y > ymonster && game->map.get(&game->map, xmonster, ymonster + 1) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster, ymonster + 1, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            }
+        } else if (x > xmonster) {
+            if (game->map.get(&game->map, xmonster + 1, ymonster) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster + 1, ymonster, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            } else if (y < ymonster && game->map.get(&game->map, xmonster, ymonster - 1) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster, ymonster - 1, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            } else if (y > ymonster && game->map.get(&game->map, xmonster, ymonster + 1) == MAP_ROOM) {
+                game->map.set(&game->map, xmonster, ymonster + 1, _monster);
+                game->map.set(&game->map, xmonster, ymonster, MAP_ROOM);
+            }
         }
     }
 }
+
 
 /**
  * @brief Moves the monster next to the player
@@ -973,8 +1062,8 @@ void monster(Game *game){
     get_actual_room(game,posx,posy,&x1,&x2,&y1,&y2);
     for(x=x1;x<x2;x++){
         for(y=y1;y<y2;y++){
-            if(game->map.get(&game->map,x,y)==MAP_MONSTER){
-                movementMonster(game,x,y);
+            if(is_monster(game->map.get(&game->map,x,y))){
+                movementMonster(game,x,y, game->map.get(&game->map,x,y));
                 return ;
                 //Je return ; comme ca je ne retombe pas sur le meme monstre une autre fois
             }

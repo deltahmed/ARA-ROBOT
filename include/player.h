@@ -8,7 +8,7 @@
 #define MAX_INVENTORY 8
 #define MAX_COUNT_INV 64
 #define MAX_LIFE 110
-#define MAX_NAME 100
+#define MAX_NAME 200
 
 /**
  * @brief Structure representing a player its properties and methods.
@@ -18,12 +18,11 @@ typedef struct __player_struct
     int __x;
     int __y;
     int __life;
-    char __name[100];
+    char __name[MAX_NAME];
     int __inventory[MAX_INVENTORY];
     int __inventory_count[MAX_INVENTORY];
     int __inv_index;
     int __vision;
-    int __speed;
     int __xp;
     /**
      * @brief Gets the x coordinate of the player.

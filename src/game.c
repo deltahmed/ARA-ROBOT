@@ -5,10 +5,12 @@
 
 
 void update_life(Game * game){
+    
     int time = 30 - mod(game->timer.get(&game->timer), 31);
     if (time == 0)
     {
         game->player.set_life(&game->player, game->player.get_life(&game->player) - 4);
+        game->player.__vision = 0;
     }
 }
 
@@ -191,21 +193,64 @@ void print_switch_room(Game* game, int get_value, int i, int j){
     switch (get_value)
     {
     case MAP_HEATH_CHARGE:
-        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🔌"); 
-        break;
-    case MAP_TASK:
-        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "💬"); 
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🔋"); 
         break;
     case MAP_MONSTER:
         cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "👾"); 
         break;
     case MAP_ROOM:
         cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "  ");
+        break;
+    case MAP_TASK_REC:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🕹"); 
+        break;
+    case MAP_TASK_FILL:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "⛽"); 
+        break;
+    case MAP_TASK_TEMPER:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🌡"); 
+        break;
+    case MAP_TASK_AVOID:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🌑"); 
+        break;
+    case MAP_TASK_DOWN:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "📡"); 
+        break;
+    case MAP_TASK_CHOOSE:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🔬"); 
+        break;
+    case MAP_TASK_UNDER:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🎮"); 
+        break;
+    case MAP_MONSTER1:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🕷"); 
+        break;
+    case MAP_MONSTER2:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "👽"); 
+        break;
+    case MAP_MONSTER3:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🐙"); 
+        break;
+    case MAP_MONSTER4:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🛸"); 
+        break;
+
+    case MAP_HEATH_MEGA_CHARGE:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "⚡ "); 
+        break;
+    case MAP_SONIC_VISION:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🔮"); 
+        break;
+    case MAP_HEATH_OR_DIE:
+        cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🧪"); 
+        break;
     default:
         break;
     }
         
 }
+
+
             
 
 /**
@@ -318,10 +363,24 @@ void print_map(Game* game){
                     cprint(game->window.top, i, j, BASE_CRS_COLOR_WHITE, "🔳"); 
                     break;
     
-                case MAP_TASK:
+                
+                case MAP_HEATH_CHARGE:
                 case MAP_MONSTER:
                 case MAP_ROOM:
-                case MAP_HEATH_CHARGE:
+                case MAP_TASK_REC:
+                case MAP_TASK_FILL:
+                case MAP_TASK_TEMPER:
+                case MAP_TASK_AVOID:
+                case MAP_TASK_DOWN:
+                case MAP_TASK_CHOOSE:
+                case MAP_TASK_UNDER:
+                case MAP_MONSTER1:
+                case MAP_MONSTER2:
+                case MAP_MONSTER3:
+                case MAP_MONSTER4:
+                case MAP_HEATH_MEGA_CHARGE:
+                case MAP_SONIC_VISION:
+                case MAP_HEATH_OR_DIE:
                     print_in_shadow(game, get_value, playerx, playery, i, j, actual_x, actual_y);
                     break;
 
@@ -401,9 +460,11 @@ int player_movement(Game* self){
         case 'q':
         case 'Q':
         case KEY_LEFT:
+            
             if(check_player_move(self, x-1, y)){
                 self->player.set_x(&self->player,x-1);
             }
+            
             break;
         case 'd':
         case 'D':
@@ -471,7 +532,9 @@ int player_movement(Game* self){
     }
     
     self->window.__key = 0;
-    check_generation_update(self);
+    if(check_generation_update(self)){
+        return -1;
+    }
     return 1;
     //Toujours mettre le return apres check
 
@@ -490,4 +553,7 @@ void Game_init(Game* self){
     Timer_init(&self->timer);
     Init_Player(&self->player);
     self->nb_room = 1;
+    self->nb_gen_room = 1;
+    self->nb_tasks = 0;
+    self->nb_end_tasks = 0;
 }

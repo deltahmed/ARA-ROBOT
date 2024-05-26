@@ -18,9 +18,6 @@ void object_effect(Game* game, Map_def value){
     case MAP_SONIC_VISION:
         game->player.__vision = 1;
         break;
-    case MAP_SONIC_SPEED:
-         game->player.__speed = 5;
-        break;
     case MAP_HEATH_OR_DIE:
         if (randint(0,2) == 0)
         {

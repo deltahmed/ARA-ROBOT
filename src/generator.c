@@ -193,7 +193,7 @@ void generate_first_room(Game* game){
     int playery = game->player.get_y(&game->player);
     int size_x = randint(ROOM_MIN_SIZE*2, ROOM_MAX_SIZE-4);
     int size_y = randint(ROOM_MIN_SIZE*2, ROOM_MAX_SIZE-4);
-   
+    
     fill_zone_and_doors(game, playerx-size_x/2, playery-size_y/2,  playerx+size_x/2, playery+size_y/2, MAP_ALL);
 
 
@@ -377,7 +377,7 @@ void generate_with_rules(Game* game, int x1, int y1, int x2, int y2){
  * @param game The current game.
  */
 void generate_room(Game* game){
-     
+    game->nb_gen_room++;
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
 
@@ -496,11 +496,13 @@ void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def ban
     int max_y = max(y1,y2);
     int min_x = min(x1,x2);
     int min_y = min(y1,y2);
+    int nb, rand_x, rand_y;
      
     x1 = min_x;
     x2 = max_x;
     y1 = min_y;
     y2 = max_y;
+
      
     for (int x = x1; x < x2+1 ; x++)
     {   
@@ -522,9 +524,46 @@ void fill_zone_and_doors(Game* game, int x1, int y1, int x2, int y2, Map_def ban
         }
     }
     
-    game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_TASK);
-    //game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_MONSTER);
-    game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_HEATH_CHARGE);
+    //game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_TASK_REC);
+    //game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_MONSTER2);
+    //game->map.set(&game->map, randint(x1+1,x2-1), randint(y1+1,y2-1), MAP_HEATH_CHARGE); 
+    //game->nb_tasks++;
+    nb = randint (1, 4);
+    for (int i = 0; i < nb; i++)
+    {
+        rand_x = randint(x1+1,x2-1);
+        rand_y = randint(y1+1,y2-1);
+        if (game->map.get(&game->map,rand_x, rand_y) == MAP_ROOM)
+        {
+            game->map.set(&game->map, rand_x, rand_y, randint(MAP_TASK_REC, MAP_TASK_UNDER+1)); 
+            game->nb_tasks++;
+        }
+    }
+    nb = randint (1, 4);
+    for (int i = 0; i < nb; i++)
+    {
+        rand_x = randint(x1+1,x2-1);
+        rand_y = randint(y1+1,y2-1);
+        if (game->map.get(&game->map,rand_x, rand_y) == MAP_ROOM)
+        {
+            game->map.set(&game->map, rand_x, rand_y, randint(MAP_MONSTER, MAP_MONSTER4 +1)); 
+        }
+        intlog(game->map.get(&game->map,rand_x, rand_y));
+    }
+    nb = randint (1, 6);
+    for (int i = 0; i < nb; i++)
+    {
+        rand_x = randint(x1+1,x2-1);
+        rand_y = randint(y1+1,y2-1);
+        if (game->map.get(&game->map,rand_x, rand_y) == MAP_ROOM)
+        {
+            game->map.set(&game->map, rand_x, rand_y, randint(MAP_HEATH_CHARGE, MAP_HEATH_OR_DIE+1)); 
+        }
+    }
+
+    
+    
+
     generate_doors(game, x1, y1, x2, y2, banned_door);
     
     
@@ -579,7 +618,15 @@ int is_door(Map_def value){
     return (value <= MAP_UNDISCOVERED_DOOR_SOUTH && value >= MAP_DOOR_NORTH);
 }
 
-
+int is_monster(Map_def value){
+    return (value <= MAP_MONSTER4 && value >= MAP_MONSTER);
+}
+int is_task(Map_def value){
+    return (value <= MAP_TASK_UNDER && value >= MAP_TASK_REC);
+}
+int is_item(Map_def value){
+    return (value <= MAP_HEATH_OR_DIE && value >= MAP_HEATH_CHARGE);
+}
 
 /**
  * @brief Check if a 3x3 zone is free.
@@ -650,7 +697,7 @@ int check_possible_gen(Game* game, int x, int y, Map_def door){
  * 
  * @param game The current game.
  */
-void check_generation_update(Game* game){
+int check_generation_update(Game* game){
     int playerx = game->player.get_x(&game->player);
     int playery = game->player.get_y(&game->player);
     int get_value = game->map.get(&game->map, playerx, playery);
@@ -658,6 +705,12 @@ void check_generation_update(Game* game){
     {
         generate_room(game);
     }
+    if (game->nb_room <= game->nb_gen_room && game->nb_tasks <= game->nb_end_tasks)
+    {
+        return 1;
+    }
+    return 0;
+    
     
 }
 

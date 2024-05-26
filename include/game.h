@@ -8,7 +8,7 @@
 #include "ARA_time.h"
 #include "ARA_debug.h"
 
-#define MAX_NB_ROOMS 8
+#define MAX_NB_ROOMS 30
 
 /**
  * @brief Rooms max and min size definition.
@@ -40,7 +40,7 @@ typedef struct __game_struct
     int nb_room;
     int nb_gen_room;
     int nb_tasks;
-    int nb_fin_tasks;
+    int nb_end_tasks;
     
 }Game;
 
@@ -67,10 +67,13 @@ int is_block(Map_def value);
 int is_door(Map_def value);
 int is_real_block(Map_def value);
 int is_undiscovered_door(Map_def value);
+int is_monster(Map_def value);
+int is_task(Map_def value);
+int is_item(Map_def value);
 
 int check_3x3_zone(Game* game, int offsetx, int offsety);
 int check_possible_gen(Game* game, int x, int y, Map_def door);
-void check_generation_update(Game* game);
+int check_generation_update(Game* game);
 
 int intersect(Game* game, int x1, int y1, int x2, int y2);
 
@@ -94,4 +97,5 @@ int player_movement(Game* self);
 
 void Game_init(Game* self);
 void Game_restart(Game* self);
+
 #endif

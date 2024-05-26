@@ -6,8 +6,8 @@
 /**
  * @brief MAP size definitions.
  */
-#define MAP_SIZE_X 1000
-#define MAP_SIZE_Y 1000
+#define MAP_SIZE_X 500
+#define MAP_SIZE_Y 500
 
 /**
  * @brief a definition of Size (unsigned int (uint32)).
@@ -34,18 +34,32 @@ typedef enum map_def_enum{
     MAP_UNDISCOVERED_DOOR_WEST,
     MAP_UNDISCOVERED_DOOR_SOUTH,
     MAP_END_OF_BLOCK,
-    MAP_TASK,
+
+
+    MAP_TASK_REC,
+    MAP_TASK_FILL,
+    MAP_TASK_TEMPER,
+    MAP_TASK_AVOID,
+    MAP_TASK_DOWN,
+    MAP_TASK_CHOOSE,
+    MAP_TASK_UNDER,
+
     MAP_MONSTER,
+    MAP_MONSTER1,
+    MAP_MONSTER2,
+    MAP_MONSTER3,
+    MAP_MONSTER4,
     
     MAP_HEATH_CHARGE,
     MAP_HEATH_MEGA_CHARGE,
     MAP_SONIC_VISION,
-    MAP_SONIC_SPEED,
     MAP_HEATH_OR_DIE,
 
 
 
 }Map_def;
+
+
 
 /**
  * @brief Structure representing a map its properties and methods.

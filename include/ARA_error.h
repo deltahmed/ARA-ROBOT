@@ -25,6 +25,7 @@ typedef enum __error_enum {
     NOCOLOR_ERROR,
     PLAYER_DIRECTION_ERROR,
     VALUE_ERROR,
+    FILE_ERROR
     
 }Error;
 

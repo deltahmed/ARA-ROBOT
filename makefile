@@ -6,9 +6,10 @@ INCDIR = include
 
 SRCS = $(wildcard $(SRCDIR)/*.c)
 OBJS = $(SRCS:$(SRCDIR)/%.c=%.o)
-TARGET = Rogue
+TARGET = ARA_ROBOT
 
 all: $(TARGET)
+
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET) $(LIBS)
@@ -19,3 +20,7 @@ $(TARGET): $(OBJS)
 clean:
 	rm -f $(OBJS)
 	rm -f $(TARGET)
+
+
+run:
+	./$(TARGET)

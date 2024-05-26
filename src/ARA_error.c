@@ -78,7 +78,9 @@ void ARA_error_function(Error type, const char * file, const char * function, in
     case VALUE_ERROR:
         show_error_line("An Value error occured.", VALUE_ERROR, file, function, line);
         break;
-    
+    case FILE_ERROR:
+        show_error_line("An File error occured.", FILE_ERROR, file, function, line);
+        break;
     default:
         show_error_line("An UNDEFINED_ERROR error occured.", UNDEFINED_ERROR, file, function, line);
         break;

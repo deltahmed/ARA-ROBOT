@@ -7,7 +7,7 @@
 
 
 
-
+#define MAX_FILE_NAME 500
 
 
 void saveArray(Game *game);

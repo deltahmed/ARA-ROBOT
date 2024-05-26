@@ -75,6 +75,7 @@ static void __rearenge_tab(Player* self){
     self-> __inventory[i] = 0;
     self-> __inventory_count[i] = 0;
    }
+   self->__inv_index = new_index;
 }
 
 /**
@@ -156,7 +157,6 @@ void Init_Player(Player* self){
     self->set_life = __set_life;
     self->__inv_index = 0;
     self->__vision = 0;
-    self->__speed = 1;
     self->__xp = 0;
 
 }
