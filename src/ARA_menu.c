@@ -181,15 +181,13 @@ void player_infos(Game *game){
         nocbreak();
         echo();
         if(cursor==0){
-            wmove(game->window.main_window,lines,columns+13);
-            wscanw(game->window.main_window,"%s",game->player.__name);
+            mvwgetnstr(game->window.main_window,lines, columns+13, game->player.__name, SIZE_STRING);
             verif_string(game->player.__name);
             checkname=1;
             cursor++;
         }
         else if(cursor==1){
-            wmove(game->window.main_window,lines+6,columns+13);
-            wscanw(game->window.main_window,"%s",seedchar);
+            mvwgetnstr(game->window.main_window,lines+6, columns+13, seedchar, SIZE_STRING);
             seed=verif_number(seedchar);
             checkseed=1;
         }
@@ -202,6 +200,12 @@ void player_infos(Game *game){
     }while(1);
 }
 
+/**
+ * @brief Restore the player's previous game according to his name
+ * 
+ * @param game The current game
+ * @return int 0 if the file isn't created and 1 if it is
+ */
 int restor_with_name(Game *game){
     int lines=NB_LINES/2-(SIZE_INFOS)*2,columns=NB_COLS/2-24;
     int r=1;
@@ -217,8 +221,7 @@ int restor_with_name(Game *game){
     game->window.refresh_all(&game->window);
     nocbreak();
     echo();
-    wmove(game->window.main_window,lines,columns+13);
-    wscanw(game->window.main_window,"%s",game->player.__name);
+    mvwgetnstr(game->window.main_window,lines, columns+13, game->player.__name, SIZE_STRING);
     verif_string(game->player.__name);
     cbreak();
     noecho();

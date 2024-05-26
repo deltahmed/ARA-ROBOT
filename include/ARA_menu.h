@@ -14,6 +14,7 @@
 #define CREDIT 2
 #define EXIT 3
 #define RESTORE_FAIL 10
+#define SIZE_STRING 25
 
 void printTitle(ARA_Window self);
 void print_menu(ARA_Window self, char choice[SIZE_MENU][20], int k);

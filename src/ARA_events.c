@@ -95,6 +95,12 @@ void print_right_window(Game* game, int time_show){
 
 
 }
+
+/**
+ * @brief Displays the inventory of the player
+ * 
+ * @param game The current game
+ */
 void print_bottom_window(Game *game){
     Player player = game->player;
     int base_x = 4;
@@ -157,18 +163,6 @@ void print_bottom_window(Game *game){
     
 }
 
-/*
-mvwprintw(game->window.bottom,1,3,"    +---+");
-    mvwprintw(game->window.bottom,2,3,"    | z |");
-    mvwprintw(game->window.bottom,3,3,"+---+---+---+");
-    mvwprintw(game->window.bottom,4,3,"| q | s | d |");
-    mvwprintw(game->window.bottom,5,3,"+---+---+---+");
-    mvwprintw(game->window.bottom,7,2,"m : Menu");
-    game->timer.update(&game->timer);
-    cprintf(game->window.bottom, 2, 6, BASE_CRS_COLOR_BRIGHT_RED, "Temps : %ld",game->timer.get(&game->timer));
-
-*/
-
 /**
  * @brief Displays a task with a border made of emoji characters.
  *
@@ -188,7 +182,7 @@ void task_pop_up(Game *game, char * mission, char * emoji, int* x1, int* y1, int
     for(y=*y1; y<*y2; y++){
         for(x=*x1; x<*x2; x+=2){
             if(y==*y1 || y==*y2-1 || x==*x1 || x==*x2-1){
-                snprintf(message, sizeof(message), emoji);
+                snprintf(message, sizeof(message), "%s",emoji);
                 mvwaddstr(game->window.top,y,x,message);
             }
             else{
@@ -202,6 +196,13 @@ void task_pop_up(Game *game, char * mission, char * emoji, int* x1, int* y1, int
     mvwaddstr(game->window.top,*y1+1,*x1+(*x2-*x1)/2 - strlen(message)/2 +1,message);
 }
 
+/**
+ * @brief Displays all the windows and the state of the timer
+ * 
+ * @param game The current game
+ * @param timeout The time left
+ * @param show_right_time The state of the timer(if it must be shown or not)
+ */
 void re_print_all(Game *game, int timeout, int show_right_time){
     game->window.clear_all(&game->window);
     game->window.create(&game->window);
@@ -317,6 +318,11 @@ void task_recalibrate(Game *game){
 
 }
 
+/**
+ * @brief Task of downloading the DATA
+ * Keep pressing SPACE button to finish the downloading
+ * @param game The current game
+ */
 void task_download(Game *game){
     int x1, x2, y1, y2;
     int input = 0;
@@ -374,8 +380,13 @@ void task_download(Game *game){
     }while (fail != 0);
     game->nb_end_tasks++;
           
-} 
+}
 
+/**
+ * @brief Task of finding the suspect 
+ * Find the emoji that is different from the others
+ * @param game The current game
+ */
 void task_choose(Game *game){
     int x1, x2, y1, y2;
     int input = 0;
@@ -508,6 +519,11 @@ void task_choose(Game *game){
     game->nb_end_tasks++;
 }
 
+/**
+ * @brief Task of avoiding the bar
+ * Move (z,s) in order to avoid being touched by the bar
+ * @param game The current game
+ */
 void task_undertale(Game *game){
     int x1, x2, y1, y2;
     int input = 0;
@@ -692,7 +708,12 @@ void task_fill(Game *game){
     game->nb_end_tasks++;
 }
 
-
+/**
+ * @brief Choose one of the tasks to pop on the map
+ * 
+ * @param game The current game
+ * @param value The task that is choosen
+ */
 void task(Game *game, int value){
     switch (value)
     {

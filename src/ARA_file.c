@@ -1,5 +1,10 @@
 #include "ARA_file.h"
 
+/**
+ * @brief Saves the map of the game
+ * 
+ * @param game The current game
+ */
 void saveArray(Game *game){
     FILE *fichier=NULL;
     Size i=0;
@@ -16,6 +21,11 @@ void saveArray(Game *game){
     fclose(fichier);
 }
 
+/**
+ * @brief Recover the map of the game previously saved
+ * 
+ * @param game The current game
+ */
 void recoverArray(Game *game){
     FILE *fichier=NULL;
     Size i=0;
@@ -32,6 +42,11 @@ void recoverArray(Game *game){
     fclose(fichier);
 }
 
+/**
+ * @brief Saves the player's attributs
+ * 
+ * @param game The current game
+ */
 void savePlayer(Game *game){
     char name[MAX_FILE_NAME];
     sprintf(name,"data/%splayer.bin",game->player.__name);
@@ -50,6 +65,11 @@ void savePlayer(Game *game){
     fclose(fichier);
 }
 
+/**
+ * @brief Recover the player's attributs previously saved
+ * 
+ * @param game The current game
+ */
 void recoverPlayer(Game *game){
     char name[MAX_FILE_NAME];
     sprintf(name,"data/%splayer.bin",game->player.__name);
@@ -68,6 +88,11 @@ void recoverPlayer(Game *game){
     fclose(fichier);
 }
 
+/**
+ * @brief Saves the timer of the game
+ * 
+ * @param game The current game
+ */
 void saveTimer(Game *game){
     char name[MAX_FILE_NAME];
     sprintf(name,"data/%stimer.bin",game->player.__name);
@@ -83,6 +108,11 @@ void saveTimer(Game *game){
     //Quand je mets &self->get_x(&self) au lieu de &self->__x ca marche pas car la fonction est definie dans la structure avec une * 
 }
 
+/**
+ * @brief Recover the timer previously saved
+ * 
+ * @param game The current game
+ */
 void recoverTimer(Game *game){
     char name[MAX_FILE_NAME];
     sprintf(name,"data/%stimer.bin",game->player.__name);
@@ -98,6 +128,11 @@ void recoverTimer(Game *game){
     fclose(fichier);
 }
 
+/**
+ * @brief Saves all the game with all its structures
+ * 
+ * @param game The current game
+ */
 void saveGame(Game *game){
     savePlayer(game);
     saveArray(game);
@@ -117,6 +152,11 @@ void saveGame(Game *game){
     fclose(fichier);
 }
 
+/**
+ * @brief Recover all the game that was saved
+ * 
+ * @param game The current game
+ */
 void recoverGame(Game *game){
     recoverPlayer(game);
     recoverArray(game);
