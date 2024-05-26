@@ -802,6 +802,8 @@ void task_temperature(Game *game){
                 essay++;
             }
             else if(carvalue==' ' && essay==correct){
+                game->player.__xp+=1;
+                game->nb_end_tasks++;
                 return;
             }
             else if(carvalue==' ' && essay!=correct){
@@ -820,8 +822,7 @@ void task_temperature(Game *game){
         game->window.update_key(&game->window);
         carvalue = game->window.get_key(&game->window);
     }while(1);
-    game->player.__xp+=1;
-    game->nb_end_tasks++;
+    
 }
 /**
  * @brief Task of avoiding meteorites
