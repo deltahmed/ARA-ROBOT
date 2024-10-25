@@ -708,7 +708,7 @@ int check_possible_gen(Game* game, int x, int y, Map_def door){
         return check_3x3_zone(game, x-ROOM_MIN_SIZE/2  , y-ROOM_MIN_SIZE-1) && (game->nb_room < MAX_NB_ROOMS);
         break;
     case MAP_UNDISCOVERED_DOOR_EAST:
-        return check_3x3_zone(game, x+ROOM_MIN_SIZE, y-ROOM_MIN_SIZE/2)&& (game->nb_room < MAX_NB_ROOMS);
+        return check_3x3_zone(game, x+ROOM_MIN_SIZE/2, y-ROOM_MIN_SIZE/2)&& (game->nb_room < MAX_NB_ROOMS);
         break;
     case MAP_UNDISCOVERED_DOOR_WEST:
         return check_3x3_zone(game, x-ROOM_MIN_SIZE-1, y-1) && (game->nb_room < MAX_NB_ROOMS);

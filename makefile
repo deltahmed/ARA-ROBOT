@@ -8,6 +8,9 @@ SRCS = $(wildcard $(SRCDIR)/*.c)
 OBJS = $(SRCS:$(SRCDIR)/%.c=%.o)
 TARGET = ARA_ROBOT
 
+
+
+
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
